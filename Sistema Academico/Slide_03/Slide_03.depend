@@ -1,0 +1,39 @@
+# depslib dependency file v1.0
+1594921819 source:c:\users\fabreu\desktop\projetos\sistema academico\slide_03\pessoa.cpp
+	"Pessoa.h"
+	<string.h>
+
+1594921890 c:\users\fabreu\desktop\projetos\sistema academico\slide_03\pessoa.h
+	<iostream>
+	"Universidade.h"
+
+1584685661 c:\users\fabreu\desktop\projetos\sistema academico\slide_03\universidade.h
+	"Departamento.h"
+
+1584686116 source:c:\users\fabreu\desktop\projetos\sistema academico\slide_03\principal.cpp
+	"Principal.h"
+
+1584686860 c:\users\fabreu\desktop\projetos\sistema academico\slide_03\principal.h
+	"Professor.h"
+
+1584686203 source:c:\users\fabreu\desktop\projetos\sistema academico\slide_03\universidade.cpp
+	"Universidade.h"
+	<string.h>
+	<iostream>
+
+1584664301 source:c:\users\fabreu\desktop\projetos\sistema academico\slide_03\main.cpp
+	"Principal.h"
+
+1584685783 c:\users\fabreu\desktop\projetos\sistema academico\slide_03\departamento.h
+
+1584685421 source:c:\users\fabreu\desktop\projetos\sistema academico\slide_03\departamento.cpp
+	"Universidade.h"
+	<string.h>
+
+1584686878 c:\users\fabreu\desktop\projetos\sistema academico\slide_03\professor.h
+	"Pessoa.h"
+	"Universidade.h"
+
+1584686883 source:c:\users\fabreu\desktop\projetos\sistema academico\slide_03\professor.cpp
+	"Professor.h"
+

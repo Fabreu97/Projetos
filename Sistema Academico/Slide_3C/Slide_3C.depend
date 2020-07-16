@@ -1,0 +1,40 @@
+# depslib dependency file v1.0
+1584685421 source:c:\users\fabreu\desktop\projeto\slide_3c\departamento.cpp
+	"Universidade.h"
+	<string.h>
+
+1585288878 c:\users\fabreu\desktop\projeto\slide_3c\universidade.h
+	"Departamento.h"
+	<list>
+
+1584685783 c:\users\fabreu\desktop\projeto\slide_3c\departamento.h
+
+1584664301 source:c:\users\fabreu\desktop\projeto\slide_3c\main.cpp
+	"Principal.h"
+
+1584686860 c:\users\fabreu\desktop\projeto\slide_3c\principal.h
+	"Professor.h"
+
+1584686878 c:\users\fabreu\desktop\projeto\slide_3c\professor.h
+	"Pessoa.h"
+	"Universidade.h"
+
+1584686898 c:\users\fabreu\desktop\projeto\slide_3c\pessoa.h
+	<iostream>
+	"Universidade.h"
+
+1584684925 source:c:\users\fabreu\desktop\projeto\slide_3c\pessoa.cpp
+	"Pessoa.h"
+	<string.h>
+
+1585288860 source:c:\users\fabreu\desktop\projeto\slide_3c\principal.cpp
+	"Principal.h"
+
+1584686883 source:c:\users\fabreu\desktop\projeto\slide_3c\professor.cpp
+	"Professor.h"
+
+1585289061 source:c:\users\fabreu\desktop\projeto\slide_3c\universidade.cpp
+	"Universidade.h"
+	<string.h>
+	<iostream>
+

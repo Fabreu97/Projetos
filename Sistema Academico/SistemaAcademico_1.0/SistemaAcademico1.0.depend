@@ -1,0 +1,95 @@
+# depslib dependency file v1.0
+1583372499 source:c:\users\fabeu\desktop\sistema academico\sistemaacademico1.0\main.cpp
+	"Pessoa.h"
+
+1583373568 source:c:\users\fabeu\desktop\sistema academico\sistemaacademico1.0\pessoa.cpp
+	"Pessoa.h"
+	<string.h>
+
+1583373549 c:\users\fabeu\desktop\sistema academico\sistemaacademico1.0\pessoa.h
+	<iostream>
+
+1583415502 source:c:\users\fabeu\desktop\projetos\sistema academico\sistemaacademico1.0\main.cpp
+	"Principal.h"
+
+1583415030 c:\users\fabeu\desktop\projetos\sistema academico\sistemaacademico1.0\pessoa.h
+	<iostream>
+
+1583415632 source:c:\users\fabeu\desktop\projetos\sistema academico\sistemaacademico1.0\pessoa.cpp
+	"Pessoa.h"
+	<string.h>
+
+1583415802 source:c:\users\fabeu\desktop\projetos\sistema academico\sistemaacademico1.0\principal.cpp
+	"Principal.h"
+
+1583415743 c:\users\fabeu\desktop\projetos\sistema academico\sistemaacademico1.0\principal.h
+	"Pessoa.h"
+
+1583805820 source:c:\users\fabreu\desktop\projetos\sistema academico\sistemaacademico1.0\main.cpp
+	"Principal.h"
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+
+1583718945 c:\users\fabreu\desktop\projetos\sistema academico\sistemaacademico1.0\principal.h
+	"Universidade.h"
+	"Departamento.h"
+
+1583718386 c:\users\fabreu\desktop\projetos\sistema academico\sistemaacademico1.0\pessoa.h
+	<iostream>
+
+1583719048 source:c:\users\fabreu\desktop\projetos\sistema academico\sistemaacademico1.0\pessoa.cpp
+	"Pessoa.h"
+	<string.h>
+
+1583696455 source:c:\users\fabreu\desktop\projetos\sistema academico\sistemaacademico1.0\principal.cpp
+	"Principal.h"
+
+1583621003 c:\users\fabreu\desktop\projetos\sistema academico\sistemaacademico1.0\lista.h
+
+1583683929 source:c:\users\fabreu\desktop\projetos\sistema academico\sistemaacademico1.0\universidade.cpp
+	"Universidade.h"
+	<string.h>
+	<stdio.h>
+
+1583683685 c:\users\fabreu\desktop\projetos\sistema academico\sistemaacademico1.0\universidade.h
+
+1583806226 c:\users\fabreu\desktop\projetos\sistema academico\sistemaacademico1.0\lista2.h
+	<iostream>
+	"Elemento2.h"
+
+1583636062 c:\users\fabreu\desktop\projetos\sistema academico\sistemaacademico1.0\elemento2.h
+
+1583806086 source:c:\users\fabreu\desktop\projetos\sistema academico\sistemaacademico1.0\departamento.cpp
+	"Departamento.h"
+	<string.h>
+	<stdio.h>
+
+1583703396 c:\users\fabreu\desktop\projetos\sistema academico\sistemaacademico1.0\departamento.h
+	"Lista2.h"
+	"Disciplina.h"
+
+1583687055 c:\users\fabreu\desktop\projetos\sistema academico\sistemaacademico1.0\professor.h
+	"Pessoa.h"
+
+1583687465 source:c:\users\fabreu\desktop\projetos\sistema academico\sistemaacademico1.0\professor.cpp
+	"Professor.h"
+	<stdio.h>
+
+1583687342 c:\users\fabreu\desktop\projetos\sistema academico\sistemaacademico1.0\aluno.h
+	"Pessoa.h"
+
+1583687451 source:c:\users\fabreu\desktop\projetos\sistema academico\sistemaacademico1.0\aluno.cpp
+	"Aluno.h"
+	<stdio.h>
+
+1583718979 c:\users\fabreu\desktop\projetos\sistema academico\sistemaacademico1.0\disciplina.h
+	"Aluno.h"
+	"Professor.h"
+	"Lista2.h"
+
+1583806092 source:c:\users\fabreu\desktop\projetos\sistema academico\sistemaacademico1.0\disciplina.cpp
+	"Disciplina.h"
+	<string.h>
+	<stdio.h>
+

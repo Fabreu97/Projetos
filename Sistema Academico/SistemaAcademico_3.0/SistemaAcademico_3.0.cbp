@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="SistemaAcademico_3.0" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/SistemaAcademico_3" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/SistemaAcademico_3" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="Aluno.cpp" />
+		<Unit filename="Aluno.h" />
+		<Unit filename="Departamento.cpp" />
+		<Unit filename="Departamento.h" />
+		<Unit filename="Disciplina.cpp" />
+		<Unit filename="Disciplina.h" />
+		<Unit filename="Estagiario.cpp" />
+		<Unit filename="Estagiario.h" />
+		<Unit filename="Lista.h" />
+		<Unit filename="ListaAluno.cpp" />
+		<Unit filename="ListaAluno.h" />
+		<Unit filename="ListaDepartamento.cpp" />
+		<Unit filename="ListaDepartamento.h" />
+		<Unit filename="ListaDisciplina.cpp" />
+		<Unit filename="ListaDisciplina.h" />
+		<Unit filename="ListaPessoa.cpp" />
+		<Unit filename="ListaPessoa.h" />
+		<Unit filename="ListaProfessor.cpp" />
+		<Unit filename="ListaProfessor.h" />
+		<Unit filename="ListaUniversidade.cpp" />
+		<Unit filename="ListaUniversidade.h" />
+		<Unit filename="MinhaString.cpp" />
+		<Unit filename="MinhaString.h" />
+		<Unit filename="Pessoa.cpp" />
+		<Unit filename="Pessoa.h" />
+		<Unit filename="Principal.cpp" />
+		<Unit filename="Principal.h" />
+		<Unit filename="Professor.cpp" />
+		<Unit filename="Professor.h" />
+		<Unit filename="Universidade.cpp" />
+		<Unit filename="Universidade.h" />
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

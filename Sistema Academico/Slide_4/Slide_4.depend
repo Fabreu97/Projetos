@@ -1,0 +1,56 @@
+# depslib dependency file v1.0
+1585294830 source:c:\users\fabreu\desktop\projeto\slide_4\departamento.cpp
+	"Disciplina.h"
+	"Universidade.h"
+	<stdio.h>
+	<string.h>
+
+1585288878 c:\users\fabreu\desktop\projeto\slide_4\universidade.h
+	"Departamento.h"
+	<list>
+
+1585294326 c:\users\fabreu\desktop\projeto\slide_4\departamento.h
+
+1584664301 source:c:\users\fabreu\desktop\projeto\slide_4\main.cpp
+	"Principal.h"
+
+1585462328 c:\users\fabreu\desktop\projeto\slide_4\principal.h
+	"Professor.h"
+	"Disciplina.h"
+
+1584686878 c:\users\fabreu\desktop\projeto\slide_4\professor.h
+	"Pessoa.h"
+	"Universidade.h"
+
+1585461662 c:\users\fabreu\desktop\projeto\slide_4\pessoa.h
+	<iostream>
+	"Universidade.h"
+
+1585461651 source:c:\users\fabreu\desktop\projeto\slide_4\pessoa.cpp
+	"Pessoa.h"
+	<string.h>
+
+1585462933 source:c:\users\fabreu\desktop\projeto\slide_4\principal.cpp
+	"Principal.h"
+
+1584686883 source:c:\users\fabreu\desktop\projeto\slide_4\professor.cpp
+	"Professor.h"
+
+1585289061 source:c:\users\fabreu\desktop\projeto\slide_4\universidade.cpp
+	"Universidade.h"
+	<string.h>
+	<iostream>
+
+1585462818 source:c:\users\fabreu\desktop\projeto\slide_4\disciplina.cpp
+	"Disciplina.h"
+	<string.h>
+
+1585294148 c:\users\fabreu\desktop\projeto\slide_4\disciplina.h
+	"Departamento.h"
+
+1585461439 source:c:\users\fabreu\desktop\projeto\slide_4\aluno.cpp
+	"Aluno.h"
+
+1585461291 c:\users\fabreu\desktop\projeto\slide_4\aluno.h
+	"Pessoa.h"
+

@@ -1,0 +1,20 @@
+# depslib dependency file v1.0
+1584664301 source:c:\users\fabreu\desktop\projeto\slide_3b\main.cpp
+	"Principal.h"
+
+1584686860 c:\users\fabreu\desktop\projeto\slide_3b\principal.h
+	"Professor.h"
+
+1584686878 c:\users\fabreu\desktop\projeto\slide_3b\professor.h
+	"Pessoa.h"
+	"Universidade.h"
+
+1584686898 c:\users\fabreu\desktop\projeto\slide_3b\pessoa.h
+	<iostream>
+	"Universidade.h"
+
+1584685661 c:\users\fabreu\desktop\projeto\slide_3b\universidade.h
+	"Departamento.h"
+
+1584685783 c:\users\fabreu\desktop\projeto\slide_3b\departamento.h
+

@@ -1,0 +1,64 @@
+# depslib dependency file v1.0
+1585490083 source:c:\users\fabreu\desktop\projeto\slide_5\aluno.cpp
+	"Aluno.h"
+
+1585489831 c:\users\fabreu\desktop\projeto\slide_5\aluno.h
+	"Pessoa.h"
+
+1585489987 c:\users\fabreu\desktop\projeto\slide_5\pessoa.h
+	<iostream>
+	"Universidade.h"
+
+1585288878 c:\users\fabreu\desktop\projeto\slide_5\universidade.h
+	"Departamento.h"
+	<list>
+
+1585294326 c:\users\fabreu\desktop\projeto\slide_5\departamento.h
+
+1585294830 source:c:\users\fabreu\desktop\projeto\slide_5\departamento.cpp
+	"Disciplina.h"
+	"Universidade.h"
+	<stdio.h>
+	<string.h>
+
+1585488954 c:\users\fabreu\desktop\projeto\slide_5\disciplina.h
+	"ElAluno.h"
+	"Departamento.h"
+
+1585489559 source:c:\users\fabreu\desktop\projeto\slide_5\elaluno.cpp
+	"ElAluno.h"
+
+1585487976 c:\users\fabreu\desktop\projeto\slide_5\elaluno.h
+	"Aluno.h"
+
+1584664301 source:c:\users\fabreu\desktop\projeto\slide_5\main.cpp
+	"Principal.h"
+
+1585490120 c:\users\fabreu\desktop\projeto\slide_5\principal.h
+	"Professor.h"
+	"Disciplina.h"
+
+1584686878 c:\users\fabreu\desktop\projeto\slide_5\professor.h
+	"Pessoa.h"
+	"Universidade.h"
+
+1585490021 source:c:\users\fabreu\desktop\projeto\slide_5\pessoa.cpp
+	"Pessoa.h"
+	<string.h>
+
+1585490326 source:c:\users\fabreu\desktop\projeto\slide_5\principal.cpp
+	"Principal.h"
+
+1584686883 source:c:\users\fabreu\desktop\projeto\slide_5\professor.cpp
+	"Professor.h"
+
+1585289061 source:c:\users\fabreu\desktop\projeto\slide_5\universidade.cpp
+	"Universidade.h"
+	<string.h>
+	<iostream>
+
+1585490374 source:c:\users\fabreu\desktop\projeto\slide_5\disciplina.cpp
+	"Disciplina.h"
+	<stdio.h>
+	<string.h>
+

@@ -1,0 +1,76 @@
+# depslib dependency file v1.0
+1585490083 source:c:\users\fabreu\desktop\projeto\slide_6\aluno.cpp
+	"Aluno.h"
+
+1585489831 c:\users\fabreu\desktop\projeto\slide_6\aluno.h
+	"Pessoa.h"
+
+1585493344 c:\users\fabreu\desktop\projeto\slide_6\pessoa.h
+	<iostream>
+
+1585288878 c:\users\fabreu\desktop\projeto\slide_6\universidade.h
+	"Departamento.h"
+	<list>
+
+1585493532 c:\users\fabreu\desktop\projeto\slide_6\departamento.h
+	"ListaDisciplina.h"
+
+1585493544 source:c:\users\fabreu\desktop\projeto\slide_6\departamento.cpp
+	"Universidade.h"
+	<stdio.h>
+	<string.h>
+
+1585493566 c:\users\fabreu\desktop\projeto\slide_6\disciplina.h
+	"ElAluno.h"
+
+1585487976 c:\users\fabreu\desktop\projeto\slide_6\elaluno.h
+	"Aluno.h"
+
+1585493641 source:c:\users\fabreu\desktop\projeto\slide_6\disciplina.cpp
+	"Departamento.h"
+	<stdio.h>
+	<string.h>
+
+1585489559 source:c:\users\fabreu\desktop\projeto\slide_6\elaluno.cpp
+	"ElAluno.h"
+
+1584664301 source:c:\users\fabreu\desktop\projeto\slide_6\main.cpp
+	"Principal.h"
+
+1585493629 c:\users\fabreu\desktop\projeto\slide_6\principal.h
+	"Professor.h"
+	"Universidade.h"
+
+1584686878 c:\users\fabreu\desktop\projeto\slide_6\professor.h
+	"Pessoa.h"
+	"Universidade.h"
+
+1585493365 source:c:\users\fabreu\desktop\projeto\slide_6\pessoa.cpp
+	"Pessoa.h"
+	"Universidade.h"
+	<string.h>
+
+1585490326 source:c:\users\fabreu\desktop\projeto\slide_6\principal.cpp
+	"Principal.h"
+
+1584686883 source:c:\users\fabreu\desktop\projeto\slide_6\professor.cpp
+	"Professor.h"
+
+1585289061 source:c:\users\fabreu\desktop\projeto\slide_6\universidade.cpp
+	"Universidade.h"
+	<string.h>
+	<iostream>
+
+1585491838 source:c:\users\fabreu\desktop\projeto\slide_6\eldisciplina.cpp
+	"ElDisciplina.h"
+
+1585491652 c:\users\fabreu\desktop\projeto\slide_6\eldisciplina.h
+	"Disciplina.h"
+
+1585492737 source:c:\users\fabreu\desktop\projeto\slide_6\listadisciplina.cpp
+	"ListaDisciplina.h"
+	<stdio.h>
+
+1585492755 c:\users\fabreu\desktop\projeto\slide_6\listadisciplina.h
+	"ElDisciplina.h"
+

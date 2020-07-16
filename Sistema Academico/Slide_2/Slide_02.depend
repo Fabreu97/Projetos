@@ -1,0 +1,73 @@
+# depslib dependency file v1.0
+1584662724 source:c:\users\fabreu\desktop\projetos\sistema academico\slide_02\main.cpp
+	"Principal.h"
+
+1584663541 source:c:\users\fabreu\desktop\projetos\sistema academico\slide_02\pessoa.cpp
+	"Pessoa.h"
+	<string.h>
+
+1584663648 c:\users\fabreu\desktop\projetos\sistema academico\slide_02\pessoa.h
+	<iostream>
+	"Universidade.h"
+
+1584663685 c:\users\fabreu\desktop\projetos\sistema academico\slide_02\principal.h
+	"Pessoa.h"
+	"Universidade.h"
+
+1584663607 source:c:\users\fabreu\desktop\projetos\sistema academico\slide_02\principal.cpp
+	"Principal.h"
+
+1584663110 c:\users\fabreu\desktop\projetos\sistema academico\slide_02\universidade.h
+
+1584663179 source:c:\users\fabreu\desktop\projetos\sistema academico\slide_02\universidade.cpp
+	"Universidade.h"
+	<string.h>
+
+1584662724 source:c:\users\fabreu\desktop\projeto\slide_2\main.cpp
+	"Principal.h"
+
+1584663685 c:\users\fabreu\desktop\projeto\slide_2\principal.h
+	"Pessoa.h"
+	"Universidade.h"
+
+1584663648 c:\users\fabreu\desktop\projeto\slide_2\pessoa.h
+	<iostream>
+	"Universidade.h"
+
+1584663110 c:\users\fabreu\desktop\projeto\slide_2\universidade.h
+
+1584663541 source:c:\users\fabreu\desktop\projeto\slide_2\pessoa.cpp
+	"Pessoa.h"
+	<string.h>
+
+1584663776 source:c:\users\fabreu\desktop\projeto\slide_2\principal.cpp
+	"Principal.h"
+
+1584663179 source:c:\users\fabreu\desktop\projeto\slide_2\universidade.cpp
+	"Universidade.h"
+	<string.h>
+
+1584662724 source:c:\users\fabreu\desktop\projetos\sistema academico\slide_2\main.cpp
+	"Principal.h"
+
+1584663685 c:\users\fabreu\desktop\projetos\sistema academico\slide_2\principal.h
+	"Pessoa.h"
+	"Universidade.h"
+
+1584663648 c:\users\fabreu\desktop\projetos\sistema academico\slide_2\pessoa.h
+	<iostream>
+	"Universidade.h"
+
+1584663110 c:\users\fabreu\desktop\projetos\sistema academico\slide_2\universidade.h
+
+1584663541 source:c:\users\fabreu\desktop\projetos\sistema academico\slide_2\pessoa.cpp
+	"Pessoa.h"
+	<string.h>
+
+1584663776 source:c:\users\fabreu\desktop\projetos\sistema academico\slide_2\principal.cpp
+	"Principal.h"
+
+1584663179 source:c:\users\fabreu\desktop\projetos\sistema academico\slide_2\universidade.cpp
+	"Universidade.h"
+	<string.h>
+

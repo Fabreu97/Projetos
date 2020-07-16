@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1585281797 source:c:\users\fabreu\desktop\projeto\slide_1a\pessoa.c
+	"Pessoa.h"
+
+1585281728 c:\users\fabreu\desktop\projeto\slide_1a\pessoa.h
+	<stdio.h>
+

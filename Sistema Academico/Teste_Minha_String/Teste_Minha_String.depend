@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1590005848 source:c:\users\fabreu\desktop\projetos\sistema academico\teste_minha_string\main.cpp
+	"MinhaString.h"
+
+1590005625 c:\users\fabreu\desktop\projetos\sistema academico\teste_minha_string\minhastring.h
+	<iostream>
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+
+1590005800 source:c:\users\fabreu\desktop\projetos\sistema academico\teste_minha_string\minhastring.cpp
+	"MinhaString.h"
+

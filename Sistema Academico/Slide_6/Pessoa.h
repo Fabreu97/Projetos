@@ -1,0 +1,44 @@
+#ifndef INCLUDED_PESSOA_H
+#define INCLUDED_PESSOA_H
+
+#include <iostream>
+
+using namespace std;
+
+class Universidade;
+
+class Pessoa
+{
+protected:
+    int dia;
+    int mes;
+    int ano;
+    int idade;
+    char nomep[30];
+    int ID;
+
+    Universidade* ptr_univer;
+
+public:
+
+    Pessoa(int d = 0, int m = 0, int a = 0, const char* nome = "Default");
+    ~Pessoa();
+
+    void calculo_Idade(int da, int ma, int aa);
+    int informa_Idade();
+    void print_Idade();
+    void inicializar(int d, int m, int a, const char* n);
+
+    void set_Nome(const char* n);
+    char* get_Nome();
+
+    void set_ID(int i);
+    int get_ID();
+
+    void set_Universidade(Universidade* u);
+    Universidade* get_Universidade() const;
+
+    virtual void Onde_Trabalha() const;
+};
+
+#endif // INCLUDED_PESSOA_H

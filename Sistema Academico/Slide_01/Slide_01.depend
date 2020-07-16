@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1584659061 source:c:\users\fabreu\desktop\projetos\sistema academico\slide_01\pessoa.cpp
+	"Pessoa.h"
+
+1584659084 c:\users\fabreu\desktop\projetos\sistema academico\slide_01\pessoa.h
+	<iostream>
+
