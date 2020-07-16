@@ -4,9 +4,7 @@
 
 Gerenciador_Grafico* ent::Entidade::control = NULL;
 
-ent::Entidade::Entidade(const string c):
-    colidiu(false),
-    direcao(0.0f,0.0f)
+ent::Entidade::Entidade(const string c)
 {
     id = 0;
     caminho = c;
@@ -25,51 +23,6 @@ void ent::Entidade::setID(const unsigned long int ID)
 const unsigned long int ent::Entidade::getID() const
 {
     return(id);
-}
-
-void ent::Entidade::setColisao(const bool c)
-{
-    colidiu = c;
-}
-
-const bool ent::Entidade::getColisao() const
-{
-    return(colidiu);
-}
-
-void ent::Entidade::setDirecao(const Vector2D<float> v)
-{
-    if(direcao.x == 0.0f)
-    {
-        direcao.x = v.x;
-    }
-    if(direcao.y == 0.0f)
-    {
-        direcao.y = v.y;
-    }
-}
-
-void ent::Entidade::setDirecao(const float x, const float y)
-{
-    direcao.x = x;
-    direcao.y = y;
-}
-
-const Vector2D<float> ent::Entidade::getDirecao() const
-{
-    return(direcao);
-}
-
-void ent::Entidade::IncrementarDirecao(Vector2D<float> v)
-{
-    if(direcao.x == 0.0f)
-    {
-        direcao.x = v.x;
-    }
-    if(direcao.y == 0.0f)
-    {
-        direcao.y = v.y;
-    }
 }
 
 const string ent::Entidade::getTexture() const
@@ -124,10 +77,69 @@ Gerenciador_Grafico* ent::Entidade::getGerenciadorGrafico()
     return(control);
 }
 
+///IMPLEMENTAÇÕES DA CLASS ENTIDADE COLIDIVEL
+
+ent::EntidadeColidivel::EntidadeColidivel(const string c):
+    Entidade(c),
+    colidiu(false),
+    direcao(0.0f, 0.0f)
+{
+}
+
+ent::EntidadeColidivel::~EntidadeColidivel()
+{
+
+}
+
+void ent::EntidadeColidivel::setColisao(const bool c)
+{
+    colidiu = c;
+}
+
+const bool ent::EntidadeColidivel::getColisao() const
+{
+    return(colidiu);
+}
+
+void ent::EntidadeColidivel::setDirecao(const Vector2D<float> v)
+{
+    if(direcao.x == 0.0f)
+    {
+        direcao.x = v.x;
+    }
+    if(direcao.y == 0.0f)
+    {
+        direcao.y = v.y;
+    }
+}
+
+void ent::EntidadeColidivel::setDirecao(const float x, const float y)
+{
+    direcao.x = x;
+    direcao.y = y;
+}
+
+const Vector2D<float> ent::EntidadeColidivel::getDirecao() const
+{
+    return(direcao);
+}
+
+void ent::EntidadeColidivel::IncrementarDirecao(Vector2D<float> v)
+{
+    if(direcao.x == 0.0f)
+    {
+        direcao.x = v.x;
+    }
+    if(direcao.y == 0.0f)
+    {
+        direcao.y = v.y;
+    }
+}
+
 ///IMPLEMENTACOES DA CLASS PERSONAGEM
 
 ent::per::Personagem::Personagem(const bool pp, const float change_time, const string c):
-    Entidade(c),
+    EntidadeColidivel(c),
     life(true),
     dano(false),
     velocidade(0.0f, 0.0f),
@@ -1247,7 +1259,7 @@ void ent::per::ini::Inimigo03::Move(const float x, const float y)
 ///IMPLEMENTACOES DA CLASSE OBSTACULO
 
 ent::obs::Obstaculo::Obstaculo(const string c, const Vector2D<float> position, const Vector2D<float> tamanho):
-    Entidade(c),
+    EntidadeColidivel(c),
     push_jogador(PUSH_PLATAFORMA)
     {
         id = IDOBS00;

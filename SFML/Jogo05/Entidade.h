@@ -67,8 +67,6 @@ namespace ent
     protected:
 
         unsigned long int id;
-        bool colidiu; //FLAG pra colisao
-        Vector2D<float> direcao;
         string caminho;
         Vector2D<float> tam;
         Vector2D<float> pos;
@@ -82,14 +80,6 @@ namespace ent
 
         void setID(const unsigned long ID);
         const unsigned long int getID() const;
-
-        void setColisao(const bool c);
-        const bool getColisao() const;
-
-        void setDirecao(const Vector2D<float> v);
-        void setDirecao(const float x, const float y);
-        const Vector2D<float> getDirecao() const;
-        void IncrementarDirecao(Vector2D<float> v);
 
         virtual void setTexture(const string t) = 0;
         const string getTexture() const;
@@ -112,10 +102,32 @@ namespace ent
         virtual void Draw () = 0;
     };
 
+    class EntidadeColidivel:
+        public Entidade
+    {
+    protected:
+
+        bool colidiu;
+        Vector2D<float> direcao;
+
+    public:
+
+        EntidadeColidivel(const string c = "");
+        virtual ~EntidadeColidivel();
+
+        void setColisao(const bool c);
+        const bool getColisao() const;
+
+        void setDirecao(const Vector2D<float> v);
+        void setDirecao(const float x, const float y);
+        const Vector2D<float> getDirecao() const;
+        void IncrementarDirecao(Vector2D<float> v);
+    };
+
     namespace per
     {
         class Personagem:
-            public Entidade
+            public EntidadeColidivel
         {
         protected:
             bool life;
@@ -428,7 +440,7 @@ namespace ent
     namespace obs
     {
         class Obstaculo:
-            public Entidade
+            public EntidadeColidivel
         {
         protected:
 
