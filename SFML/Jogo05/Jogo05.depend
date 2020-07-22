@@ -460,16 +460,16 @@
 1594321540 source:c:\users\fabreu\desktop\projetos\jogos\sfml\jogo05\listas.cpp
 	"Listas.h"
 
-1594321533 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\entidade.cpp
+1595088209 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\entidade.cpp
 	"Entidade.h"
 
-1594939792 c:\users\fabreu\desktop\projeto\sfml\jogo05\entidade.h
+1595086853 c:\users\fabreu\desktop\projeto\sfml\jogo05\entidade.h
 	"Gerenciador_Grafico.h"
 	<list>
 	"Lista.h"
 	<vector>
 
-1594147844 c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_grafico.h
+1595458878 c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_grafico.h
 	"Vector2D.h"
 	<string>
 	<SFML/Graphics.hpp>
@@ -481,34 +481,44 @@
 1594321800 c:\users\fabreu\desktop\projeto\sfml\jogo05\lista.h
 	<stdio.h>
 
-1594051862 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\fase.cpp
+1595353877 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\fase.cpp
 	"Fase.h"
 
-1593725797 c:\users\fabreu\desktop\projeto\sfml\jogo05\fase.h
+1595353839 c:\users\fabreu\desktop\projeto\sfml\jogo05\fase.h
 	"Gerenciador_Colisao.h"
 
 1593725668 c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_colisao.h
 	"Listas.h"
 
-1593792053 c:\users\fabreu\desktop\projeto\sfml\jogo05\listas.h
+1595363322 c:\users\fabreu\desktop\projeto\sfml\jogo05\listas.h
 	<list>
+	<queue>
+	<stack>
+	<deque>
+	<iterator>
 	"Entidade.h"
 
 1593818025 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_colisao.cpp
 	"Gerenciador_Colisao.h"
 
-1593983401 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_grafico.cpp
+1595459023 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_grafico.cpp
 	"Gerenciador_Grafico.h"
 
-1594676855 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\jogo.cpp
+1595095046 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\jogo.cpp
 	"Jogo.h"
 
-1593845691 c:\users\fabreu\desktop\projeto\sfml\jogo05\jogo.h
-	"Fase.h"
+1595353897 c:\users\fabreu\desktop\projeto\sfml\jogo05\jogo.h
+	"Tela.h"
 
 1594321540 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\listas.cpp
 	"Listas.h"
 
 1593703772 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\main.cpp
 	"Jogo.h"
+
+1595453105 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\tela.cpp
+	"Tela.h"
+
+1595459422 c:\users\fabreu\desktop\projeto\sfml\jogo05\tela.h
+	"Fase.h"
 

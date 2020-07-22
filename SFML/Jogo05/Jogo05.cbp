@@ -60,6 +60,8 @@
 		<Unit filename="Lista.h" />
 		<Unit filename="Listas.cpp" />
 		<Unit filename="Listas.h" />
+		<Unit filename="Tela.cpp" />
+		<Unit filename="Tela.h" />
 		<Unit filename="Vector2D.h" />
 		<Unit filename="Vector4D.h" />
 		<Unit filename="main.cpp" />

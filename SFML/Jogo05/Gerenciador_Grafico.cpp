@@ -250,6 +250,11 @@ void Gerenciador_Grafico::setView()
     window.setView(view);
 }
 
+Vector2D<float> Gerenciador_Grafico::getPositionView() const
+{
+    return( Vector2D<float> ( view.getCenter().x, view.getCenter().y) );
+}
+
 void Gerenciador_Grafico::limpar_Janela()
 {
     window.clear(sf::Color(20,150,220));
@@ -1303,4 +1308,104 @@ void Gerenciador_Grafico::moveProjetil (const float x, const float y)
 void Gerenciador_Grafico::moveProjetil (const Vector2D<float> movimento)
 {
     Projetil.move(movimento);
+}
+
+///MÉTODOS RELARIONADOS AO MAPA DE CORPOS
+
+Gerenciador_Grafico::Corpo* Gerenciador_Grafico::getMap(const string key)
+{
+    map<string, Corpo*>::iterator it;
+    it = menu.find(key);
+    if(it == menu.end())
+    {
+        return(NULL);
+    }
+
+    return(it->second);
+}
+
+const bool Gerenciador_Grafico::ExisteChave(const string key)
+{
+    map<string, Corpo*>::iterator it;
+    it = menu.find(key);
+
+    if(it == menu.end())
+    {
+        //Não encontro a chave
+        return(false);
+    }
+
+    return(true);
+}
+
+void Gerenciador_Grafico::AdicionarBotaoNoMenu(const string key, const string texture, const Vector2D<float> position, const Vector2D<float> sizeB)
+{
+    if(!ExisteChave(key))
+    {
+        Corpo* aux = new Corpo();
+        aux->setSize(sizeB);
+        aux->setPosition(position);
+        aux->setTexture(texture);
+        menu.insert(pair<string, Corpo*>(key, aux));
+    }
+    else
+    {
+        cout << "Error: Chave não Valida, portanto não criado o Botão" << endl;
+    }
+}
+
+void Gerenciador_Grafico::ajustarBotoes(const string key, const unsigned long int qtd_botoes, const unsigned long int indice)
+{
+    if(ExisteChave(key))
+    {
+        Vector2D<float> tamanho_da_janela;
+        Vector2D<float> posicao_da_janela;
+
+        tamanho_da_janela.x = view.getSize().x / qtd_botoes;
+        tamanho_da_janela.y = view.getSize().y / qtd_botoes;
+        posicao_da_janela.x = view.getCenter().x;
+        posicao_da_janela.y = view.getCenter().y - (view.getSize().y/2) + tamanho_da_janela.x/2;
+        posicao_da_janela.y += indice * tamanho_da_janela.y;
+        Corpo* aux = getMap(key);
+        aux->setSize(tamanho_da_janela);
+        aux->setPosition(posicao_da_janela);
+    }
+}
+
+Vector2D<float> Gerenciador_Grafico::getPositionButton(const string key)
+{
+    if(ExisteChave(key))
+    {
+        Corpo* aux = getMap(key);
+        return(aux->getPosition());
+    }
+
+    cout << "Botao " << key << "Não Existe - retorno na Posicao Padrao" << endl;
+    return(Vector2D<float>(-1000.0f, -1000.0f));
+
+}
+
+Vector2D<float> Gerenciador_Grafico::getSizeButton(const string key)
+{
+    if(ExisteChave(key))
+    {
+        Corpo* aux = getMap(key);
+        return(aux->getSize());
+    }
+
+    cout << "Botao " << key << "Não Existe - retorno na Tamanho Padrao" << endl;
+    return(Vector2D<float>(100.0f, 100.0f));
+}
+
+void Gerenciador_Grafico::DrawMap(const string key)
+{
+    if(ExisteChave(key))
+    {
+        ptrR = getMap(key)->getBody();
+        window.draw(*ptrR);
+    }
+    else
+    {
+        cout << "Error Gerenciador: Comando DrawMap - Chave: " << key << endl;
+    }
 }

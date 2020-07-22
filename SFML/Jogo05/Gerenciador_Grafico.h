@@ -86,6 +86,8 @@ namespace Gerenciador
         Corpo Barra_de_Vida01;
         Corpo Barra_de_Vida02;
 
+        map<string, Corpo*> menu;
+
         sf::CircleShape shape;
 
     public:
@@ -99,6 +101,7 @@ namespace Gerenciador
         bool isOpen();
         bool pollEvent();
         void setView(); //Colocar a Camera na Janela
+        Vector2D<float> getPositionView() const;
         void clear();
         void display();
         void close();
@@ -351,6 +354,15 @@ namespace Gerenciador
         void setTextureRectProjetil();
         void moveProjetil (const float x, const float y);
         void moveProjetil (const Vector2D<float> movimento);
+
+        //MÉTODOS DO CORPO SERA DICIOANDO NO MAP MENU
+        Corpo* getMap(const string key);
+        const bool ExisteChave(const string key);
+        void AdicionarBotaoNoMenu(const string key, const string texture, const Vector2D<float> position, const Vector2D<float> sizeB);
+        void ajustarBotoes(const string key, const unsigned long int qtd_botoes, const unsigned long int indice);
+        Vector2D<float> getPositionButton(const string key);
+        Vector2D<float> getSizeButton(const string key);
+        void DrawMap(const string key);
     };
 }
 

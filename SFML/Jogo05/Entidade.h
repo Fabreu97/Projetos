@@ -27,7 +27,7 @@
 
 //INIMIGO01
 #define VELINI01 300.0f;
-#define CAMINI01 "imagem/tux_from_linux.png"
+#define CAMINI01 "Texture/tux_from_linux.png"
 
 //PROJETIL
 #define VELOCIDADE_PROJETIL 800.0f
@@ -56,7 +56,7 @@
 #include <vector>
 
 //CAMINHOS
-#define BARRA_DE_VIDA "imagem/CCC.png"
+#define BARRA_DE_VIDA "Texture/CCC.png"
 
 using namespace Gerenciador;
 
@@ -199,7 +199,7 @@ namespace ent
             Barra_de_Vida (unsigned long int life = QTD_VIDAS_JOG);
             ~Barra_de_Vida ();
 
-            void setTexture(const string t = "imagem/CCC.png");
+            void setTexture(const string t = "Texture/CCC.png");
             unsigned long int getVida() const;
 
             void InitialUpdate ();
@@ -263,11 +263,11 @@ namespace ent
 
             public:
 
-                Jogador(const float height_jumper = 1000.0f, const float aceleracao = 200.0f, const bool pp = false, const float change_time = 0.15f, const string c = "imagem/tux_from_linux.png");
+                Jogador(const float height_jumper = 1000.0f, const float aceleracao = 200.0f, const bool pp = false, const float change_time = 0.15f, const string c = "Texture/tux_from_linux.png");
                 ~Jogador();
 
                 void setTempoCicloLife(const float a);
-                void setTextureLife(const string t = "imagem/CCC.png");
+                void setTextureLife(const string t = "Texture/CCC.png");
                 void setSizeLife(Vector2D<float> s);
                 void setSizeLife(const float x, const float y);
                 void setContImageLife(const Vector2D<unsigned long int> v);
@@ -297,7 +297,7 @@ namespace ent
 
             public:
 
-                Jogador01(const float height_jumper = 500.0f, const float aceleracao = 200.0f, const bool pp = true, const float change_time = 0.15f, const string c = "imagem/tux_from_linux.png");
+                Jogador01(const float height_jumper = 500.0f, const float aceleracao = 200.0f, const bool pp = true, const float change_time = 0.15f, const string c = "Texture/tux_from_linux.png");
                 ~Jogador01();
 
                 void setTexture(const string t);
@@ -316,7 +316,6 @@ namespace ent
                 void Move(const Vector2D<float> v);
                 void Move(const float x, const float y);
 
-
                 void DispararProjetil();
                 void DrawProjetil();
             };
@@ -326,7 +325,7 @@ namespace ent
             {
             public:
 
-                Jogador02(const float height_jumper = 500.0f, const float aceleracao = 200.0f, const bool pp = true, const float change_time = 0.15f, const string c = "imagem/tux_from_linux.png");
+                Jogador02(const float height_jumper = 500.0f, const float aceleracao = 200.0f, const bool pp = true, const float change_time = 0.15f, const string c = "Texture/tux_from_linux.png");
                 ~Jogador02();
 
                 void setTexture(const string t);
@@ -343,7 +342,6 @@ namespace ent
                 void Move(const Vector2D<float> v);
                 void Move(const float x, const float y);
             };
-
         }
 
         namespace ini
@@ -448,7 +446,7 @@ namespace ent
             float push_jogador;
 
         public:
-            Obstaculo(const string c = "imagem/MeioChaoGrande.png", const Vector2D<float> position = Vector2D<float>(700.0f, 772.0f), const Vector2D<float> tamanho = Vector2D<float>(2000.0, 400.0f));
+            Obstaculo(const Vector2D<float> position = Vector2D<float>(700.0f, 772.0f), const Vector2D<float> tamanho = Vector2D<float>(2000.0, 400.0f), const string c = "Texture/MeioChaoGrande.png");
             virtual ~Obstaculo();
 
             void setVelocidade(const Vector2D<float> v);
@@ -457,9 +455,6 @@ namespace ent
 
             void setPush(const float p);
             const float getPush() const;
-
-            virtual void setMudaImagem(const bool b);
-            virtual const bool getMudaImagem() const;
 
             virtual void setTempoCiclo(const float t);
             virtual const float getTempoCiclo() const;
@@ -471,9 +466,6 @@ namespace ent
             virtual void setContImage(const Vector2D<unsigned long int> v);
             virtual void setContImage(const unsigned long int x, const unsigned long int y);
             virtual const Vector2D<unsigned long int> getContImage() const;
-
-            virtual void setEspelho(const bool e);
-            virtual const bool getEspelho() const;
 
             virtual void setTexture(const string t);
             virtual void UpdatePosition();
@@ -494,7 +486,7 @@ namespace ent
 
         public:
 
-            Obstaculo01(const string c = "imagem/bau.png");
+            Obstaculo01(const Vector2D<float> position = Vector2D<float>(1000.0f, 300.0f), const Vector2D<float> tamanho = Vector2D<float>(64.0, 64.0f), const string c = "Texture/bau.png");
             ~Obstaculo01();
 
             void setTexture(const string t);
@@ -516,7 +508,7 @@ namespace ent
 
         public:
 
-            Obstaculo02(const string c = "imagem/Plataforma_03.png");
+            Obstaculo02(const Vector2D<float> position = Vector2D<float>(700.0f, 772.0f), const Vector2D<float> tamanho = Vector2D<float>(2000.0, 400.0f), const string c = "Texture/Plataforma_03.png");
             ~Obstaculo02();
 
             void setTexture(const string t);
@@ -538,7 +530,7 @@ namespace ent
 
         public:
 
-            Obstaculo03(const string c = "imagem/Plataforma_03.png");
+            Obstaculo03(const Vector2D<float> position = Vector2D<float>(700.0f, 772.0f), const Vector2D<float> tamanho = Vector2D<float>(2000.0, 400.0f), const string c = "Texture/Plataforma_03.png");
             ~Obstaculo03();
 
             void setTexture(const string t);

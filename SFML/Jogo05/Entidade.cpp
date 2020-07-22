@@ -266,7 +266,7 @@ ent::per::Barra_de_Vida::Barra_de_Vida(unsigned long int life):
 {
     imagem_atual = Vector2D<unsigned long int>(0,0);
     tam = Vector2D<float>(64.0f, 64.0f);
-    caminho = "imagem/CCC.png";
+    caminho = "Texture/CCC.png";
     time_in = 0.0f;
     tempo_invulnerabilidade = TEMPO_INVUNERABILIDADE;
 }
@@ -371,7 +371,7 @@ void ent::per::Barra_de_Vida::Move(const float x, const float y)
 ///IMPLEMENTACOES DA CLASSE PROJETIL
 
 ent::per::Projetil::Projetil(const bool fc, const float lifetime, const float time_between_shots):
-    Personagem(true, 0.01f, "imagem/fire.png"),
+    Personagem(true, 0.01f, "Texture/fire.png"),
     tempo_vida(lifetime),
     tempo_entre_disparo(time_between_shots)
 {
@@ -445,12 +445,12 @@ void ent::per::Projetil::UpdateAnimacao()
 
 void ent::per::Projetil::UpdateGerenciador ()
 {
-    UpdateAnimacao();
     control->setPositionProjetil(pos);
 }
 
 void ent::per::Projetil::Update ()
 {
+    UpdateAnimacao();
     UpdateGerenciador();
     if(!colidiu)
     {
@@ -601,8 +601,8 @@ ent::per::jog::Jogador01::Jogador01(const float height_jumper, const float acele
         this->PreencherLinhas(0lu,1lu);
         this->setSpeed(SPEED_JOGADOR);
         this->setTempoCiclo(0.3f);
-        this->setTexture("imagem/n_linux.png");
-        this->setTextureLife("imagem/CCC.png");
+        this->setTexture("Texture/n_linux.png");
+        this->setTextureLife("Texture/CCC.png");
         this->setSizeLife(96.0f, 32.0f);
         this->setContImageLife(6lu,6lu);
         this->setCurrentImageLife(0lu,0lu);
@@ -632,7 +632,7 @@ void ent::per::jog::Jogador01::InitialUpdate()
     control->setSizePlayer01(tam);
     control->setPositionPlayer01(pos);
     vida.InitialUpdate();
-    control->setTextureProjetil("imagem/fire.png");
+    control->setTextureProjetil("Texture/fire.png");
 }
 
 void ent::per::jog::Jogador01::Update()
@@ -725,7 +725,6 @@ void ent::per::jog::Jogador01::UpdateGerenciador()
 {
     control->setIntRectPlayer01(width_height.x, width_height.y, left_top.x, left_top.y);
     control->setTextureRectPlayer01();
-    //OnCollision();
     control->movePlayer01(velocidade * control->get_Delta_Time());
     pos = control->getPositionPlayer01();
 }
@@ -834,7 +833,7 @@ ent::per::jog::Jogador02::Jogador02(const float height_jumper, const float acele
         this->PreencherLinhas(0,1);
         this->setSpeed(SPEED_JOGADOR);
         this->setTempoCiclo(0.2);
-        this->setTexture("imagem/tux_from_linux.png");
+        this->setTexture("Texture/tux_from_linux.png");
         this->InitialUpdate();
     }
 ent::per::jog::Jogador02::~Jogador02()
@@ -943,7 +942,6 @@ void ent::per::jog::Jogador02::UpdateGerenciador()
 {
     control->setIntRectPlayer02(width_height.x, width_height.y, left_top.x, left_top.y);
     control->setTextureRectPlayer02();
-    //OnCollision();
     control->movePlayer02(velocidade * control->get_Delta_Time());
     pos = control->getPositionPlayer02();
 }
@@ -1258,7 +1256,7 @@ void ent::per::ini::Inimigo03::Move(const float x, const float y)
 
 ///IMPLEMENTACOES DA CLASSE OBSTACULO
 
-ent::obs::Obstaculo::Obstaculo(const string c, const Vector2D<float> position, const Vector2D<float> tamanho):
+ent::obs::Obstaculo::Obstaculo( const Vector2D<float> position, const Vector2D<float> tamanho, const string c):
     EntidadeColidivel(c),
     push_jogador(PUSH_PLATAFORMA)
     {
@@ -1297,15 +1295,6 @@ const float ent::obs::Obstaculo::getPush() const
     return(push_jogador);
 }
 
-void ent::obs::Obstaculo::setMudaImagem(const bool b)
-{
-
-}
-const bool ent::obs::Obstaculo::getMudaImagem() const
-{
-    return(true);
-}
-
 void ent::obs::Obstaculo::setTempoCiclo(const float t)
 {
 
@@ -1339,15 +1328,6 @@ void ent::obs::Obstaculo::setContImage(const unsigned long int x, const unsigned
 const Vector2D<unsigned long int> ent::obs::Obstaculo::getContImage() const
 {
     return(Vector2D<unsigned long int>(0lu,0lu));
-}
-
-void ent::obs::Obstaculo::setEspelho(const bool e)
-{
-
-}
-const bool ent::obs::Obstaculo::getEspelho() const
-{
-    return(true);
 }
 
 void ent::obs::Obstaculo::setTexture(const string t)
@@ -1397,8 +1377,8 @@ void ent::obs::Obstaculo::Move(const float x, const float y)
 
 ///IMPLEMENTACOES DA CLASSE OBSTACULO01
 
-ent::obs::Obstaculo01::Obstaculo01(const string c):
-    Obstaculo(c)
+ent::obs::Obstaculo01::Obstaculo01(const Vector2D<float> position, const Vector2D<float> tamanho, const string c):
+    Obstaculo(position, tamanho, c)
 {
     id = IDOBS01;
     push_jogador = PUSH_BAU;
@@ -1464,8 +1444,8 @@ void ent::obs::Obstaculo01::Move(const float x, const float y)
 
 ///IMPLEMENTACOES DA CLASSE OBSTACULO02
 
-ent::obs::Obstaculo02::Obstaculo02(const string c):
-    Obstaculo(c)
+ent::obs::Obstaculo02::Obstaculo02(const Vector2D<float> position, const Vector2D<float> tamanho, const string c):
+    Obstaculo(position, tamanho, c)
 {
     id = IDOBS02;
 }
@@ -1518,8 +1498,8 @@ void ent::obs::Obstaculo02::Move(const float x, const float y)
 
 ///IMPLEMENTACOES DA CLASSE OBSTACULO03
 
-ent::obs::Obstaculo03::Obstaculo03(const string c):
-    Obstaculo(c)
+ent::obs::Obstaculo03::Obstaculo03(const Vector2D<float> position, const Vector2D<float> tamanho, const string c):
+    Obstaculo(position, tamanho, c)
 {
     id = IDOBS03;
 }

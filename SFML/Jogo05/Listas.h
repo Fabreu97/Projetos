@@ -2,6 +2,10 @@
 #define INCLUDED_LISTAS_H
 
 #include <list>
+#include <queue>
+#include <stack>
+#include <deque>
+#include <iterator>
 #include "Entidade.h" // contem Entidade
 
 namespace Listas
