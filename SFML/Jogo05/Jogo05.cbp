@@ -49,8 +49,6 @@
 		</Compiler>
 		<Unit filename="Entidade.cpp" />
 		<Unit filename="Entidade.h" />
-		<Unit filename="Fase.cpp" />
-		<Unit filename="Fase.h" />
 		<Unit filename="Gerenciador_Colisao.cpp" />
 		<Unit filename="Gerenciador_Colisao.h" />
 		<Unit filename="Gerenciador_Grafico.cpp" />

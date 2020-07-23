@@ -37,7 +37,7 @@ Jogo::~Jogo()
 
 void Jogo::criarFase(const unsigned long int i)
 {
-    f = new Fase();
+    f = new ent::tela::fase::Fase();
 }
 
 void Jogo::setJogadoresFase()
@@ -68,7 +68,7 @@ void Jogo::Executar()
                 g->ResizeView();
             }
         }
-        g->Centralizar(p1->getPosition(), p2->getPosition());
+        /*g->Centralizar(p1->getPosition(), p2->getPosition());
         g->setView();
 
         f->ChecarColisoesEntreJogadoresInimigosProjeteis();
@@ -79,6 +79,7 @@ void Jogo::Executar()
         g->limpar_Janela();
 
         f->Draw(p1->getPosition(), p2->getPosition());
-        g->Exibicao();
+        g->Exibicao();*/
+        f->ChecarOperacoes();
     }
 }
