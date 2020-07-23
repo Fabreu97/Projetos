@@ -20,20 +20,13 @@ class Jogo
 {
 private:
 
-    Jogador01* p1;
-    Jogador02* p2;
-
-    Fase* f;
     Gerenciador_Grafico* g;
+    Tela* t;
 
 public:
 
     Jogo();  //....................................................TO REVIEW
     ~Jogo(); //....................................................TO REVIEW
-
-    void criarFase(const unsigned long int i = 0lu); //............TO REVIEW
-
-    void setJogadoresFase();//.....................................TO REVIEW
 
     void Executar ();//............................................TO REVIEW
 

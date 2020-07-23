@@ -297,6 +297,8 @@ namespace ent
             void dificuldade(Tela* t);
             void tirarTexture(Tela* t);
             void sair(Tela* t);
+
+            void Executar();
         };
     }
 }

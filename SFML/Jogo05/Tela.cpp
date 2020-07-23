@@ -25,6 +25,27 @@ ent::tela::fase::Fase::Fase(const string c):
 {
     ptr1 = NULL;
     ptr2 = NULL;
+
+    ptr1 = new ent::per::jog::Jogador01(HEIGHTJUMPER);
+    ptr1->setTexture("Texture/n_linux.png");
+
+    ptr2 = new ent::per::jog::Jogador02(HEIGHTJUMPER);
+    ptr2->setSize(TAM_N_LINUX, TAM_N_LINUY);
+    ptr2->setPosition(700.f, 800.0f);
+    ptr2->setContImage(3,9);
+    ptr2->PreencherLinhas(0,1);
+    ptr2->setSpeed(SPEED_JOGADOR);
+    ptr2->setTempoCiclo(0.2);
+    ptr2->setTexture("Texture/n_linux.png");
+    ptr2->InitialUpdate();
+
+    LEntidade.incluirEntidade(ptr1);
+    LEntidade.incluirEntidade(ptr2);
+
+    gc1.setJogador(ptr1);
+    gc1.setJogador(ptr2);
+
+
     posicao_obst = Vector2D<float>(0.0f, 1000.0f);
     gc1.setListas(&LObstaculo);
     gc1.setListas(&VInimigo);
@@ -49,6 +70,9 @@ ent::tela::fase::Fase::~Fase()
     LEntidade.limpar();
     VInimigo.limpar();
     LObstaculo.limpar();
+
+    delete(ptr1);
+    delete(ptr2);
 }
 
 void ent::tela::fase::Fase::setJogador(ent::per::jog::Jogador01* p1)
@@ -364,7 +388,12 @@ ent::tela::menu::GerenciadorBotao::GerenciadorBotao()
 
 ent::tela::menu::GerenciadorBotao::~GerenciadorBotao()
 {
-
+    while(!Botoes.empty())
+    {
+        it = Botoes.begin();
+        delete(*it);
+    }
+    Botoes.clear();
 }
 
 void ent::tela::menu::GerenciadorBotao::InitialUpdate()
@@ -418,6 +447,8 @@ ent::tela::menu::MenuInicial::MenuInicial(const string c):
     LEntidade.incluirEntidade(aux1);
     LEntidade.incluirEntidade(aux2);
     LEntidade.incluirEntidade(aux3);
+
+    InitialUpdate();
 }
 
 ent::tela::menu::MenuInicial::~MenuInicial()
@@ -447,12 +478,12 @@ void ent::tela::menu::MenuInicial::UpdateGerenciador ()
 
 void ent::tela::menu::MenuInicial::Update ()
 {
-
+    Draw();
 }
 
 void ent::tela::menu::MenuInicial::Draw ()
 {
-    LEntidade.Draw();
+    LEntidade.Draw(control->getPositionView());
 }
 
 
@@ -479,10 +510,9 @@ void ent::tela::menu::MenuInicial::sair(ent::tela::Tela* t)
 
 ///MÉTODOS DE TELA
 
-ent::tela::Tela::Tela():
-    _state(new ent::tela::menu::MenuInicial())
+ent::tela::Tela::Tela()
 {
-
+    _state = new ent::tela::fase::Fase();
 }
 
 ent::tela::Tela::~Tela()
@@ -528,4 +558,9 @@ void ent::tela::Tela::tirarTexture(Tela* t)
 void ent::tela::Tela::sair(Tela* t)
 {
 
+}
+
+void ent::tela::Tela::Executar()
+{
+    _state->ChecarOperacoes();
 }

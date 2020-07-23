@@ -504,10 +504,10 @@
 1595459023 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_grafico.cpp
 	"Gerenciador_Grafico.h"
 
-1595465207 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\jogo.cpp
+1595467297 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\jogo.cpp
 	"Jogo.h"
 
-1595353897 c:\users\fabreu\desktop\projeto\sfml\jogo05\jogo.h
+1595468207 c:\users\fabreu\desktop\projeto\sfml\jogo05\jogo.h
 	"Tela.h"
 
 1594321540 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\listas.cpp
@@ -516,9 +516,9 @@
 1593703772 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\main.cpp
 	"Jogo.h"
 
-1595453105 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\tela.cpp
+1595467430 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\tela.cpp
 	"Tela.h"
 
-1595464766 c:\users\fabreu\desktop\projeto\sfml\jogo05\tela.h
+1595466609 c:\users\fabreu\desktop\projeto\sfml\jogo05\tela.h
 	"Gerenciador_Colisao.h"
 
