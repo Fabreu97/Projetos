@@ -38,6 +38,20 @@ void Listas::ListaEntidade::Draw()
     }
 }
 
+const bool Listas::ListaEntidade::eliminarInimigo(ent::per::ini::Inimigo* i)
+{
+    list<ent::Entidade*>::iterator it;
+    for(it = lista.begin(); it != lista.end(); ++it)
+    {
+        if(i == (*it))
+        {
+            lista.erase(it);
+            return(true);
+        }
+    }
+    return(false);
+}
+
 void Listas::ListaEntidade::Draw(const Vector2D<float>& p1)
 {
     list<ent::Entidade*>::iterator it;
@@ -177,7 +191,6 @@ void Listas::ListaObstaculo::eliminarObstaculo(const unsigned long int i)
 
 void Listas::ListaObstaculo::limpar()
 {
-
     unsigned long int i;
     for(i = 0; i < lista.get_Tamanho(); i++)
     {

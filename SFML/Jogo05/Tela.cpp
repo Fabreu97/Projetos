@@ -27,10 +27,11 @@ ent::tela::fase::Fase::Fase(const string c):
     ptr2 = NULL;
 
     ptr1 = new ent::per::jog::Jogador01(HEIGHTJUMPER);
-    ptr1->setTexture("Texture/n_linux.png");
+    ptr1->setTexture("Texture/Marco.png");
 
     ptr2 = new ent::per::jog::Jogador02(HEIGHTJUMPER);
-    ptr2->setSize(TAM_N_LINUX, TAM_N_LINUY);
+    ptr2->setSize(TAMANHO_COLIDIVEL_JOGADOR_X, TAMANHO_COLIDIVEL_JOGADOR_Y);
+    ptr2->setSizeTexture(TAMANHO_DA_TEXTURA_JOGADOR_X, TAMANHO_DA_TEXTURA_JOGADOR_Y);
     ptr2->setPosition(700.f, 800.0f);
     ptr2->setContImage(3,9);
     ptr2->PreencherLinhas(0,1);
@@ -71,8 +72,14 @@ ent::tela::fase::Fase::~Fase()
     VInimigo.limpar();
     LObstaculo.limpar();
 
-    delete(ptr1);
-    delete(ptr2);
+    if(ptr1 != NULL)
+    {
+        delete(ptr1);
+    }
+    if(ptr2 != NULL)
+    {
+        delete(ptr2);
+    }
 }
 
 void ent::tela::fase::Fase::setJogador(ent::per::jog::Jogador01* p1)
@@ -85,7 +92,7 @@ void ent::tela::fase::Fase::setJogador(ent::per::jog::Jogador01* p1)
 void ent::tela::fase::Fase::setJogador(ent::per::jog::Jogador02* p2)
 {
     ptr2 = p2;
-    LEntidade.incluirEntidade(ptr2);
+    LEntidade.incluirEntidade(static_cast<Entidade*> (ptr2) );
     gc1.setJogador(p2);
 }
 
@@ -95,13 +102,27 @@ void ent::tela::fase::Fase::setTexture(const string t)
     control->setTextureFase(caminho);
 }
 
+void ent::tela::fase::Fase::VerificarInimigosMortos()
+{
+    unsigned long int i;
+    for(i = 0; i < VInimigo.getSize(); i++)
+    {
+        ent::per::ini::Inimigo* enemy = VInimigo.getInimigo(i);
+        if(!enemy->getLife())
+        {
+            LEntidade.eliminarInimigo(enemy);
+            VInimigo.eliminarInimigo(i);
+        }
+    }
+}
+
 void ent::tela::fase::Fase::InitialUpdate ()
 {
 
 }
 void ent::tela::fase::Fase::UpdateGerenciador ()
 {
-    control->setSizeFase(tam);
+    control->setSizeFase(tam_tex);
     pos = control->getPositionFase();
 }
 void ent::tela::fase::Fase::Update ()
@@ -133,20 +154,22 @@ void ent::tela::fase::Fase::Draw(const Vector2D<float> pos1, const Vector2D<floa
 void ent::tela::fase::Fase::adicionarInimigo01(const Vector2D<float> position)
 {
     ent::per::ini::Inimigo01* inimigo = new ent::per::ini::Inimigo01 ();
-    inimigo->setSize(TAM_N_LINUX, TAM_N_LINUY);
+    inimigo->setSize(TAMANHO_COLIDIVEL_INIMIGO01_X, TAMANHO_COLIDIVEL_INIMIGO01_Y);
+    inimigo->setSizeTexture(TAMANHO_DA_TEXTURA_INIMIGO01_X, TAMANHO_DA_TEXTURA_INIMIGO01_Y);
     inimigo->setPosition(position);
     inimigo->setContImage(1,1);
     inimigo->PreencherLinhas(0,0);
     inimigo->setTexture("Texture/n_linux.png");
 
-    VInimigo.incluirInimigo(inimigo);
-    LEntidade.incluirEntidade(inimigo);
+    VInimigo.incluirInimigo(static_cast<ent::per::ini::Inimigo*> (inimigo));
+    LEntidade.incluirEntidade(static_cast<ent::Entidade*> (inimigo));
 }
 
 void ent::tela::fase::Fase::adicionarInimigo01(const float x, const float y)
 {
     ent::per::ini::Inimigo01* inimigo = new ent::per::ini::Inimigo01 ();
-    inimigo->setSize(TAM_N_LINUX, TAM_N_LINUY);
+    inimigo->setSize(TAMANHO_COLIDIVEL_INIMIGO01_X, TAMANHO_COLIDIVEL_INIMIGO01_Y);
+    inimigo->setSizeTexture(TAMANHO_DA_TEXTURA_INIMIGO01_X, TAMANHO_DA_TEXTURA_INIMIGO01_Y);
     inimigo->setPosition(x, y);
     inimigo->setContImage(3,9);
     inimigo->PreencherLinhas(0,1);
@@ -154,8 +177,8 @@ void ent::tela::fase::Fase::adicionarInimigo01(const float x, const float y)
     inimigo->setTexture("Texture/n_linux.png");
     inimigo->InitialUpdate();
 
-    VInimigo.incluirInimigo(inimigo);
-    LEntidade.incluirEntidade(inimigo);
+    VInimigo.incluirInimigo(static_cast<ent::per::ini::Inimigo*>(inimigo));
+    LEntidade.incluirEntidade(static_cast<ent::Entidade*>(inimigo));
 }
 
 void ent::tela::fase::Fase::ChecarColisoesEntreInimigosObstaculos()
@@ -199,7 +222,7 @@ void ent::tela::fase::Fase::adicionarObstaculoBau(const Vector2D<float> position
 {
     ent::obs::Obstaculo01* aux = new ent::obs::Obstaculo01();
     aux->setPosition(position);
-    LObstaculo.incluirObstaculo(aux);
+    LObstaculo.incluirObstaculo(static_cast<ent::obs::Obstaculo*> (aux) );
     adicionarEntidade(aux);
 }
 
@@ -208,7 +231,7 @@ void ent::tela::fase::Fase::adicionarObstaculoBau(const float x, const float y)
     ent::obs::Obstaculo01* aux = new ent::obs::Obstaculo01();
     aux->setPosition(Vector2D<float>(x,y));
     aux->InitialUpdate();
-    LObstaculo.incluirObstaculo(aux);
+    LObstaculo.incluirObstaculo(static_cast<ent::obs::Obstaculo*> (aux) );
     adicionarEntidade(aux);
 }
 
@@ -238,15 +261,16 @@ void ent::tela::fase::Fase::criarRetaPlataforma(const unsigned long int qtde_pla
     }
 }
 
-void ent::tela::fase::Fase::ChecarOperacoes()
+void ent::tela::fase::Fase::ChecarOperacoes(ent::tela::Tela* t)
 {
     control->Centralizar(ptr1->getPosition(), ptr2->getPosition());
     control->setView();
-
+    cout << "Quantidade de Inimigos: " <<VInimigo.getSize() << endl;
     this->ChecarColisoesEntreJogadoresInimigosProjeteis();
     this->ChecarColisoesEntreJogadoresObstaculos();
     this->ChecarColisoesEntreObstaculos();
     this->ChecarColisoesEntreInimigosObstaculos();
+    VerificarInimigosMortos();
     control->limpar_Janela();
     this->Draw(ptr1->getPosition(), ptr2->getPosition());
     control->Exibicao();
@@ -313,7 +337,8 @@ ent::tela::menu::Botao::Botao(const string a):
     Entidade(a),
     click(false)
 {
-
+    tam_tex.x = 500.0f;
+    tam_tex.y = 200.0f;
 }
 
 ent::tela::menu::Botao::~Botao()
@@ -331,6 +356,11 @@ const string ent::tela::menu::Botao::getKey() const
     return(chave);
 }
 
+const bool ent::tela::menu::Botao::getClick() const
+{
+    return(click);
+}
+
 void ent::tela::menu::Botao::setTexture(const string t)
 {
     caminho = t;
@@ -338,7 +368,8 @@ void ent::tela::menu::Botao::setTexture(const string t)
 
 void ent::tela::menu::Botao::InitialUpdate()
 {
-    control->AdicionarBotaoNoMenu(chave, caminho, pos, tam);
+    control->AdicionarBotaoNoMenu(chave, caminho, pos, tam_tex);
+    click = false;
 }
 
 void ent::tela::menu::Botao::UpdateGerenciador()
@@ -350,16 +381,20 @@ void ent::tela::menu::Botao::Update()
 {
     if(control->isM_Left())
     {
-        float xx = abs(control->getPositionMouse().x - pos.x);
-        float yy = abs(control->getPositionMouse().y - pos.y);
-        if(xx < getHalfSize().x)
+        float xx = abs(control->getPositionMouse().x - pos.x - 960.0f);
+        float yy = abs(control->getPositionMouse().y - pos.y - 540.0f);
+        if(xx < (getSizeTexture().x/2.0f) )
         {
-            if(yy < getHalfSize().y)
+            if(yy < (getSizeTexture().y/2.0f))
             {
                 click = true;
             }
         }
     }
+    cout << "Posicao do Botao "  << getID() << ": "<< pos.x << "," << pos.y << "  - " << endl;
+    cout << "Posicao do Mouse: " << (control->getPositionMouse().x) << "," << (control->getPositionMouse().y) << endl;
+    cout << "Posicao da Camera:" <<control->getPositionView().x << " , " << control->getPositionView().y << endl;
+    cout << "Posicao da Janela: " << control->getPositionWindow().x << " , " << control->getPositionWindow().y << endl;
 }
 
 void ent::tela::menu::Botao::Draw()
@@ -372,9 +407,21 @@ void ent::tela::menu::Botao::Draw()
 ent::tela::menu::Jogar::Jogar(const string a):
     Botao(a)
 {
-
+    setKey("Play");
 }
 ent::tela::menu::Jogar::~Jogar()
+{
+
+}
+
+///METODOS DO BOTAO SAIR
+
+ent::tela::menu::Sair::Sair(const string a):
+    Botao(a)
+{
+    setKey("Sair");
+}
+ent::tela::menu::Sair::~Sair()
 {
 
 }
@@ -388,12 +435,23 @@ ent::tela::menu::GerenciadorBotao::GerenciadorBotao()
 
 ent::tela::menu::GerenciadorBotao::~GerenciadorBotao()
 {
-    while(!Botoes.empty())
+    for(unsigned long int i = 0lu; i < Botoes.size(); i++)
     {
-        it = Botoes.begin();
-        delete(*it);
+        delete(Botoes[i]);
     }
     Botoes.clear();
+}
+
+const long int ent::tela::menu::GerenciadorBotao::getIndiceBotao()
+{
+    for(it = Botoes.begin(); it != Botoes.end(); ++it)
+    {
+        if((*it)->getClick())
+        {
+            return((*it)->getID());
+        }
+    }
+    return(-1l);
 }
 
 void ent::tela::menu::GerenciadorBotao::InitialUpdate()
@@ -405,7 +463,7 @@ void ent::tela::menu::GerenciadorBotao::InitialUpdate()
         {
             (*it)->InitialUpdate();
             ent::Entidade::getGerenciadorGrafico()->ajustarBotoes((*it)->getKey(), Botoes.size(), i);
-            (*it)->setSize(ent::Entidade::getGerenciadorGrafico()->getSizeButton((*it)->getKey()));
+            (*it)->setSizeTexture(ent::Entidade::getGerenciadorGrafico()->getSizeButton((*it)->getKey()));
             (*it)->setPosition(ent::Entidade::getGerenciadorGrafico()->getPositionButton((*it)->getKey()));
             (*it)->setID(i);
             i++;
@@ -436,34 +494,57 @@ ent::tela::menu::Menu::~Menu()
 ent::tela::menu::MenuInicial::MenuInicial(const string c):
     Menu(c)
 {
-    Jogar* aux1 = new Jogar();
-    Jogar* aux2 = new Jogar();
-    Jogar* aux3 = new Jogar();
+    play = new ent::tela::menu::Jogar();
+    s = new ent::tela::menu::Sair();
 
-    menu.insertBotao(aux1);
-    menu.insertBotao(aux2);
-    menu.insertBotao(aux3);
+    menu.insertBotao(play);
+    menu.insertBotao(s);
 
-    LEntidade.incluirEntidade(aux1);
-    LEntidade.incluirEntidade(aux2);
-    LEntidade.incluirEntidade(aux3);
+    LEntidade.incluirEntidade(play);
+    LEntidade.incluirEntidade(s);
 
     InitialUpdate();
 }
 
 ent::tela::menu::MenuInicial::~MenuInicial()
 {
-
+    //delete(play);
 }
 
-void ent::tela::menu::MenuInicial::ChecarOperacoes()
+void ent::tela::menu::MenuInicial::ChecarOperacoes(ent::tela::Tela* t)
 {
+    switch(menu.getIndiceBotao())
+    {
+    case 0l:
+        {
+            jogar(t);
+            break;
+        }
+    case 1l:
+        {
+            jogar(t);
+            break;
+        }
+    default:
+        {
+            cout << menu.getIndiceBotao() << endl << endl;
+            control->setView();
+            control->limpar_Janela();
+            Draw();
+            control->Exibicao();
+            break;
+        }
 
+    }
+    /*control->setView();
+    control->limpar_Janela();
+    Draw();
+    control->Exibicao();*/
 }
 
 void ent::tela::menu::MenuInicial::setTexture(const string t)
 {
-
+    caminho = t;
 }
 
 void ent::tela::menu::MenuInicial::InitialUpdate ()
@@ -478,7 +559,7 @@ void ent::tela::menu::MenuInicial::UpdateGerenciador ()
 
 void ent::tela::menu::MenuInicial::Update ()
 {
-    Draw();
+
 }
 
 void ent::tela::menu::MenuInicial::Draw ()
@@ -510,14 +591,15 @@ void ent::tela::menu::MenuInicial::sair(ent::tela::Tela* t)
 
 ///MÉTODOS DE TELA
 
-ent::tela::Tela::Tela()
+ent::tela::Tela::Tela():
+    _state(new ent::tela::fase::Fase01())
 {
-    _state = new ent::tela::fase::Fase();
+
 }
 
 ent::tela::Tela::~Tela()
 {
-
+    deleteState();
 }
 
 void ent::tela::Tela::ChangeState(EstadoTela* s)
@@ -532,17 +614,17 @@ void ent::tela::Tela::deleteState()
 
 void ent::tela::Tela::jogar(Tela* t)
 {
-
+    _state->jogar(this);
 }
 
 void ent::tela::Tela::pause(Tela* t)
 {
-
+    _state->pause(this);
 }
 
 void ent::tela::Tela::opcao(Tela* t)
 {
-
+    _state->opcao(this);
 }
 
 void ent::tela::Tela::dificuldade(Tela* t)
@@ -552,15 +634,15 @@ void ent::tela::Tela::dificuldade(Tela* t)
 
 void ent::tela::Tela::tirarTexture(Tela* t)
 {
-
+    tirarTexture(this);
 }
 
 void ent::tela::Tela::sair(Tela* t)
 {
-
+    _state->sair(this);
 }
 
 void ent::tela::Tela::Executar()
 {
-    _state->ChecarOperacoes();
+    _state->ChecarOperacoes(this);
 }

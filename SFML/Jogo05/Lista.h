@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 
+//fazer o iterator e o metodo find
+
 template <class TIPO>
 class Lista
 {

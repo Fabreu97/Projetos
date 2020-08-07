@@ -235,6 +235,11 @@ void Gerenciador_Grafico::setFramerateLimitTime(const float time)
     window.setFramerateLimit(t);
 }
 
+const Vector2D<float> Gerenciador_Grafico::getPositionWindow() const
+{
+    return(Vector2D<float>(window.getPosition().x, window.getPosition().y));
+}
+
 bool Gerenciador_Grafico::janela_Aberta()
 {
     return(window.isOpen());
@@ -1358,16 +1363,16 @@ void Gerenciador_Grafico::ajustarBotoes(const string key, const unsigned long in
 {
     if(ExisteChave(key))
     {
+        Corpo* aux = getMap(key);
         Vector2D<float> tamanho_da_janela;
         Vector2D<float> posicao_da_janela;
 
         tamanho_da_janela.x = view.getSize().x / qtd_botoes;
         tamanho_da_janela.y = view.getSize().y / qtd_botoes;
         posicao_da_janela.x = view.getCenter().x;
-        posicao_da_janela.y = view.getCenter().y - (view.getSize().y/2) + tamanho_da_janela.x/2;
-        posicao_da_janela.y += indice * tamanho_da_janela.y;
-        Corpo* aux = getMap(key);
-        aux->setSize(tamanho_da_janela);
+        posicao_da_janela.y = view.getCenter().y - (view.getSize().y/2) + aux->getSize().y/2;
+        posicao_da_janela.y += indice * (tamanho_da_janela.y/2 + 10.0f);
+
         aux->setPosition(posicao_da_janela);
     }
 }

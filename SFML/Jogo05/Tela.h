@@ -21,7 +21,7 @@ namespace ent
 
             void ChangeState(ent::tela::Tela* t, ent::tela::EstadoTela* s);
 
-            virtual void ChecarOperacoes() = 0;
+            virtual void ChecarOperacoes(ent::tela::Tela* t) = 0;
             virtual void jogar(ent::tela::Tela* t) = 0;
             virtual void pause(ent::tela::Tela* t) = 0;
             virtual void opcao(ent::tela::Tela* t) = 0;
@@ -60,6 +60,10 @@ namespace ent
 
                 void setTexture(const string t);
 
+
+                //MÉTODOS GERAIS DO JOGO
+                void VerificarInimigosMortos();
+
                 void InitialUpdate ();
                 void UpdateGerenciador ();
                 void Update ();
@@ -91,7 +95,7 @@ namespace ent
                 void criarRetaPlataforma(const unsigned long int qtde_plataformas = 1, const float y = 1000.0f);
 
                 ///METODOS DE ESTADO DE TELA
-                void ChecarOperacoes();//....................TO DO
+                void ChecarOperacoes(ent::tela::Tela* t);//....................TO DO
                 void jogar(ent::tela::Tela* t);//....................TO DO
                 void pause(ent::tela::Tela* t);//....................TO DO
                 void opcao(ent::tela::Tela* t);//....................TO DO
@@ -172,9 +176,20 @@ namespace ent
 
             };
 
+            class Sair:
+                public Botao
+            {
+            public:
+
+                Sair(const string a = "Texture/Botoes/Sair.png");
+                ~Sair();
+            };
+
             class GerenciadorBotao
             {
             private:
+
+            long int indice_do_botao;
 
                 deque<Botao*> Botoes;
                 deque<Botao*>::iterator it;
@@ -183,6 +198,8 @@ namespace ent
 
                 GerenciadorBotao();
                 ~GerenciadorBotao();
+
+                const long int getIndiceBotao();
 
                 void InitialUpdate();
                 void insertBotao(ent::tela::menu::Botao* b);
@@ -205,12 +222,18 @@ namespace ent
             class MenuInicial:
                 public Menu
             {
+            private:
+
+                ent::tela::menu::Jogar* play;
+                ent::tela::menu::Sair* s;
+
+
             public:
 
                 MenuInicial(const string c = "");
                 ~MenuInicial();
 
-                void ChecarOperacoes();
+                void ChecarOperacoes(ent::tela::Tela* t);
 
                 void setTexture(const string t);
                 void InitialUpdate ();
@@ -233,7 +256,7 @@ namespace ent
                 MenuPause();
                 ~MenuPause();
 
-                void ChecarOperacoes();
+                void ChecarOperacoes(ent::tela::Tela* t);
 
                 void setTexture(const string t);
                 void InitialUpdate ();
@@ -256,7 +279,7 @@ namespace ent
                 MenuOpcao();
                 ~MenuOpcao();
 
-                void ChecarOperacoes();
+                void ChecarOperacoes(ent::tela::Tela* t);
 
                 void setTexture(const string t);
                 void InitialUpdate ();

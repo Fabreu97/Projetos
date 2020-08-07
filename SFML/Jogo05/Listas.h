@@ -6,6 +6,7 @@
 #include <stack>
 #include <deque>
 #include <iterator>
+#include <algorithm>
 #include "Entidade.h" // contem Entidade
 
 namespace Listas
@@ -29,6 +30,7 @@ namespace Listas
         void Draw();
         void Draw(const Vector2D<float>& p1);
         void Draw(const Vector2D<float>& p1, const Vector2D<float>& p2);
+        const bool eliminarInimigo(ent::per::ini::Inimigo* i);
     };
 
     class VectorInimigo

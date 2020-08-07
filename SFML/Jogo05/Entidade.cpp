@@ -30,25 +30,20 @@ const string ent::Entidade::getTexture() const
     return(caminho);
 }
 
-void ent::Entidade::setSize(const Vector2D<float> v)
+void ent::Entidade::setSizeTexture(const Vector2D<float> v)
 {
-    tam = v;
+    tam_tex = v;
 }
 
-void ent::Entidade::setSize(const float x, const float y)
+void ent::Entidade::setSizeTexture(const float x, const float y)
 {
-    tam.x = x;
-    tam.y = y;
+    tam_tex.x = x;
+    tam_tex.y = y;
 }
 
-const Vector2D<float> ent::Entidade::getSize() const
+const Vector2D<float> ent::Entidade::getSizeTexture() const
 {
-    return(tam);
-}
-
-const Vector2D<float> ent::Entidade::getHalfSize() const
-{
-    return(Vector2D<float>(tam.x / 2, tam.y / 2));
+    return(tam_tex);
 }
 
 void ent::Entidade::setPosition(const Vector2D<float> v)
@@ -82,7 +77,8 @@ Gerenciador_Grafico* ent::Entidade::getGerenciadorGrafico()
 ent::EntidadeColidivel::EntidadeColidivel(const string c):
     Entidade(c),
     colidiu(false),
-    direcao(0.0f, 0.0f)
+    direcao(0.0f, 0.0f),
+    tam(tam_tex)
 {
 }
 
@@ -136,12 +132,35 @@ void ent::EntidadeColidivel::IncrementarDirecao(Vector2D<float> v)
     }
 }
 
+void ent::EntidadeColidivel::setSize(const Vector2D<float> v)
+{
+    tam = v;
+}
+
+void ent::EntidadeColidivel::setSize(const float x, const float y)
+{
+    tam.x = x;
+    tam.y = y;
+}
+
+Vector2D<float> ent::EntidadeColidivel::getSize() const
+{
+    return(tam);
+}
+
+const Vector2D<float> ent::EntidadeColidivel::getHalfSize() const
+{
+    return(tam * 0.5f);
+}
+
 ///IMPLEMENTACOES DA CLASS PERSONAGEM
 
 ent::per::Personagem::Personagem(const bool pp, const float change_time, const string c):
     EntidadeColidivel(c),
     life(true),
     dano(false),
+    change_animation(false),
+    flag_change_face(false),
     velocidade(0.0f, 0.0f),
     cont_imagem(0,0),
     imagem_atual(0,0),
@@ -152,7 +171,8 @@ ent::per::Personagem::Personagem(const bool pp, const float change_time, const s
     lsalto(0),
     lataque(0),
     ldano(0),
-    tempo_ciclo(change_time)
+    tempo_ciclo(change_time),
+    galho(0.0f)
     {
         tempo_total = 0.0f;
     }
@@ -162,7 +182,7 @@ ent::per::Personagem::~Personagem()
 
 }
 
-void ent::per::Personagem::setLife(const bool l)
+void ent::per::Personagem::Dead(const bool l)
 {
     life = l;
 }
@@ -180,6 +200,11 @@ void ent::per::Personagem::setDano(const bool d)
 const bool ent::per::Personagem::getDano() const
 {
     return(dano);
+}
+
+const bool ent::per::Personagem::getFace() const
+{
+    return(face_certa);
 }
 
 void ent::per::Personagem::setVelocidade(const Vector2D<float> v)
@@ -260,15 +285,18 @@ void ent::per::Personagem::Update()
 
 ///IMPLEMENTACOES DA CLASSE BARRA_DE_VIDA
 
-ent::per::Barra_de_Vida::Barra_de_Vida(unsigned long int life):
+ent::per::Barra_de_Vida::Barra_de_Vida(const unsigned long int life):
     ent::per::Personagem(),
-    vidas(life)
+    vidas(life),
+    invulnerabilidade(true),
+    damage(0lu),
+    time_in(0.0f),
+    tempo_invulnerabilidade(TEMPO_INVUNERABILIDADE)
 {
     imagem_atual = Vector2D<unsigned long int>(0,0);
+    tam_tex = Vector2D<float>(64.0f, 64.0f);
     tam = Vector2D<float>(64.0f, 64.0f);
     caminho = "Texture/CCC.png";
-    time_in = 0.0f;
-    tempo_invulnerabilidade = TEMPO_INVUNERABILIDADE;
 }
 
 ent::per::Barra_de_Vida::~Barra_de_Vida()
@@ -282,14 +310,22 @@ void ent::per::Barra_de_Vida::setTexture(const string t)
     control->setTextureLife01(t);
 }
 
-unsigned long int ent::per::Barra_de_Vida::getVida() const
+const long int ent::per::Barra_de_Vida::getVida() const
 {
     return(vidas);
 }
 
+void ent::per::Barra_de_Vida::Damage(const unsigned long int attack_force)
+{
+    if(!invulnerabilidade)
+    {
+        damage = attack_force;
+    }
+}
+
 void ent::per::Barra_de_Vida::InitialUpdate ()
 {
-    control->setSizeLife01(tam);
+    control->setSizeLife01(tam_tex);
     control->setPositionLife01();
 
     width_height.y = control->getTextureSizeLife01().y / cont_imagem.y;
@@ -300,23 +336,17 @@ void ent::per::Barra_de_Vida::InitialUpdate ()
 
 void ent::per::Barra_de_Vida::UpdateAnimacao()
 {
-
-}
-
-void ent::per::Barra_de_Vida::UpdateAnimacao(const bool dano)
-{
     time_in += control->get_Delta_Time();
-    if(dano)
+    if(damage > 0)
     {
-        if(time_in > tempo_invulnerabilidade)
+        if(!invulnerabilidade)
         {
             vidas--;
+            damage--;
             imagem_atual.x++;
-            if(vidas > 6)
-            {
-                vidas = 0;
-            }
+
             time_in = 0.0f;
+            invulnerabilidade = true;
         }
     }
     if(imagem_atual.x != 0)
@@ -338,18 +368,25 @@ void ent::per::Barra_de_Vida::UpdateAnimacao(const bool dano)
             imagem_atual.x = 5;
         }
     }
+
     left_top.x = width_height.x * imagem_atual.x;
     left_top.y = width_height.y * imagem_atual.y;
 }
+
 void ent::per::Barra_de_Vida::UpdateGerenciador ()
 {
     control->setIntRectLife01(width_height.x, width_height.y, left_top.x, left_top.y);
     control->setTextureRectLife01();
     control->setPositionLife01();
 }
-void ent::per::Barra_de_Vida::Update (const bool dano)
+void ent::per::Barra_de_Vida::Update ()
 {
-    UpdateAnimacao(dano);
+    if(time_in > tempo_ciclo * cont_imagem.x)
+    {
+        invulnerabilidade = false;
+    }
+
+    UpdateAnimacao();
     UpdateGerenciador();
 
 }
@@ -370,8 +407,9 @@ void ent::per::Barra_de_Vida::Move(const float x, const float y)
 
 ///IMPLEMENTACOES DA CLASSE PROJETIL
 
-ent::per::Projetil::Projetil(const bool fc, const float lifetime, const float time_between_shots):
+ent::per::Projetil::Projetil(const long int dano, const bool fc, const float lifetime, const float time_between_shots):
     Personagem(true, 0.01f, "Texture/fire.png"),
+    damage(dano),
     tempo_vida(lifetime),
     tempo_entre_disparo(time_between_shots)
 {
@@ -384,6 +422,11 @@ ent::per::Projetil::~Projetil()
 
 }
 
+const long int ent::per::Projetil::attackForce() const
+{
+    return(damage);
+}
+
 void ent::per::Projetil::setTexture(const string t)
 {
     caminho = t;
@@ -392,7 +435,7 @@ void ent::per::Projetil::setTexture(const string t)
 
 void ent::per::Projetil::InitialUpdate ()
 {
-    control->setSizeProjetil(tam);
+    control->setSizeProjetil(tam_tex);
     control->setPositionProjetil(pos);
 
     width_height.x = control->getTextureSizeProjetil().x / cont_imagem.x;
@@ -493,7 +536,7 @@ inline bool ent::per::Projetil::operator ==(const ent::per::Projetil& p) const
 inline void ent::per::Projetil::operator=(const ent::per::Projetil& p)
 {
     this->pos = p.getPosition();
-    this->tam = p.getSize();
+    this->tam_tex = p.getSizeTexture();
     this->caminho = p.getTexture();
 }
 
@@ -526,12 +569,13 @@ void ent::per::jog::Jogador::setTextureLife(const string t)
 
 void ent::per::jog::Jogador::setSizeLife(const Vector2D<float> s)
 {
+    vida.setSizeTexture(s);
     vida.setSize(s);
 }
 
 void ent::per::jog::Jogador::setSizeLife(const float x, const float y)
 {
-    vida.setSize(x,y);
+    vida.setSizeTexture(x,y);
 }
 
 void ent::per::jog::Jogador::setContImageLife(const Vector2D<unsigned long int> v)
@@ -552,6 +596,11 @@ void ent::per::jog::Jogador::setCurrentImageLife(const Vector2D<unsigned long in
 void ent::per::jog::Jogador::setCurrentImageLife(const unsigned long int x, const unsigned long int y)
 {
     vida.setCurrentImage(x,y);
+}
+
+void ent::per::jog::Jogador::Damage(const unsigned long int attack_force)
+{
+    vida.Damage(attack_force);
 }
 
 const unsigned long int ent::per::jog::Jogador::getVida() const
@@ -592,22 +641,30 @@ const unsigned long int ent::per::jog::Jogador::getSizeListaProjetil() const
 ///IMPLEMENTACOES DA CLASSE JOGADOR01
 
 ent::per::jog::Jogador01::Jogador01(const float height_jumper, const float aceleracao, const bool pp, const float change_time, const string c):
-    Jogador(height_jumper, aceleracao,pp,change_time,c)
+    Jogador(height_jumper, aceleracao,pp,change_time,c),
+    animacao_disparo(false),
+    col_estatico(3lu),
+    col_andando(9lu),
+    col_ataque(5lu)
     {
         id = IDJOG01;
-        this->setSize(TAM_N_LINUX, TAM_N_LINUY);
+        this->setSize(TAMANHO_COLIDIVEL_JOGADOR01_X, TAMANHO_COLIDIVEL_JOGADOR01_Y);
+        this->setSizeTexture(TAMANHO_DA_TEXTURA_JOGADOR01_X, TAMANHO_DA_TEXTURA_JOGADOR01_Y);
         this->setPosition(400.f, 800.0f);
-        this->setContImage(3lu,9lu);
-        this->PreencherLinhas(0lu,1lu);
-        this->setSpeed(SPEED_JOGADOR);
-        this->setTempoCiclo(0.3f);
-        this->setTexture("Texture/n_linux.png");
+        this->setContImage(9lu,3lu);
+        this->PreencherLinhas(0lu,1lu, 0lu, 2lu);
+        this->setSpeed(SPEED_JOGADOR01);
+        this->setTempoCiclo(CHANGE_TIME_ANIMATION_PLAYER01);
+        this->setTexture("Texture/Marco.png");
+
         this->setTextureLife("Texture/CCC.png");
         this->setSizeLife(96.0f, 32.0f);
         this->setContImageLife(6lu,6lu);
         this->setCurrentImageLife(0lu,0lu);
         this->setTempoCicloLife(0.15f);
         this->InitialUpdate();
+        galho = (7.0f/51.0f) * tam_tex.x;
+        tam.x = tam_tex.x * (29.0f/51.0f);
     }
 ent::per::jog::Jogador01::~Jogador01()
 {
@@ -629,7 +686,7 @@ void ent::per::jog::Jogador01::setTexture(const string t)
 
 void ent::per::jog::Jogador01::InitialUpdate()
 {
-    control->setSizePlayer01(tam);
+    control->setSizePlayer01(tam_tex);
     control->setPositionPlayer01(pos);
     vida.InitialUpdate();
     control->setTextureProjetil("Texture/fire.png");
@@ -640,20 +697,20 @@ void ent::per::jog::Jogador01::Update()
     UpdateMovement();
     UpdateAnimacao();
     UpdateGerenciador();
-    vida.Update(dano);
+    vida.Update();
     dano = false;
     DispararProjetil();
 }
 
 void ent::per::jog::Jogador01::UpdateMovement()
 {
-    velocidade.x *= 0.0f;
+    velocidade.x = 0.0f;
 
-    if(control->isP_Left())
+    if(control->isP_Left() && !animacao_disparo)
     {
         velocidade.x -= speed;
     }
-    if(control->isP_Right())
+    if(control->isP_Right() && !animacao_disparo)
     {
         velocidade.x += speed;
     }
@@ -666,6 +723,7 @@ void ent::per::jog::Jogador01::UpdateMovement()
 
 void ent::per::jog::Jogador01::UpdateAnimacao()
 {
+    //=========ESPAÇO PARA O MÉTODO ONCOLLISION=========
     if(direcao.y > 0.0f && velocidade.y > 0.0f)
     {
         velocidade.y = 0.0f;
@@ -675,6 +733,10 @@ void ent::per::jog::Jogador01::UpdateAnimacao()
     {
         velocidade.y += 981.0f * control->get_Delta_Time();
     }
+
+    //TESTES LÓGICOS PARA MUDANÇA DE ANIMAÇÃO DO JOAGDOR 01
+    bool flag1 = face_certa;
+    const unsigned long int flag_type_animation = imagem_atual.y;
 
     if(velocidade.x != 0.0f)
     {
@@ -693,16 +755,70 @@ void ent::per::jog::Jogador01::UpdateAnimacao()
         imagem_atual.y = lestatico;
     }
 
+    //TESTE PARA AJEITAR QUNADO TROCA A LINHA DE ANIMAÇÃO OU A FACE DO JOGADOR01
 
-    tempo_total += control->get_Delta_Time();
-    time_projetil += control->get_Delta_Time();
-
-    if(tempo_total > tempo_ciclo)
+    if(face_certa != flag1)
     {
-        tempo_total -= tempo_ciclo;
-        imagem_atual.x = (imagem_atual.x + 1) % cont_imagem.x;
+        flag_change_face = true;
     }
 
+    tempo_total += control->get_Delta_Time();
+
+    //ANIMAÇÃO QUANDO NÃO ESTA DISPARANDO O PROJETIL
+
+    if(!animacao_disparo)
+    {
+        if(tempo_total > tempo_ciclo)
+        {
+            tempo_total -= tempo_ciclo;
+            switch(imagem_atual.y)
+            {
+            case 1lu:
+                {
+                    imagem_atual.x = (imagem_atual.x + 1) % col_andando;
+                    break;
+                }
+            case 0lu:
+                {
+                    imagem_atual.x = (imagem_atual.x + 1) % col_estatico;
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+            }
+        }
+        if(flag_type_animation != imagem_atual.y)
+        {
+            imagem_atual.x = 0lu;
+        }
+    }
+
+    //ANIMACAO DE DISPARO DE PROJETIL
+    if(animacao_disparo)
+    {
+        imagem_atual.y = lataque;
+        if(time_projetil == 0.0f)
+        {
+            imagem_atual.x = 0lu;
+            change_animation = true;
+        }
+        float t = (tempo_entre_disparo / col_ataque) * (imagem_atual.x + 1);
+        if(time_projetil > t)
+        {
+            imagem_atual.x = (imagem_atual.x + 1) % col_ataque;
+            change_animation = false;
+        }
+        if(imagem_atual.x == 0lu && !change_animation)
+        {
+            animacao_disparo = false;
+        }
+    }
+
+    time_projetil += control->get_Delta_Time();
+
+    //AJEITANDO CONFIGURAÇÕES DA ANIMAÇÃO COMO ENTRADA PARA O GERENCIADOR GRÁFICO
     width_height.y = control->getTextureSizePlayer01().y / cont_imagem.y;
     width_height.x = control->getTextureSizePlayer01().x / cont_imagem.x;
 
@@ -727,6 +843,19 @@ void ent::per::jog::Jogador01::UpdateGerenciador()
     control->setTextureRectPlayer01();
     control->movePlayer01(velocidade * control->get_Delta_Time());
     pos = control->getPositionPlayer01();
+    if(flag_change_face)
+    {
+        flag_change_face = false;
+        if(face_certa)
+        {
+            pos.x += (2 * galho);
+        }
+        else
+        {
+            pos.x -= (2 * galho);
+        }
+        control->setPositionPlayer01(pos);
+    }
 }
 
 void ent::per::jog::Jogador01::Draw()
@@ -773,21 +902,23 @@ void ent::per::jog::Jogador01::DispararProjetil()
 {
     if(control->isP_ALT())
     {
-        if( (FilaProjetil.get_Tamanho() < cont_projetil) && (tempo_entre_disparo < time_projetil))
+        if( (FilaProjetil.get_Tamanho() < cont_projetil) && (tempo_entre_disparo < time_projetil) && !animacao_disparo)
         {
+            animacao_disparo = true;
             ent::per::Projetil* aux = new ent::per::Projetil();
+            aux->setSizeTexture(20.0f, 20.0f);
             aux->setSize(20.0f, 20.0f);
             if(face_certa)
             {
-                aux->setPosition(pos.x + tam.x/2, pos.y);
+                aux->setPosition(pos.x + ( tam_tex.x * (14.5f/51.0f) ), pos.y - ( tam_tex.y * (7.5f/ 51.0f) ) );
                 aux->setVelocidade(VELOCIDADE_PROJETIL , 0.0f);
-                Move(-20.0f, 0.0f);
+                //Move(-20.0f, 0.0f);
             }
             else
             {
-                aux->setPosition(pos.x - tam.x/2, pos.y);
+                aux->setPosition(pos.x - ( tam_tex.x * (14.5f/51.0f) ), pos.y - ( tam_tex.y * (7.5f/ 51.0f) ) );
                 aux->setVelocidade(-VELOCIDADE_PROJETIL , 0.0f);
-                Move(+20.0f, 0.0f);
+                //Move(+20.0f, 0.0f);
             }
             aux->setContImage(7,1);
             aux->setTempoCiclo(TEMPO_CICLO_PROJETIL);
@@ -827,7 +958,7 @@ ent::per::jog::Jogador02::Jogador02(const float height_jumper, const float acele
     Jogador(height_jumper, aceleracao,pp,change_time,c)
     {
         id = IDJOG02;
-        this->setSize(TAMANHO_DO_JOGADOR_X, TAMANHO_DO_JOGADOR_Y);
+        this->setSizeTexture(TAMANHO_DA_TEXTURA_JOGADOR_X, TAMANHO_DA_TEXTURA_JOGADOR_Y);
         this->setPosition(700.f, 800.0f);
         this->setContImage(3,9);
         this->PreencherLinhas(0,1);
@@ -850,7 +981,7 @@ void ent::per::jog::Jogador02::setTexture(const string t)
 
 void ent::per::jog::Jogador02::InitialUpdate()
 {
-    control->setSizePlayer02(tam);
+    control->setSizePlayer02(tam_tex);
     control->setPositionPlayer02(pos);
 
 }
@@ -987,7 +1118,8 @@ void ent::per::jog::Jogador02::OnCollision()
 ///IMPLEMENTACOES DA CLASSE INIMIGO
 
 ent::per::ini::Inimigo::Inimigo(const bool pp, const float change_time, const string c):
-    Personagem(pp,change_time,c)
+    Personagem(pp,change_time,c),
+    vidas(ENEMY_LIVES)
     {
         id = 0;
         acumulador_dist = 0.0f;
@@ -999,7 +1131,10 @@ ent::per::ini::Inimigo::~Inimigo()
 
 }
 
-
+void ent::per::ini::Inimigo::Damage(long int attack_force)
+{
+    vidas -= attack_force;
+}
 
 ///IMPLEMENTACOES DA CLASSE INIMIGO01
 
@@ -1023,7 +1158,10 @@ void ent::per::ini::Inimigo01::setTexture(const string t)
 
 void ent::per::ini::Inimigo01::Update()
 {
-    //setTexture(caminho);
+    if(vidas <= 0l)
+    {
+        life = false;
+    }
     control->setPositionInimigo01(pos);
     UpdateMovement();
     UpdateAnimacao();
@@ -1032,7 +1170,7 @@ void ent::per::ini::Inimigo01::Update()
 
 void ent::per::ini::Inimigo01::InitialUpdate()
 {
-    control->setSizeInimigo01(tam);
+    control->setSizeInimigo01(tam_tex);
     control->setPositionInimigo01(pos);
 }
 
@@ -1220,7 +1358,7 @@ void ent::per::ini::Inimigo03::Update()
 
 void ent::per::ini::Inimigo03::InitialUpdate()
 {
-    control->setSizeInimigo03(tam);
+    control->setSizeInimigo03(tam_tex);
     control->setPositionInimigo03(pos);
 }
 
@@ -1261,6 +1399,7 @@ ent::obs::Obstaculo::Obstaculo( const Vector2D<float> position, const Vector2D<f
     push_jogador(PUSH_PLATAFORMA)
     {
         id = IDOBS00;
+        tam_tex = tamanho;
         tam = tamanho;
         pos = position;
     }
@@ -1343,7 +1482,7 @@ void ent::obs::Obstaculo::UpdatePosition()
 
 void ent::obs::Obstaculo::InitialUpdate()
 {
-    control->setSizePlataforma(tam);
+    control->setSizePlataforma(tam_tex);
     control->setPositionPlataforma(pos);
     control->setTexturePlataforma(caminho);
 }
@@ -1355,7 +1494,7 @@ void ent::obs::Obstaculo::UpdateGerenciador()
 
 void ent::obs::Obstaculo::Update()
 {
-    control->setSizePlataforma(tam);
+    control->setSizePlataforma(tam_tex);
     control->setPositionPlataforma(pos);
 }
 
@@ -1382,6 +1521,7 @@ ent::obs::Obstaculo01::Obstaculo01(const Vector2D<float> position, const Vector2
 {
     id = IDOBS01;
     push_jogador = PUSH_BAU;
+    this->setSizeTexture(BAU_SIZE_X,BAU_SIZE_Y);
     this->setSize(BAU_SIZE_X,BAU_SIZE_Y);
     setTexture(c);
 }
@@ -1404,7 +1544,7 @@ void ent::obs::Obstaculo01::UpdatePosition()
 
 void ent::obs::Obstaculo01::InitialUpdate()
 {
-    control->setSizeObstaculo01(tam);
+    control->setSizeObstaculo01(tam_tex);
     control->setPositionObstaculo01(pos);
 }
 

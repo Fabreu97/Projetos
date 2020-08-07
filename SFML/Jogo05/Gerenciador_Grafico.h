@@ -4,6 +4,7 @@
 #include "Vector2D.h"
 #include <string>
 #include <SFML/Graphics.hpp>
+#include <windows.h>
 
 using namespace Vector;
 using namespace std;
@@ -111,6 +112,8 @@ namespace Gerenciador
         void setVerticalSyncEnabled(const bool chave); //Deixa o loop com a mesma velocidade que seu monitor
         void setFramerateLimit(const unsigned long int vel); //colocar a velocidade por frame(1s / time = tempo do loop) RECOMENDAVEL POR VOLTA DE 100 A 60
         void setFramerateLimitTime(const float time);
+        const Vector2D<float> getPositionWindow() const;
+
         //Ooerações com Janela BR
         bool janela_Aberta(); //Window.isOpen()
         bool captar_Evento(); //Window.isPoll()

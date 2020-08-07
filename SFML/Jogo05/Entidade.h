@@ -2,8 +2,6 @@
 #define INCLUDED_ENTIDADE_H
 
 //AJUDA
-#define TAM_N_LINUX 70.3125f
-#define TAM_N_LINUY 90.0f
 
 //Identidade das Entidades
 #define IDJOG01 1lu
@@ -16,25 +14,19 @@
 #define IDOBS02 8lu
 #define IDOBS03 9lu
 
-//Jogador
+//JOGADOR
 #define HEIGHTJUMPER 125.0f
 #define QTD_VIDAS_JOG 6lu
-#define TAMANHO_DO_JOGADOR_X 84.0f
-#define TAMANHO_DO_JOGADOR_Y 120.0f
+#define TAMANHO_DA_TEXTURA_JOGADOR_X 70.3125f
+#define TAMANHO_DA_TEXTURA_JOGADOR_Y 90.0f
+#define TAMANHO_COLIDIVEL_JOGADOR_X 70.3125f
+#define TAMANHO_COLIDIVEL_JOGADOR_Y 90.0f
 #define SPEED_JOGADOR 300.0f
 #define TEMPO_CICLO_PROJETIL 0.03f
+#define CHANGE_TIME_ANIMATION_PLAYER01 0.1f
 
 
-//INIMIGO01
-#define VELINI01 300.0f;
-#define CAMINI01 "Texture/tux_from_linux.png"
 
-//PROJETIL
-#define VELOCIDADE_PROJETIL 800.0f
-#define TEMPO_VIDA_PROJETIL_JOGADOR 3.0f
-
-//BARRA DE VIDA
-#define TEMPO_INVUNERABILIDADE 2.5f
 
 //Jogador
 #define PUSH_BAU 0.75f
@@ -42,9 +34,43 @@
 #define PUSH_PLATAFORMA 1.0f
 #define PUSH_INIMIGO 1.0f
 
+/*
+ * TAMANHO COLIDIVEL X: 29/51 DP TAMANHO DA TEXTURA
+ * TAM.X = 41
+ * TAM.Y = 51
+ */
+ //JOGADOR 01
+#define TAMANHO_DA_TEXTURA_JOGADOR01_X 130.0f
+#define TAMANHO_DA_TEXTURA_JOGADOR01_Y 104.5098f
+#define TAMANHO_COLIDIVEL_JOGADOR01_X 73.9215f
+#define TAMANHO_COLIDIVEL_JOGADOR01_Y 102.0f
+#define SPEED_JOGADOR01 300.0f
+
+
+//Inimigo
+#define ENEMY_LIVES 3l
+
+//INIMIGO01
+#define VELINI01 300.0f;
+#define CAMINI01 "Texture/tux_from_linux.png"
+#define TAMANHO_DA_TEXTURA_INIMIGO01_X 70.3125f
+#define TAMANHO_DA_TEXTURA_INIMIGO01_Y 90.0f
+#define TAMANHO_COLIDIVEL_INIMIGO01_X 70.3125f
+#define TAMANHO_COLIDIVEL_INIMIGO01_Y 90.0f
+
+//PROJETIL
+#define VELOCIDADE_PROJETIL 900.0f
+#define TEMPO_VIDA_PROJETIL_JOGADOR 5.0f
+#define PROJECTILE_DAMAGE 1l
+
+//BARRA DE VIDA
+#define TEMPO_INVUNERABILIDADE 2.0f
+
+
+
 //Obstaculo e Inimigo
 #define PUSH_INIMIGO_OBST 0.5f
-#define PUSH_INIMIGO_PLATAFORMA 1.0f
+#define PUSH_INIMIGO_PLATAFORMA 0.5f
 
 //OBSTACULO 01 - BAU
 #define BAU_SIZE_X 64.0f
@@ -68,7 +94,7 @@ namespace ent
 
         unsigned long int id;
         string caminho;
-        Vector2D<float> tam;
+        Vector2D<float> tam_tex;
         Vector2D<float> pos;
 
         static Gerenciador_Grafico* control;
@@ -84,10 +110,9 @@ namespace ent
         virtual void setTexture(const string t) = 0;
         const string getTexture() const;
 
-        void setSize(const Vector2D<float> v);
-        void setSize(const float x, const float y);
-        const Vector2D<float> getSize() const;
-        const Vector2D<float> getHalfSize() const;
+        virtual void setSizeTexture(const Vector2D<float> v);
+        virtual void setSizeTexture(const float x, const float y);
+        const Vector2D<float> getSizeTexture() const;
 
         void setPosition(const Vector2D<float> v);
         void setPosition(const float x, const float y);
@@ -109,6 +134,7 @@ namespace ent
 
         bool colidiu;
         Vector2D<float> direcao;
+        Vector2D<float> tam;
 
     public:
 
@@ -122,6 +148,11 @@ namespace ent
         void setDirecao(const float x, const float y);
         const Vector2D<float> getDirecao() const;
         void IncrementarDirecao(Vector2D<float> v);
+
+        void setSize(const Vector2D<float> v);
+        void setSize(const float x, const float y);
+        Vector2D<float> getSize() const;
+        const Vector2D<float> getHalfSize() const;
     };
 
     namespace per
@@ -132,6 +163,8 @@ namespace ent
         protected:
             bool life;
             bool dano;
+            bool change_animation;
+            bool flag_change_face;
 
             Vector2D<float> velocidade;
             Vector2D<unsigned long int> cont_imagem;
@@ -153,14 +186,21 @@ namespace ent
             float tempo_total;
 
         public:
+
+            float galho;
+
+        public:
+
             Personagem(const bool pp = true, const float change_time = 0.3f, const string c = "");
             virtual ~Personagem();
 
-            void setLife(const bool l);
+            void Dead(const bool l);
             const bool getLife() const;
 
             void setDano(const bool d);
             const bool getDano() const;
+
+            const bool getFace() const;
 
             void setVelocidade(const Vector2D<float> v);
             void setVelocidade(const float x, const float y);
@@ -190,23 +230,27 @@ namespace ent
         {
         private:
 
-            unsigned long int vidas;
+            long int vidas;
+            bool invulnerabilidade;
+            long int damage;
             float time_in;
             float tempo_invulnerabilidade;
 
+
         public:
 
-            Barra_de_Vida (unsigned long int life = QTD_VIDAS_JOG);
+            Barra_de_Vida (const unsigned long int life = QTD_VIDAS_JOG);
             ~Barra_de_Vida ();
 
             void setTexture(const string t = "Texture/CCC.png");
-            unsigned long int getVida() const;
+            const long int getVida() const;
+
+            void Damage(const unsigned long int attack_force);
 
             void InitialUpdate ();
-            void UpdateAnimacao(const bool dano);
             void UpdateAnimacao();
             void UpdateGerenciador ();
-            void Update (const bool dano);
+            void Update ();
             void Draw ();
 
             void Move(const Vector2D<float> v);
@@ -218,6 +262,7 @@ namespace ent
         {
         private:
 
+            long int damage;
             float tempo_vida;
             float tempo_entre_disparo;
             float timev;
@@ -225,8 +270,10 @@ namespace ent
 
         public:
 
-            Projetil(const bool fc = true, const float lifetime = TEMPO_VIDA_PROJETIL_JOGADOR, const float time_between_shots = 0.2f);
+            Projetil(const long int dano = PROJECTILE_DAMAGE, const bool fc = true, const float lifetime = TEMPO_VIDA_PROJETIL_JOGADOR, const float time_between_shots = 0.2f);
             ~Projetil();
+
+            const long int attackForce() const; //getDano();
 
             void setTexture(const string t);
 
@@ -266,6 +313,8 @@ namespace ent
                 Jogador(const float height_jumper = 1000.0f, const float aceleracao = 200.0f, const bool pp = false, const float change_time = 0.15f, const string c = "Texture/tux_from_linux.png");
                 ~Jogador();
 
+
+                //MÉTODOS DA CLASSE BARRA_DE_VIDA:
                 void setTempoCicloLife(const float a);
                 void setTextureLife(const string t = "Texture/CCC.png");
                 void setSizeLife(Vector2D<float> s);
@@ -274,8 +323,7 @@ namespace ent
                 void setContImageLife(const unsigned long int x, const unsigned long int y);
                 void setCurrentImageLife(const Vector2D<unsigned long int> v);
                 void setCurrentImageLife(const unsigned long int x, const unsigned long int y);
-
-                void DecrementarVida(const bool dano);
+                void Damage(const unsigned long int attack_force);
                 const unsigned long int getVida() const;
 
                 void setSpeed(const float aceleracao);
@@ -294,6 +342,11 @@ namespace ent
                 public Jogador
             {
             private:
+                bool animacao_disparo;
+
+                unsigned long int col_estatico;
+                unsigned long int col_andando;
+                unsigned long int col_ataque;
 
             public:
 
@@ -352,6 +405,7 @@ namespace ent
 
             protected:
 
+                long int vidas;
                 float dist_perc;
                 float acumulador_dist;
 
@@ -360,6 +414,7 @@ namespace ent
                 Inimigo(const bool pp = true, const float change_time = 0.4f, const string c = "");
                 ~Inimigo();
 
+                void Damage(long int attack_force);
                 virtual void UpdatePosition() = 0;
             };
 

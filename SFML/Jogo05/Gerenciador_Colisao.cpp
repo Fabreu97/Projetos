@@ -1,5 +1,7 @@
 #include "Gerenciador_Colisao.h"
 
+#define COLLISION_DAMAGE 1lu
+
 using namespace Gerenciador;
 
 Gerenciador_Colisao::Gerenciador_Colisao()
@@ -42,6 +44,15 @@ const bool Gerenciador_Colisao::ChecarColisaoJogadorObstaculo(ent::per::jog::Jog
     Vector2D<float> thisHalfSize = referencia->getHalfSize();
     Vector2D<float> otherPosition = colisor->getPosition();
     Vector2D<float> otherHalfSize = colisor->getHalfSize();
+
+    if(referencia->getFace())
+    {
+        thisPosition.x -= referencia->galho;
+    }
+    else
+    {
+        thisPosition.x += referencia->galho;
+    }
 
     float deltaX = otherPosition.x - thisPosition.x;
     float deltaY = otherPosition.y - thisPosition.y;
@@ -115,6 +126,15 @@ const bool Gerenciador_Colisao::ChecarColisaoJogadorInimigo(ent::per::jog::Jogad
     Vector2D<float> thisHalfSize = referencia->getHalfSize();
     Vector2D<float> otherPosition = colisor->getPosition();
     Vector2D<float> otherHalfSize = colisor->getHalfSize();
+
+    if(referencia->getFace())
+    {
+        thisPosition.x -= referencia->galho;
+    }
+    else
+    {
+        thisPosition.x += referencia->galho;
+    }
 
     float deltaX = otherPosition.x - thisPosition.x;
     float deltaY = otherPosition.y - thisPosition.y;
@@ -332,13 +352,29 @@ const bool Gerenciador_Colisao::ChecarColisaoProjetilInimigo(ent::per::Projetil*
     if(intersectX < 0.0f && intersectY < 0.0f)
     {
         referencia->InitialUpdate();
-        if(deltaX > 0.0f)
+        if(intersectY < intersectX)
         {
-            referencia->Move(intersectX);
+            //COLISAO HORIZONTAL
+            if(deltaX > 0.0f)
+            {
+                referencia->Move(intersectX, 0.0f);
+            }
+            else
+            {
+                referencia->Move(-intersectX, 0.0f);
+            }
         }
         else
         {
-            referencia->Move(-intersectX);
+            //COLISÃO VERTICAL
+            if(deltaY > 0.0f)
+            {
+                referencia->Move(0.0f, intersectY);
+            }
+            else
+            {
+                referencia->Move(0.0f, -intersectY);
+            }
         }
         referencia->UpdatePosition();
         return(true);
@@ -387,19 +423,24 @@ void Gerenciador_Colisao::ChecarColisoesJogadoresInimigosProjeteis()
             ptr1->setDirecao(0.0f, 0.0f);
             for(i = 0lu; i < VInimigo->getSize(); i++)
             {
-                ent::per::ini::Inimigo* aux1 = VInimigo->getInimigo(i);
+                ent::per::ini::Inimigo* ini01 = VInimigo->getInimigo(i);
                 for(j = 0lu; j < ptr1->getSizeListaProjetil(); j++)
                 {
                     ent::per::Projetil* pro1 = ptr1->getProjetil(j);
-                    if(ChecarColisaoProjetilInimigo(pro1, aux1))
+                    if(ChecarColisaoProjetilInimigo(pro1, ini01))
                     {
                         pro1->setColisao(true);
-                        aux1->setDano(true);
+                        ini01->setDano(true);
+                        ini01->Damage(pro1->attackForce());
                     }
                 }
-                if(ChecarColisaoJogadorInimigo(ptr1, aux1))
+                ptr1->setDano(false);
+                if(ChecarColisaoJogadorInimigo(ptr1, ini01))
                 {
-
+                    if(ptr1->getDano())
+                    {
+                        ptr1->Damage(COLLISION_DAMAGE);
+                    }
                 }
             }
         }
@@ -410,17 +451,17 @@ void Gerenciador_Colisao::ChecarColisoesJogadoresInimigosProjeteis()
             ptr2->setDirecao(0.0f, 0.0f);
             for(i = 0lu; i < VInimigo->getSize(); i++)
             {
-                ent::per::ini::Inimigo* aux2 = VInimigo->getInimigo(i);
+                ent::per::ini::Inimigo* ini02 = VInimigo->getInimigo(i);
                 for(j = 0lu; j < ptr2->getSizeListaProjetil(); j++)
                 {
                     ent::per::Projetil* pro2 = ptr2->getProjetil(j);
-                    if(ChecarColisaoProjetilInimigo(pro2, aux2))
+                    if(ChecarColisaoProjetilInimigo(pro2, ini02))
                     {
                         pro2->setColisao(true);
-                        aux2->setDano(true);
+                        ini02->setDano(true);
                     }
                 }
-                if(ChecarColisaoJogadorInimigo(ptr2, aux2))
+                if(ChecarColisaoJogadorInimigo(ptr2, ini02))
                 {
 
                 }
