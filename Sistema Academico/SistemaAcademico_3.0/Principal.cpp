@@ -319,7 +319,7 @@ void Principal::Menu()
         cout << "3 - Gravar............................." << endl;
         cout << "4 - Recuperar.........................." << endl;
         cout << "5 - Sair..............................." << endl << endl;
-        cout << "Quantidade de instancias da classe MinhaString: " << ConjuntoString::MinhaString::get_Cont() << endl;
+        cout << "Quantidade de instancias da classe MinhaString: " << MinhaString::getCont() << endl;
         cout << "Quantidade de instancias da classe Pessoa: " << Pessoa::get_Cont() << endl << endl;
         cout << "Informe uma opcao: ";
         cin >> op;

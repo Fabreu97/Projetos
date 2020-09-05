@@ -3,196 +3,281 @@
 
 #include <stdio.h>
 
-//fazer o iterator e o metodo find
+//fazer o iterator e o método find
 
-template <class TIPO>
-class Lista
+template <class TL>
+class List
 {
 private:
-
-    class Elemento
+    template<class TE>
+    class Element
     {
+    private:
+        TE* data;
+        Element<TE>* next;
+        Element<TE>* prev;
+
     public:
+        Element();
+        ~Element();
 
-        TIPO* ptr_info;
-        Elemento* ptr_prox;
-        Elemento* ptr_anterior;
-    public:
-
-        Elemento();
-        ~Elemento();
-
-        void set_Proximo(Elemento* pp);
-        void set_Anterior(Elemento* pa);
-
-        void set_Info(TIPO* t);
-        TIPO* get_Info() const;
+        void setNext(Element<TE>* pn);
+        Element<TE>* getNext() const;
+        void setPrev(Element<TE>* pp);
+        Element<TE>* getPrev() const;
+        void setData(TL* d);
+        TE* getData() const;
     };
 
-    unsigned long int tam;
-    Elemento* ptr_primeiro;
-    Elemento* ptr_atual;
+    unsigned long int s; //size
+    Element<TL>* first;
+    Element<TL>* last;
 
 public:
+    class iterator_t
+    {
+    private:
+        Element<TL>* element;
 
-    Lista();
-    ~Lista();
+    public:
+        iterator_t(Element<TL>* start = NULL);
+        ~iterator_t();
 
-    void inicializar();
-    void limpar();
-    const unsigned long int get_Tamanho() const;
+        Element<TL>* getElement() const;
+        TL* operator*();
+        void operator++();
+        void operator=(const iterator_t& i);
+        void operator=( Element<TL>* i);
+        const bool operator==(const iterator_t& i) const;
+        const bool operator!= (const iterator_t& i) const;
+    };
 
-    const bool inserir(TIPO* t);
-    //bool incluir_Info(TIPO& t);
-    TIPO* get_Info(const unsigned long int indice) const;
-    void eliminar_Info(const unsigned long int indice); //  REVIEW
+    List();
+    ~List();
+
+    void initializing(); //inicializando
+    void clearList();
+    const unsigned long int getSize() const;
+    const bool insertList(TL* d);
+    TL* getData(const unsigned long int indice) const;
+    void deleteData(const unsigned long int indice); //  REVIEW
+    void deleteData(TL* type); //  REVIEW
+
+    Element<TL>* Begin();
+    Element<TL>* End();
+
+    TL* operator[](const unsigned long int i);
 };
 
-///........................Métodos do Elemento........................
+///........................Métodos do Element........................
 
-template<class TIPO>
-Lista<TIPO>::Elemento::Elemento()
+template<class TL>
+template<class TE>
+List<TL>::Element<TE>::Element()
 {
-    ptr_anterior = NULL;
-    ptr_prox = NULL;
-    ptr_info = NULL;
+    prev = NULL;
+    next = NULL;
+    data = NULL;
 }
 
-template<class TIPO>
-Lista<TIPO>::Elemento::~Elemento()
+template<class TL>
+template<class TE>
+List<TL>::Element<TE>::~Element()
 {
-    ptr_anterior = NULL;
-    ptr_prox = NULL;
-    ptr_info = NULL;
+    prev = NULL;
+    next = NULL;
+    data = NULL;
 }
 
-template<class TIPO>
-void Lista<TIPO>::Elemento::set_Proximo(Elemento* pp)
+template<class TL>
+template<class TE>
+void List<TL>::Element<TE>::setNext(Element* pn)
 {
-    ptr_prox = pp;
+    next = pn;
 }
 
-template<class TIPO>
-void Lista<TIPO>::Elemento::set_Anterior(Elemento* pa)
+template<class TL>
+template<class TE>
+List<TL>::Element<TE>* List<TL>::Element<TE>::getNext() const
 {
-    ptr_anterior = pa;
+    return(next);
 }
 
-template<class TIPO>
-void Lista<TIPO>::Elemento::set_Info(TIPO* t)
+template<class TL>
+template<class TE>
+void List<TL>::Element<TE>::setPrev(Element* pp)
 {
-    ptr_info = t;
+    prev = pp;
 }
 
-template<class TIPO>
-TIPO* Lista<TIPO>::Elemento::get_Info() const
+template<class TL>
+template<class TE>
+List<TL>::Element<TE>* List<TL>::Element<TE>::getPrev() const
 {
-    return(ptr_info);
+    return(prev);
 }
 
-///....................Métodos da Lista Template.......................
-
-template<class TIPO>
-Lista<TIPO>::Lista():
-    tam(0)
+template<class TL>
+template<class TE>
+void List<TL>::Element<TE>::setData(TL* d)
 {
-    inicializar();
+    data = d;
 }
 
-template<class TIPO>
-Lista<TIPO>::~Lista()
+template<class TL>
+template<class TE>
+TE* List<TL>::Element<TE>::getData() const
 {
-    limpar();
+    return(data);
 }
 
-template<class TIPO>
-void Lista<TIPO>::inicializar()
+///....................MÉTODOS DO ITERATOR DA LIST....................
+
+template<class TL>
+List<TL>::iterator_t::iterator_t(List<TL>::Element<TL>* start)
 {
-    ptr_atual = NULL;
-    ptr_primeiro = NULL;
+    element = start;
 }
 
-template<class TIPO>
-void Lista<TIPO>::limpar()
+template<class TL>
+List<TL>::iterator_t::~iterator_t()
 {
-    Elemento* aux = ptr_primeiro;
+    element = NULL;
+}
+
+template<class TL>
+List<TL>::Element<TL>* List<TL>::iterator_t::getElement() const
+{
+    return(element);
+}
+
+template<class TL>
+TL* List<TL>::iterator_t::operator*()
+{
+    return(element->getData());
+}
+
+template<class TL>
+void List<TL>::iterator_t::operator++()
+{
+    if(element != NULL)
+    {
+        element = element->getNext();
+    }
+}
+
+template<class TL>
+void List<TL>::iterator_t::operator=(const List<TL>::iterator_t& i)
+{
+    element = i.getElement();
+}
+
+template<class TL>
+void List<TL>::iterator_t::operator=(Element<TL>* i)
+{
+    element = i;
+}
+
+template<class TL>
+const bool List<TL>::iterator_t::operator==(const List<TL>::iterator_t& i) const
+{
+    if(element == i.getElement())
+    {
+        return(true);
+    }
+    return(false);
+}
+
+template<class TL>
+const bool List<TL>::iterator_t::operator!=(const List<TL>::iterator_t& i) const
+{
+    if(*this == i)
+    {
+        return(false);
+    }
+    return(true);
+}
+
+///....................Métodos da List Template.......................
+
+template<class TL>
+List<TL>::List():
+    s(0)
+{
+    initializing();
+}
+
+template<class TL>
+List<TL>::~List()
+{
+    clearList();
+}
+
+template<class TL>
+void List<TL>::initializing()
+{
+    last = NULL;
+    first = NULL;
+}
+
+template<class TL>
+void List<TL>::clearList()
+{
+    Element<TL>* aux = first;
 
     while(aux != NULL)
     {
-        ptr_primeiro = ptr_primeiro->ptr_prox;
+        first = first->getNext();
         delete(aux);
-        tam--;
-        aux = ptr_primeiro;
+        s--;
+        aux = first;
     }
-    inicializar();
+    initializing();
 }
 
-template <class TIPO>
-const unsigned long int Lista<TIPO>::get_Tamanho() const
+template <class TL>
+const unsigned long int List<TL>::getSize() const
 {
-    return(tam);
+    return(s);
 }
 
-template<class TIPO>
-const bool Lista<TIPO>::inserir(TIPO* t)
+template<class TL>
+const bool List<TL>::insertList(TL* d)
 {
-    if(t != NULL)
+    if(d != NULL)
     {
-        Elemento* aux = new Elemento();
-        aux->set_Info(t);
-        tam++;
-        if(ptr_primeiro == NULL)
+        Element<TL>* aux = new Element<TL>();
+        aux->setData(d);
+        s++;
+        if(first == NULL)
         {
-            ptr_primeiro = aux;
-            ptr_atual = aux;
+            first = aux;
+            last = aux;
         }
         else
         {
-            ptr_atual->set_Proximo(aux);
-            aux->set_Anterior(ptr_atual);
-            ptr_atual = aux;
+            last->setNext(aux);
+            aux->setPrev(last);
+            last = aux;
         }
         return(true);
     }
     return(false);
 }
 
-/*
-template<class TIPO>
-bool Lista<TIPO>::incluir_Info(TIPO& t)
-{
-    Elemento* aux = new Elemento();
-    aux->set_Info(&t);
-    tam++;
-    if(ptr_primeiro == NULL)
-    {
-        ptr_primeiro = aux;
-        ptr_atual = aux;
-        return(true);
-    }
-    else
-    {
-        ptr_atual->set_Proximo(aux);
-        aux->set_Anterior(ptr_atual);
-        ptr_atual = aux;
-        return(true);
-    }
-}
-*/
-
-template<class TIPO>
-TIPO* Lista<TIPO>::get_Info(const unsigned long int indice) const
+template<class TL>
+TL* List<TL>::getData(const unsigned long int indice) const
 {
     unsigned long int i;
 
-    if(tam > indice)
+    if(s > indice)
     {
-        Elemento* aux = ptr_primeiro;
+        Element<TL>* aux = first;
         for(i = 0lu; i < indice; i++)
         {
-            aux = aux->ptr_prox;
+            aux = aux->getNext();
         }
-        return(aux->get_Info());
+        return(aux->getData());
     }
 
     return(NULL);
@@ -200,20 +285,20 @@ TIPO* Lista<TIPO>::get_Info(const unsigned long int indice) const
 
 
 
-template<class TIPO>//...............TO REVIEW...............
-void Lista<TIPO>::eliminar_Info(const unsigned long int indice)
+template<class TL>//...............TO REVIEW...............
+void List<TL>::deleteData(const unsigned long int indice)
 {
-    Elemento* aux1 = NULL;
-    Elemento* aux2 = NULL;
+    Element<TL>* aux1 = NULL;
+    Element<TL>* aux2 = NULL;
 
-    aux2 = ptr_primeiro;
+    aux2 = first;
 
-    unsigned long int i = 0;
+    unsigned long int i = 0lu;
 
     while(aux2 != NULL && i != indice)
     {
         aux1 = aux2;
-        aux2 = aux2->ptr_prox;
+        aux2 = aux2->getNext();
         i++;
     }
 
@@ -222,27 +307,84 @@ void Lista<TIPO>::eliminar_Info(const unsigned long int indice)
     {
         if(indice == 0)
         {
-            ptr_primeiro = aux2->ptr_prox;
+            first = aux2->getNext();
             delete(aux2);
-            tam--;
+            s--;
         }
     }
     else if(aux2 != NULL)
     {
-        aux1->set_Proximo(aux2->ptr_prox);
-        if(aux2->ptr_prox != NULL)
+        aux1->setNext(aux2->getNext());
+        if(aux2->getNext() != NULL)
         {
-            aux2->ptr_prox->set_Anterior(aux1);
+            aux2->getNext()->setPrev(aux1);
         }
         else
         {
-            ptr_atual = aux1;
+            last = aux1;
         }
-        aux2->set_Anterior(NULL);
-        aux2->set_Proximo(NULL);
+        aux2->setPrev(NULL);
+        aux2->setNext(NULL);
         delete(aux2);
-        tam--;
+        s--;
     }
+}
+
+template<class TL>
+void List<TL>::deleteData(TL* type)
+{
+    Element<TL>* aux1 = NULL;
+    Element<TL>* aux2 = first;
+    while(aux2 != NULL && *type != *(aux2->getData()) )
+    {
+        aux1 = aux2;
+        aux2 = aux2->getNext();
+    }
+    if(aux1 == NULL)
+    {
+        if(*type == *(aux2->getData()) )
+        {
+            first = aux2->getNext();
+            delete(aux2->getData());
+            delete(aux2);
+            s--;
+        }
+    }
+    else if(aux2 != NULL)
+    {
+        aux1->setNext(aux2->getNext());
+        if(aux2->getNext() != NULL)
+        {
+            aux2->getNext()->setPrev(aux1);
+        }
+        else
+        {
+            last = aux1;
+        }
+        aux2->setPrev(NULL);
+        aux2->setNext(NULL);
+        delete(aux2->getData());
+        delete(aux2);
+        s--;
+    }
+}
+
+template<class TL>
+List<TL>::Element<TL>* List<TL>::Begin()
+{
+    return(first);
+}
+
+template <class TL>
+List<TL>::Element<TL>* List<TL>::End()
+{
+    return(NULL);
+}
+
+template<class TL>
+TL* List<TL>::operator[](const unsigned long int i)
+{
+    return(this->getData(i));
 }
 
 #endif // INCLUDED_LISTA_TEMPLATE

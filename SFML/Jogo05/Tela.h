@@ -52,7 +52,7 @@ namespace ent
 
             public:
 
-                Fase(const string c = "");
+                Fase(const unsigned long int number_of_players = 1lu, const string c = "");
                 ~Fase();
 
                 void setJogador(ent::per::jog::Jogador01* p1);
@@ -75,7 +75,6 @@ namespace ent
                 void Draw(const Vector2D<float> pos1, const Vector2D<float> pos2);
 
                 ///METODOS DE VECTOR INIMIGO
-
                 void adicionarInimigo01(const Vector2D<float> position);
                 void adicionarInimigo01(const float x, const float y);
                 void ChecarColisoesEntreInimigosObstaculos();
@@ -109,9 +108,8 @@ namespace ent
 
 
             public:
-                Fase01(const string c = "");
+                Fase01(const unsigned long int number_of_players = 1lu, const string c = "");
                 ~Fase01();
-
             };
 
             class Fase02:
@@ -121,7 +119,7 @@ namespace ent
 
 
             public:
-                Fase02(const string c = "");
+                Fase02(const unsigned long int number_of_players = 1lu, const string c = "");
                 ~Fase02();
 
             };
@@ -133,7 +131,7 @@ namespace ent
 
 
             public:
-                Fase03(const string c = "");
+                Fase03(const unsigned long int number_of_players = 1lu, const string c = "");
                 ~Fase03();
 
             };
@@ -148,6 +146,7 @@ namespace ent
 
                 string chave;
                 bool click;
+                bool ativo;
 
             public:
 
@@ -167,22 +166,36 @@ namespace ent
                 void Draw();
             };
 
-            class Jogar:
+            class Game01:
                 public Botao
             {
             public:
-                Jogar(const string a = "Texture/Botoes/Play.png");
-                ~Jogar();
-
+                Game01(const string a = "Texture/Botoes/Player012.png");
+                ~Game01();
             };
 
-            class Sair:
+            class Game02:
                 public Botao
             {
             public:
+                Game02(const string a = "Texture/Botoes/Player022.png");
+                ~Game02();
+            };
 
-                Sair(const string a = "Texture/Botoes/Sair.png");
-                ~Sair();
+            class Option:
+                public Botao
+            {
+            public:
+                Option(const string a = "Texture/Botoes/Option2.png");
+                ~Option();
+            };
+
+            class Exit:
+                public Botao
+            {
+            public:
+                Exit(const string a = "Texture/Botoes/Exit2.png");
+                ~Exit();
             };
 
             class GerenciadorBotao
@@ -224,8 +237,11 @@ namespace ent
             {
             private:
 
-                ent::tela::menu::Jogar* play;
-                ent::tela::menu::Sair* s;
+                unsigned long int number_of_players;
+                ent::tela::menu::Game01* play1;
+                ent::tela::menu::Game02* play2;
+                ent::tela::menu::Option* option;
+                ent::tela::menu::Exit* exit;
 
 
             public:

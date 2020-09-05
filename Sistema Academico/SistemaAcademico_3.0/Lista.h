@@ -27,7 +27,7 @@ private:
         TIPO* get_Info() const;
     };
 
-    int tam;
+    long int tam;
     Elemento* ptr_primeiro;
     Elemento* ptr_atual;
 
@@ -38,11 +38,11 @@ public:
 
     void inicializar();
     void limpar();
-    const int get_Tamanho() const;
+    const long int get_Tamanho() const;
 
     bool incluir_Info(TIPO* t);
     TIPO* get_Info(const int indice) const;
-    void eliminar_Info(int indice);
+    void eliminar_Info(int indice); //TO REVIEW
 };
 
 ///........................Métodos do Elemento........................
@@ -125,7 +125,7 @@ void Lista<TIPO>::limpar()
 }
 
 template <class TIPO>
-const int Lista<TIPO>::get_Tamanho() const
+const long int Lista<TIPO>::get_Tamanho() const
 {
     return(tam);
 }
@@ -172,7 +172,7 @@ TIPO* Lista<TIPO>::get_Info(const int indice) const
     return(NULL);
 }
 
-///...............TO DO...............
+///...............TO REVIEW...............
 
 template<class TIPO>
 void Lista<TIPO>::eliminar_Info(int indice)

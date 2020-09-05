@@ -66,7 +66,7 @@ namespace Gerenciador
         sf::Clock clock; // Relógio
 
         int numero_de_jogadores;
-
+        float swy;
         static float delta_time; //Tempo
 
         sf::RectangleShape* ptrR;
@@ -113,6 +113,8 @@ namespace Gerenciador
         void setFramerateLimit(const unsigned long int vel); //colocar a velocidade por frame(1s / time = tempo do loop) RECOMENDAVEL POR VOLTA DE 100 A 60
         void setFramerateLimitTime(const float time);
         const Vector2D<float> getPositionWindow() const;
+        float WindowRation();
+        const Vector2D<float> getSizeWindow() const;
 
         //Ooerações com Janela BR
         bool janela_Aberta(); //Window.isOpen()
@@ -366,6 +368,7 @@ namespace Gerenciador
         Vector2D<float> getPositionButton(const string key);
         Vector2D<float> getSizeButton(const string key);
         void DrawMap(const string key);
+        void DrawMapBotao(const string key, const bool active);
     };
 }
 

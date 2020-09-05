@@ -3,7 +3,6 @@
 
 #include <math.h>
 #include <iostream>
-
 namespace Vector
 {
     template<typename T>
@@ -156,7 +155,6 @@ const Vector::Vector2D<T> Vector::Vector2D<T>::versor() const
     yy = yy/divisor;
     return(Vector::Vector2D<T>(xx, yy));
 }
-
 
 template<typename T>//...............TO DO...............
 const Vector::Vector2D<T> Vector::Vector2D<T>::projecao(const Vector::Vector2D<T>& v) const

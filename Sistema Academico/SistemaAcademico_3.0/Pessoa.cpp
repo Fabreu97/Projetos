@@ -65,12 +65,12 @@ const int Pessoa::get_Idade() const
 
 void Pessoa::set_Nome(const char* n)
 {
-    nome.set_String(n);
+    nome.setString(n);
 }
 
 const char* Pessoa::get_Nome() const
 {
-    return(nome.get_String());
+    return(nome.getString());
 }
 
 int Pessoa::get_Cont()
@@ -80,7 +80,7 @@ int Pessoa::get_Cont()
 
 void Pessoa::print_Info()
 {
-    if(nome.get_String() != NULL)
+    if(nome.getString() != NULL)
     {
         cout << "A pessoa " << get_Nome() <<  " teria " << get_Idade() << " anos" << endl;
     }
@@ -92,7 +92,7 @@ void Pessoa::print_Info()
 
 void Pessoa::informa_Proventos() const
 {
-    cout << "Nenhuma informacao sobre proventos de " << nome.get_String() << "." <<endl;
+    cout << "Nenhuma informacao sobre proventos de " << nome.getString() << "." <<endl;
 }
 
 

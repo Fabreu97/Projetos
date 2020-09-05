@@ -520,7 +520,7 @@ void ent::per::Projetil::Move(const float x, const float y)
     control->moveProjetil(x,y);
 }
 
-inline bool ent::per::Projetil::operator ==(const ent::per::Projetil& p) const
+const bool ent::per::Projetil::operator ==(const ent::per::Projetil& p) const
 {
     if(pos.x == p.getPosition().x)
     {
@@ -529,8 +529,16 @@ inline bool ent::per::Projetil::operator ==(const ent::per::Projetil& p) const
             return(true);
         }
     }
-
     return (false);
+}
+
+const bool ent::per::Projetil::operator != (const ent::per::Projetil& p) const
+{
+    if(*this == p)
+    {
+        return(false);
+    }
+    return(true);
 }
 
 inline void ent::per::Projetil::operator=(const ent::per::Projetil& p)
@@ -630,12 +638,12 @@ const float ent::per::jog::Jogador::getAlturaSalto() const
 
 ent::per::Projetil* ent::per::jog::Jogador::getProjetil(const unsigned long int indice) const
 {
-    return(FilaProjetil.get_Info(indice));
+    return(FilaProjetil.getData(indice));
 }
 
 const unsigned long int ent::per::jog::Jogador::getSizeListaProjetil() const
 {
-    return(FilaProjetil.get_Tamanho());
+    return(FilaProjetil.getSize());
 }
 
 ///IMPLEMENTACOES DA CLASSE JOGADOR01
@@ -668,12 +676,12 @@ ent::per::jog::Jogador01::Jogador01(const float height_jumper, const float acele
     }
 ent::per::jog::Jogador01::~Jogador01()
 {
-    while(FilaProjetil.get_Tamanho() != 0lu)
+    while(FilaProjetil.getSize() != 0lu)
     {
-        ent::per::Projetil* aux = FilaProjetil.get_Info(0);
+        ent::per::Projetil* aux = FilaProjetil.getData(0);
         delete(aux);
         aux = NULL;
-        FilaProjetil.eliminar_Info(0lu);
+        FilaProjetil.deleteData(0lu);
     }
 }
 
@@ -755,7 +763,7 @@ void ent::per::jog::Jogador01::UpdateAnimacao()
         imagem_atual.y = lestatico;
     }
 
-    //TESTE PARA AJEITAR QUNADO TROCA A LINHA DE ANIMAÇÃO OU A FACE DO JOGADOR01
+    //TESTE PARA AJEITAR QUANDO TROCA A LINHA DE ANIMAÇÃO OU A FACE DO JOGADOR01
 
     if(face_certa != flag1)
     {
@@ -902,10 +910,10 @@ void ent::per::jog::Jogador01::DispararProjetil()
 {
     if(control->isP_ALT())
     {
-        if( (FilaProjetil.get_Tamanho() < cont_projetil) && (tempo_entre_disparo < time_projetil) && !animacao_disparo)
+        if( (FilaProjetil.getSize() < cont_projetil) && (tempo_entre_disparo < time_projetil) && !animacao_disparo)
         {
             animacao_disparo = true;
-            ent::per::Projetil* aux = new ent::per::Projetil();
+            ent::per::Projetil* aux = new ent::per::Projetil(1l);
             aux->setSizeTexture(20.0f, 20.0f);
             aux->setSize(20.0f, 20.0f);
             if(face_certa)
@@ -923,7 +931,7 @@ void ent::per::jog::Jogador01::DispararProjetil()
             aux->setContImage(7,1);
             aux->setTempoCiclo(TEMPO_CICLO_PROJETIL);
             aux->InitialUpdate();
-            FilaProjetil.inserir(aux);
+            FilaProjetil.insertList(aux);
             time_projetil = 0.0f;
         }
     }
@@ -931,23 +939,18 @@ void ent::per::jog::Jogador01::DispararProjetil()
 
 void ent::per::jog::Jogador01::DrawProjetil()
 {
-    unsigned long int i;
-
-    for(i = 0lu; i < FilaProjetil.get_Tamanho(); i++)
+    List<ent::per::Projetil>::iterator_t it;
+    for(it = FilaProjetil.Begin(); it != FilaProjetil.End(); ++it)
     {
-        ent::per::Projetil* aux = FilaProjetil.get_Info(i);
-
-        if( aux->getLife() )
+        if((*it)->getLife())
         {
-            aux->Update();
-            aux->Draw();
+            (*it)->Update();
+            (*it)->Draw();
         }
         else
         {
-            delete(aux);
-            aux = NULL;
-            FilaProjetil.eliminar_Info(i);
-            i = 0;
+            FilaProjetil.deleteData(*it);
+            it = FilaProjetil.Begin();
         }
     }
 }
@@ -1133,7 +1136,11 @@ ent::per::ini::Inimigo::~Inimigo()
 
 void ent::per::ini::Inimigo::Damage(long int attack_force)
 {
-    vidas -= attack_force;
+    if(!animacao_dano && dano)
+    {
+        vidas -= attack_force;
+        animacao_dano = true;
+    }
 }
 
 ///IMPLEMENTACOES DA CLASSE INIMIGO01
@@ -1143,6 +1150,7 @@ ent::per::ini::Inimigo01::Inimigo01(const bool pp, const float change_time, cons
     {
         id = IDINI01;
         velocidade.x = VELINI01;
+        PreencherLinhas(0lu, 1lu, 2lu, 7lu, 3lu);
     }
 
 ent::per::ini::Inimigo01::~Inimigo01()
@@ -1176,16 +1184,33 @@ void ent::per::ini::Inimigo01::InitialUpdate()
 
 void ent::per::ini::Inimigo01::UpdateMovement()
 {
-    acumulador_dist += control->get_Delta_Time();
-    if(acumulador_dist > dist_perc)
-    {
-        acumulador_dist -= dist_perc;
-        velocidade.x = velocidade.x * (-1.0f);
-    }
+    Vector2D<float> recuo(0.0f, 0.0f);
 
-    if(direcao.x != 0.0f)
+    acumulador_dist += control->get_Delta_Time();
+    if(!dano)
     {
-        velocidade.x *= -1;
+        if(acumulador_dist > dist_perc)
+        {
+            acumulador_dist -= dist_perc;
+            velocidade.x = velocidade.x * (-1.0f);
+        }
+
+        //MÉTODOS DE ONCOLLISON vv
+        if(direcao.x != 0.0f)
+        {
+            velocidade.x *= -1;
+        }
+    }
+    else
+    {
+        if(direcao.x > 0.0f)
+        {
+            recuo.x = +100.0f;
+        }
+        else
+        {
+            recuo.x = -100.0f;
+        }
     }
 
     if(direcao.y > 0.0f)
@@ -1196,35 +1221,78 @@ void ent::per::ini::Inimigo01::UpdateMovement()
     {
         velocidade.y += 981.0f * control->get_Delta_Time();
     }
+    if(!dano)
+    {
+        Move(velocidade * control->get_Delta_Time());
+    }
+    else
+    {
+        Move(recuo * control->get_Delta_Time());
+    }
+    //MÉTODOS DE ONCOLLISON ^^
 }
 
 void ent::per::ini::Inimigo01::UpdateAnimacao()
 {
-    if(velocidade.x != 0.0f)
+
+    //QUAL ANIMAÃO SERA ANIMADA
+    unsigned long int flag1 = imagem_atual.y;
+    if(!animacao_dano)
     {
-        imagem_atual.y = landando;
-        if(velocidade.x > 0.0f)
+        if(velocidade.x != 0.0f)
         {
-            face_certa = true;
+            imagem_atual.y = landando;
+            if(velocidade.x > 0.0f)
+            {
+                face_certa = true;
+            }
+            else
+            {
+                face_certa = false;
+            }
         }
         else
         {
-            face_certa = false;
+            imagem_atual.y = lestatico;
         }
     }
     else
     {
-        imagem_atual.y = lestatico;
+        imagem_atual.y = ldano;
     }
 
+    //VEREFICA SE TROCOU DE ANIMAÇÃO
+
+    if(flag1 != imagem_atual.y)
+    {
+        change_animation = true;
+    }
+    else
+    {
+        change_animation = false;
+    }
+
+    if(change_animation)
+    {
+        imagem_atual.x = 0;
+    }
+
+    //PARTE DA TROCA DE ANIMAÇÃO PELO TEMPO DECORRIDO
     tempo_total += control->get_Delta_Time();
 
     if(tempo_total > tempo_ciclo)
     {
         tempo_total -= tempo_ciclo;
         imagem_atual.x = (imagem_atual.x + 1) % cont_imagem.x;
+        if(!change_animation && imagem_atual.x == 0)
+        {
+            imagem_atual.y = landando;
+            animacao_dano = false;
+            dano = false;
+        }
     }
 
+    //AJEITANDO A TEXTURA PARA O GERENCIADOR GRÁFICO
     width_height.y = control->getTextureSizeInimigo01().y / cont_imagem.y;
     width_height.x = control->getTextureSizeInimigo01().x / cont_imagem.x;
 
@@ -1240,7 +1308,6 @@ void ent::per::ini::Inimigo01::UpdateAnimacao()
         left_top.x = (imagem_atual.x + 1) * abs(width_height.x);
     }
 
-    Move(velocidade * control->get_Delta_Time());
     control->setIntRectInimigo01(width_height.x, width_height.y, left_top.x, left_top.y);
     control->setTextureRectInimigo01();
 }

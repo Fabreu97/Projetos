@@ -14,7 +14,7 @@ protected:
     int mes;
     int ano;
     int idade;
-    ConjuntoString::MinhaString nome;
+    MinhaString nome;
 
     static int cont;
 

@@ -112,3 +112,116 @@
 1589986225 c:\users\fabreu\desktop\projetos\sistema academico\sistemaacademico_3.0\estagiario.h
 	"Aluno.h"
 
+1598992068 source:c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\aluno.cpp
+	"Aluno.h"
+	"Universidade.h"
+
+1589986636 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\aluno.h
+	"ListaPessoa.h"
+
+1589985747 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\listapessoa.h
+	"Pessoa.h"
+
+1599075077 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\pessoa.h
+	"Lista.h"
+
+1598977908 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\lista.h
+	"MinhaString.h"
+
+1599077280 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\minhastring.h
+	<iostream>
+	<string.h>
+	<stdlib.h>
+
+1599075084 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\universidade.h
+	"ListaDepartamento.h"
+
+1589644153 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\listadepartamento.h
+	"Departamento.h"
+
+1599075081 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\departamento.h
+	"ListaDisciplina.h"
+
+1589646532 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\listadisciplina.h
+	"Disciplina.h"
+
+1599074930 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\disciplina.h
+	"ListaAluno.h"
+
+1589646415 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\listaaluno.h
+	"Aluno.h"
+
+1598992093 source:c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\departamento.cpp
+	"Universidade.h"
+	"Departamento.h"
+	<string.h>
+	<stdlib.h>
+	<iostream>
+
+1598992088 source:c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\disciplina.cpp
+	"Disciplina.h"
+	"Departamento.h"
+
+1589986226 source:c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\estagiario.cpp
+	"Estagiario.h"
+
+1589986225 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\estagiario.h
+	"Aluno.h"
+
+1589644193 source:c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\listaaluno.cpp
+	"ListaAluno.h"
+
+1589924224 source:c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\listadepartamento.cpp
+	"ListaDepartamento.h"
+
+1589924260 source:c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\listadisciplina.cpp
+	"ListaDisciplina.h"
+
+1589985816 source:c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\listapessoa.cpp
+	"ListaPessoa.h"
+
+1589910115 source:c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\listaprofessor.cpp
+	"ListaProfessor.h"
+
+1589646450 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\listaprofessor.h
+	"Professor.h"
+
+1589986210 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\professor.h
+	"Universidade.h"
+	"Pessoa.h"
+
+1589645945 source:c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\listauniversidade.cpp
+	"ListaUniversidade.h"
+
+1589644522 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\listauniversidade.h
+	"Universidade.h"
+
+1599076220 source:c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\main.cpp
+	"Principal.h"
+
+1589983081 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\principal.h
+	"ListaUniversidade.h"
+	"ListaProfessor.h"
+	"Estagiario.h"
+
+1598992111 source:c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\pessoa.cpp
+	"Pessoa.h"
+	"Universidade.h"
+
+1599075136 source:c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\principal.cpp
+	"Principal.h"
+	<fstream>
+
+1589986254 source:c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\professor.cpp
+	"Professor.h"
+	"Departamento.h"
+
+1598992148 source:c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\universidade.cpp
+	<string.h>
+	<stdlib.h>
+	<iostream>
+	"Universidade.h"
+
+1599077297 source:c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\minhastring.cpp
+	"MinhaString.h"
+

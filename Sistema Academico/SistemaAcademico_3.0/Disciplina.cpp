@@ -27,12 +27,12 @@ const int Disciplina::get_ID() const
 
 void Disciplina::set_Nome(const char* n)
 {
-    nome.set_String(n);
+    nome.setString(n);
 }
 
 const char* Disciplina::get_Nome() const
 {
-    return(nome.get_String());
+    return(nome.getString());
 }
 
 void Disciplina::set_Departamento(Departamento* d)

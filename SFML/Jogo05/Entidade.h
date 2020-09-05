@@ -15,7 +15,7 @@
 #define IDOBS03 9lu
 
 //JOGADOR
-#define HEIGHTJUMPER 125.0f
+#define HEIGHTJUMPER 100.0f
 #define QTD_VIDAS_JOG 6lu
 #define TAMANHO_DA_TEXTURA_JOGADOR_X 70.3125f
 #define TAMANHO_DA_TEXTURA_JOGADOR_Y 90.0f
@@ -77,9 +77,7 @@
 #define BAU_SIZE_Y 64.0f
 
 #include "Gerenciador_Grafico.h"
-#include <list>
 #include "Lista.h"
-#include <vector>
 
 //CAMINHOS
 #define BARRA_DE_VIDA "Texture/CCC.png"
@@ -287,8 +285,9 @@ namespace ent
             void Move(const Vector2D<float> v);
             void Move(const float x, const float y);
 
-            inline bool operator == (const ent::per::Projetil& p) const;
-            inline void operator=(const ent::per::Projetil& p);
+            const bool operator == (const ent::per::Projetil& p) const;
+            const bool operator != (const ent::per::Projetil& p) const;
+            void operator=(const ent::per::Projetil& p);
         };
 
         namespace jog
@@ -300,7 +299,7 @@ namespace ent
             protected:
 
                 Barra_de_Vida vida;
-                Lista<Projetil> FilaProjetil;
+                List<Projetil> FilaProjetil;
                 float tempo_entre_disparo;
                 float time_projetil;
                 unsigned long int cont_projetil;
@@ -312,7 +311,6 @@ namespace ent
 
                 Jogador(const float height_jumper = 1000.0f, const float aceleracao = 200.0f, const bool pp = false, const float change_time = 0.15f, const string c = "Texture/tux_from_linux.png");
                 ~Jogador();
-
 
                 //MÉTODOS DA CLASSE BARRA_DE_VIDA:
                 void setTempoCicloLife(const float a);
@@ -350,7 +348,7 @@ namespace ent
 
             public:
 
-                Jogador01(const float height_jumper = 500.0f, const float aceleracao = 200.0f, const bool pp = true, const float change_time = 0.15f, const string c = "Texture/tux_from_linux.png");
+                Jogador01(const float height_jumper = HEIGHTJUMPER, const float aceleracao = 200.0f, const bool pp = true, const float change_time = 0.15f, const string c = "Texture/tux_from_linux.png");
                 ~Jogador01();
 
                 void setTexture(const string t);
@@ -378,7 +376,7 @@ namespace ent
             {
             public:
 
-                Jogador02(const float height_jumper = 500.0f, const float aceleracao = 200.0f, const bool pp = true, const float change_time = 0.15f, const string c = "Texture/tux_from_linux.png");
+                Jogador02(const float height_jumper = HEIGHTJUMPER, const float aceleracao = 200.0f, const bool pp = true, const float change_time = 0.15f, const string c = "Texture/tux_from_linux.png");
                 ~Jogador02();
 
                 void setTexture(const string t);
@@ -408,6 +406,7 @@ namespace ent
                 long int vidas;
                 float dist_perc;
                 float acumulador_dist;
+                bool animacao_dano;
 
             public:
 

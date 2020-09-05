@@ -164,7 +164,9 @@ Gerenciador_Grafico::Gerenciador_Grafico(const string nome_do_jogo, const Vector
     window(sf::VideoMode(tam_janela.x, tam_janela.y), nome_do_jogo, sf::Style::Close | sf::Style::Resize),
     view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(static_cast<float>(tam_janela.x), static_cast<float>(tam_janela.y))),
     shape(100.0f)
+
 {
+    swy = (float)tam_janela.y;
     Fase.setSize(static_cast<float>(tam_janela.x), static_cast<float>(tam_janela.y));
 }
 
@@ -238,6 +240,16 @@ void Gerenciador_Grafico::setFramerateLimitTime(const float time)
 const Vector2D<float> Gerenciador_Grafico::getPositionWindow() const
 {
     return(Vector2D<float>(window.getPosition().x, window.getPosition().y));
+}
+
+float Gerenciador_Grafico::WindowRation()
+{
+    return(window.getSize().y / swy);
+}
+
+const Vector2D<float> Gerenciador_Grafico::getSizeWindow() const
+{
+    return( Vector2D<float>(window.getSize().x, window.getSize().y) );
 }
 
 bool Gerenciador_Grafico::janela_Aberta()
@@ -1371,7 +1383,7 @@ void Gerenciador_Grafico::ajustarBotoes(const string key, const unsigned long in
         tamanho_da_janela.y = view.getSize().y / qtd_botoes;
         posicao_da_janela.x = view.getCenter().x;
         posicao_da_janela.y = view.getCenter().y - (view.getSize().y/2) + aux->getSize().y/2;
-        posicao_da_janela.y += indice * (tamanho_da_janela.y/2 + 10.0f);
+        posicao_da_janela.y += indice * aux->getSize().y;
 
         aux->setPosition(posicao_da_janela);
     }
@@ -1408,6 +1420,38 @@ void Gerenciador_Grafico::DrawMap(const string key)
     {
         ptrR = getMap(key)->getBody();
         window.draw(*ptrR);
+    }
+    else
+    {
+        cout << "Error Gerenciador: Comando DrawMap - Chave: " << key << endl;
+    }
+}
+
+void Gerenciador_Grafico::DrawMapBotao(const string key, const bool active)
+{
+    if(ExisteChave(key))
+    {
+        Corpo* aux = getMap(key);
+        //ptrR = aux->getBody();
+        Vector2D<float> left_top;
+        Vector2D<float> width_height;
+        width_height = aux->getTextureSize();
+        width_height.x /= 2.0;
+        left_top.y = 0.0f;
+        if(active)
+        {
+            left_top.x = width_height.x;
+            //left_top.x = 0.0f;
+        }
+        else
+        {
+            left_top.x = 0.0f;
+            //left_top.x = width_height.x;
+        }
+
+        aux->setIntRect( width_height.x, width_height.y, left_top.x, left_top.y);
+        aux->setTextureRect();
+        window.draw(*(aux->getBody()));
     }
     else
     {

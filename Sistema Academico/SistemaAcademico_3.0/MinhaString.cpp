@@ -1,11 +1,9 @@
 #include "MinhaString.h"
 
-using namespace ms;
+const char ms::MinhaString::nomeclasse[12] = "MinhaString";
+int ms::MinhaString::cont = 0;
 
-const char ConjuntoString::MinhaString::nomeclasse[12] = "MinhaString";
-int ConjuntoString::MinhaString::cont = 0;
-
-ConjuntoString::MinhaString::MinhaString(const char* n):
+ms::MinhaString::MinhaString(const char* n):
     tam(strlen(n))
 {
     cont++;
@@ -13,14 +11,14 @@ ConjuntoString::MinhaString::MinhaString(const char* n):
     strcpy(pstring, n);
 }
 
-ConjuntoString::MinhaString::~MinhaString()
+ms::MinhaString::~MinhaString()
 {
     cont--;
     delete []pstring;
     pstring = NULL;
 }
 
-void ConjuntoString::MinhaString::set_String(const char* n)
+void ms::MinhaString::setString(const char* n)
 {
     delete []pstring;
     tam = strlen(n);
@@ -28,25 +26,30 @@ void ConjuntoString::MinhaString::set_String(const char* n)
     strcpy(pstring, n);
 }
 
-const char* ConjuntoString::MinhaString::get_String() const
+const char* ms::MinhaString::getString() const
 {
     return(pstring);
 }
 
-void ConjuntoString::MinhaString::operator=(const char* s)
+const size_t ms::MinhaString::getSize() const
 {
-    set_String(s);
+    return(tam);
 }
 
-void ConjuntoString::MinhaString::operator=(MinhaString ms)
+void ms::MinhaString::operator=(const char* s)
 {
-    operator=(ms.get_String());
+    setString(s);
 }
 
-bool ConjuntoString::MinhaString::operator==(MinhaString& ms)
+void ms::MinhaString::operator=(const MinhaString& ms)
+{
+    operator=(ms.getString());
+}
+
+const bool ms::MinhaString::operator==(const ms::MinhaString& ms) const
 {
 
-    if( 0 == strcmp(pstring, ms.get_String()) )
+    if( 0 == strcmp(pstring, ms.getString()) )
     {
         return(true);
     }
@@ -56,42 +59,58 @@ bool ConjuntoString::MinhaString::operator==(MinhaString& ms)
     }
 }
 
-bool ConjuntoString::MinhaString::operator!=(MinhaString& ms)
+const bool ms::MinhaString::operator!=(const ms::MinhaString& ms) const
 {
     return(!(operator==(ms)));
 }
 
-ConjuntoString::MinhaString ConjuntoString::MinhaString::operator+(MinhaString& a)
+const ms::MinhaString ms::operator+(const ms::MinhaString& l, const ms::MinhaString& r)
 {
-    int tam = strlen(pstring) + strlen(a.get_String()) + 1;
+    size_t tam = l.getSize() + r.getSize() + 1;
     char aux[tam];
-    strcpy(aux, pstring);
-    strcat(aux, a.pstring);
+    strcpy(aux, l.getString());
+    strcat(aux, r.getString());
     return(MinhaString(aux));
 }
 
-const char* ConjuntoString::MinhaString::get_Nome_Classe()
+const ms::MinhaString ms::operator+(const char* l, const ms::MinhaString& r)
+{
+    size_t tam = strlen(l) + r.getSize() + 1;
+    char aux[tam];
+    strcpy(aux, l);
+    strcat(aux, r.getString());
+    return(ms::MinhaString(aux));
+}
+
+const ms::MinhaString ms::operator+(const ms::MinhaString& l, const char* r)
+{
+    size_t tam = l.getSize() + strlen(r) + 1;
+    char aux[tam];
+    strcpy(aux, l.getString());
+    strcat(aux, r);
+    return(ms::MinhaString(aux));
+}
+
+const char* ms::MinhaString::getNomeClasse()
 {
     return(nomeclasse);
 }
 
-int ConjuntoString::MinhaString::get_Cont()
+int ms::MinhaString::getCont()
 {
     return(cont);
 }
 
-///Métodos que não são membros da classe ms::ConjuntoString::MinhaString
-
-ostream& operator<<(ostream& saida, ConjuntoString::MinhaString& ms)
+ostream& operator<<(ostream& saida, ms::MinhaString& ms)
 {
-    saida << ms.get_String();
+    saida << ms.getString();
     return saida; // possibilita encadeamento
 }
 
-istream& operator>>(istream& entrada, ConjuntoString::MinhaString& ms)
+istream& operator>>(istream& entrada, ms::MinhaString& ms)
 {
     char aux[300];
     entrada >> aux;
-    ms.set_String(aux);
+    ms.setString(aux);
     return entrada;
 }

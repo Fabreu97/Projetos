@@ -3,9 +3,7 @@
 
 #include <list>
 #include <queue>
-#include <stack>
-#include <deque>
-#include <iterator>
+#include <vector>
 #include <algorithm>
 #include "Entidade.h" // contem Entidade
 
@@ -56,7 +54,7 @@ namespace Listas
     {
     private:
 
-        Lista<ent::obs::Obstaculo> lista;
+        List<ent::obs::Obstaculo> lista;
 
     public:
 

@@ -8,41 +8,40 @@
 using namespace std;
 namespace ms
 {
-    class ConjuntoString
+    class MinhaString
     {
+    private:
+
+        char* pstring;
+        size_t tam;
+
+        static const char nomeclasse[12];
+        static int cont;
+
     public:
+        MinhaString(const char* n = "");
+        ~MinhaString();
 
-        class MinhaString
-        {
-        private:
+        void setString(const char* n);
+        const char* getString() const;
 
-            char* pstring;
-            int tam;
+        const size_t getSize() const;
 
-            static const char nomeclasse[12];
-            static int cont;
+        //Sobrecarga de Operadores
+        void operator = (const char* s);
+        void operator = (const MinhaString& ms);
+        const bool operator == (const MinhaString& ms) const;
+        const bool operator != (const MinhaString& ms) const;
 
-        public:
-            MinhaString(const char* n = "");
-            ~MinhaString();
-
-            void set_String(const char* n);
-            const char* get_String() const;
-
-            //Sobrecarga de Operadores
-            void operator = (const char* s);
-            void operator = (MinhaString ms);
-            bool operator == (MinhaString& ms);
-            bool operator != (MinhaString& ms);
-            MinhaString operator + (MinhaString& a);
-
-            static const char* get_Nome_Classe();
-            static int get_Cont();
-        };
+        static const char* getNomeClasse();
+        static int getCont();
     };
+    const MinhaString operator+(const MinhaString& l, const MinhaString& r);
+    const MinhaString operator+(const char* l, const MinhaString& r);
+    const MinhaString operator+(const MinhaString& l, const char* r);
 }
 
-ostream& operator<<(ostream& saida, ms::ConjuntoString::MinhaString& ms);
-istream& operator>>(istream& entrada, ms::ConjuntoString::MinhaString& ms);
+ostream& operator<<(ostream& saida, ms::MinhaString& ms);
+istream& operator>>(istream& entrada, ms::MinhaString& ms);
 
 #endif // INCLUDED_MINHA_STRING_H

@@ -10,7 +10,7 @@ class Departamento
 private:
 
     int ID;
-    ConjuntoString::MinhaString nome;
+    MinhaString nome;
 
     Universidade* ptr_filiar;
     ListaDisciplina LDisciplina;

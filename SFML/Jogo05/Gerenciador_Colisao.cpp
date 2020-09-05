@@ -358,10 +358,12 @@ const bool Gerenciador_Colisao::ChecarColisaoProjetilInimigo(ent::per::Projetil*
             if(deltaX > 0.0f)
             {
                 referencia->Move(intersectX, 0.0f);
+                colisor->setDirecao(-1.0f, 0.0f);
             }
             else
             {
                 referencia->Move(-intersectX, 0.0f);
+                colisor->setDirecao(1.0f, 0.0f);
             }
         }
         else
@@ -414,6 +416,7 @@ const bool Gerenciador_Colisao::ChecarColisaoProjetilObstaculo(ent::per::Projeti
 
 void Gerenciador_Colisao::ChecarColisoesJogadoresInimigosProjeteis()
 {
+    bool flag = true;
     if(VInimigo != NULL)
     {
         if(ptr1 != NULL)
@@ -421,9 +424,11 @@ void Gerenciador_Colisao::ChecarColisoesJogadoresInimigosProjeteis()
             unsigned long int i;
             unsigned long int j;
             ptr1->setDirecao(0.0f, 0.0f);
+            flag = false;
             for(i = 0lu; i < VInimigo->getSize(); i++)
             {
                 ent::per::ini::Inimigo* ini01 = VInimigo->getInimigo(i);
+                ini01->setDirecao(0.0f, 0.0f);
                 for(j = 0lu; j < ptr1->getSizeListaProjetil(); j++)
                 {
                     ent::per::Projetil* pro1 = ptr1->getProjetil(j);
@@ -452,6 +457,10 @@ void Gerenciador_Colisao::ChecarColisoesJogadoresInimigosProjeteis()
             for(i = 0lu; i < VInimigo->getSize(); i++)
             {
                 ent::per::ini::Inimigo* ini02 = VInimigo->getInimigo(i);
+                if(flag)
+                {
+                    ini02->setDirecao(0.0f, 0.0f);
+                }
                 for(j = 0lu; j < ptr2->getSizeListaProjetil(); j++)
                 {
                     ent::per::Projetil* pro2 = ptr2->getProjetil(j);

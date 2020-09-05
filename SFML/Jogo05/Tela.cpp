@@ -20,7 +20,7 @@ void ent::tela::EstadoTela::ChangeState(ent::tela::Tela* t, ent::tela::EstadoTel
 
 ///METODOS DE FASE
 
-ent::tela::fase::Fase::Fase(const string c):
+ent::tela::fase::Fase::Fase(const unsigned long int number_of_players, const string c):
     ent::tela::EstadoTela(c)
 {
     ptr1 = NULL;
@@ -28,24 +28,24 @@ ent::tela::fase::Fase::Fase(const string c):
 
     ptr1 = new ent::per::jog::Jogador01(HEIGHTJUMPER);
     ptr1->setTexture("Texture/Marco.png");
-
-    ptr2 = new ent::per::jog::Jogador02(HEIGHTJUMPER);
-    ptr2->setSize(TAMANHO_COLIDIVEL_JOGADOR_X, TAMANHO_COLIDIVEL_JOGADOR_Y);
-    ptr2->setSizeTexture(TAMANHO_DA_TEXTURA_JOGADOR_X, TAMANHO_DA_TEXTURA_JOGADOR_Y);
-    ptr2->setPosition(700.f, 800.0f);
-    ptr2->setContImage(3,9);
-    ptr2->PreencherLinhas(0,1);
-    ptr2->setSpeed(SPEED_JOGADOR);
-    ptr2->setTempoCiclo(0.2);
-    ptr2->setTexture("Texture/n_linux.png");
-    ptr2->InitialUpdate();
-
     LEntidade.incluirEntidade(ptr1);
-    LEntidade.incluirEntidade(ptr2);
-
     gc1.setJogador(ptr1);
-    gc1.setJogador(ptr2);
 
+    if(number_of_players == 2lu)
+    {
+        ptr2 = new ent::per::jog::Jogador02(HEIGHTJUMPER);
+        ptr2->setSize(TAMANHO_COLIDIVEL_JOGADOR_X, TAMANHO_COLIDIVEL_JOGADOR_Y);
+        ptr2->setSizeTexture(TAMANHO_DA_TEXTURA_JOGADOR_X, TAMANHO_DA_TEXTURA_JOGADOR_Y);
+        ptr2->setPosition(700.f, 800.0f);
+        ptr2->setContImage(3,9);
+        ptr2->PreencherLinhas(0,1);
+        ptr2->setSpeed(SPEED_JOGADOR);
+        ptr2->setTempoCiclo(0.2);
+        ptr2->setTexture("Texture/n_linux.png");
+        ptr2->InitialUpdate();
+        LEntidade.incluirEntidade(ptr2);
+        gc1.setJogador(ptr2);
+    }
 
     posicao_obst = Vector2D<float>(0.0f, 1000.0f);
     gc1.setListas(&LObstaculo);
@@ -158,7 +158,6 @@ void ent::tela::fase::Fase::adicionarInimigo01(const Vector2D<float> position)
     inimigo->setSizeTexture(TAMANHO_DA_TEXTURA_INIMIGO01_X, TAMANHO_DA_TEXTURA_INIMIGO01_Y);
     inimigo->setPosition(position);
     inimigo->setContImage(1,1);
-    inimigo->PreencherLinhas(0,0);
     inimigo->setTexture("Texture/n_linux.png");
 
     VInimigo.incluirInimigo(static_cast<ent::per::ini::Inimigo*> (inimigo));
@@ -172,7 +171,6 @@ void ent::tela::fase::Fase::adicionarInimigo01(const float x, const float y)
     inimigo->setSizeTexture(TAMANHO_DA_TEXTURA_INIMIGO01_X, TAMANHO_DA_TEXTURA_INIMIGO01_Y);
     inimigo->setPosition(x, y);
     inimigo->setContImage(3,9);
-    inimigo->PreencherLinhas(0,1);
     inimigo->setTempoCiclo(0.2);
     inimigo->setTexture("Texture/n_linux.png");
     inimigo->InitialUpdate();
@@ -263,7 +261,14 @@ void ent::tela::fase::Fase::criarRetaPlataforma(const unsigned long int qtde_pla
 
 void ent::tela::fase::Fase::ChecarOperacoes(ent::tela::Tela* t)
 {
-    control->Centralizar(ptr1->getPosition(), ptr2->getPosition());
+    if(ptr2 != NULL)
+    {
+        control->Centralizar(ptr1->getPosition(), ptr2->getPosition());
+    }
+    else
+    {
+        control->Centralizar(ptr1->getPosition());
+    }
     control->setView();
     cout << "Quantidade de Inimigos: " <<VInimigo.getSize() << endl;
     this->ChecarColisoesEntreJogadoresInimigosProjeteis();
@@ -272,7 +277,15 @@ void ent::tela::fase::Fase::ChecarOperacoes(ent::tela::Tela* t)
     this->ChecarColisoesEntreInimigosObstaculos();
     VerificarInimigosMortos();
     control->limpar_Janela();
-    this->Draw(ptr1->getPosition(), ptr2->getPosition());
+    if(ptr2 != NULL)
+    {
+        this->Draw(ptr1->getPosition(), ptr2->getPosition());
+    }
+    else
+    {
+        this->Draw(ptr1->getPosition());
+    }
+
     control->Exibicao();
 }
 void ent::tela::fase::Fase::jogar(ent::tela::Tela* t)
@@ -285,7 +298,7 @@ void ent::tela::fase::Fase::pause(ent::tela::Tela* t)
 }
 void ent::tela::fase::Fase::opcao(ent::tela::Tela* t)
 {
-
+    //ChangeState(t, new ent::tela::menu::MenuPause(this));
 }
 void ent::tela::fase::Fase::sair(ent::tela::Tela* t)
 {
@@ -294,8 +307,8 @@ void ent::tela::fase::Fase::sair(ent::tela::Tela* t)
 
 ///MÉTODOS DE FASE 01
 
-ent::tela::fase::Fase01::Fase01(const string c):
-    ent::tela::fase::Fase(c)
+ent::tela::fase::Fase01::Fase01(const unsigned long int number_of_players, const string c):
+    ent::tela::fase::Fase(number_of_players, c)
 {
 
 }
@@ -307,8 +320,8 @@ ent::tela::fase::Fase01::~Fase01()
 
 ///MÉTODOS DE FASE 02
 
-ent::tela::fase::Fase02::Fase02(const string c):
-    ent::tela::fase::Fase(c)
+ent::tela::fase::Fase02::Fase02(const unsigned long int number_of_players, const string c):
+    ent::tela::fase::Fase(number_of_players, c)
 {
 
 }
@@ -320,8 +333,8 @@ ent::tela::fase::Fase02::~Fase02()
 
 ///MÉTODOS DE FASE 03
 
-ent::tela::fase::Fase03::Fase03(const string c):
-    ent::tela::fase::Fase(c)
+ent::tela::fase::Fase03::Fase03(const unsigned long int number_of_players, const string c):
+    ent::tela::fase::Fase(number_of_players, c)
 {
 
 }
@@ -335,7 +348,8 @@ ent::tela::fase::Fase03::~Fase03()
 
 ent::tela::menu::Botao::Botao(const string a):
     Entidade(a),
-    click(false)
+    click(false),
+    ativo(false)
 {
     tam_tex.x = 500.0f;
     tam_tex.y = 200.0f;
@@ -354,6 +368,7 @@ void ent::tela::menu::Botao::setKey(const string key)
 const string ent::tela::menu::Botao::getKey() const
 {
     return(chave);
+
 }
 
 const bool ent::tela::menu::Botao::getClick() const
@@ -370,6 +385,7 @@ void ent::tela::menu::Botao::InitialUpdate()
 {
     control->AdicionarBotaoNoMenu(chave, caminho, pos, tam_tex);
     click = false;
+    ativo = false;
 }
 
 void ent::tela::menu::Botao::UpdateGerenciador()
@@ -379,49 +395,80 @@ void ent::tela::menu::Botao::UpdateGerenciador()
 
 void ent::tela::menu::Botao::Update()
 {
-    if(control->isM_Left())
+    float xx = abs(control->getPositionMouse().x - (control->getPositionWindow().x + control->getSizeWindow().x/2.0 + (control->getPositionButton(chave).x * control->WindowRation()) ) );
+    float yy = abs(control->getPositionMouse().y - ( (control->getPositionWindow().y + 25.0f) + (control->getSizeWindow().y)/2.0 + (control->getPositionButton(chave).y * control->WindowRation()) ) );
+    ativo = false;
+    if(xx <= (tam_tex.x * control->WindowRation() / 2.0f) )
     {
-        float xx = abs(control->getPositionMouse().x - pos.x - 960.0f);
-        float yy = abs(control->getPositionMouse().y - pos.y - 540.0f);
-        if(xx < (getSizeTexture().x/2.0f) )
+        if(yy <= (tam_tex.y * control->WindowRation()/ 2.0f))
         {
-            if(yy < (getSizeTexture().y/2.0f))
+            ativo = true;
+            if(control->isM_Left())
             {
                 click = true;
             }
         }
     }
-    cout << "Posicao do Botao "  << getID() << ": "<< pos.x << "," << pos.y << "  - " << endl;
+    cout << "Posicao do Botao "  << getID() << ": "<< pos.x << "," << pos.y << "  - " << id << endl;
     cout << "Posicao do Mouse: " << (control->getPositionMouse().x) << "," << (control->getPositionMouse().y) << endl;
-    cout << "Posicao da Camera:" <<control->getPositionView().x << " , " << control->getPositionView().y << endl;
+    cout << "Posicao da Camera:" << control->getPositionView().x << " , " << control->getPositionView().y << endl;
     cout << "Posicao da Janela: " << control->getPositionWindow().x << " , " << control->getPositionWindow().y << endl;
+    cout << "Posicao do Perto: (" << xx << " , " << yy << ")" << endl;
+    cout << "Valor da Razao: " << control->WindowRation() << endl;
+
+
 }
 
 void ent::tela::menu::Botao::Draw()
 {
-    control->DrawMap(chave);
+    //control->DrawMap(chave);
+    control->DrawMapBotao(chave, ativo);
 }
 
-///METODOS DO BOTAO JOGAR
+///METODOS DO BOTAO Player01
 
-ent::tela::menu::Jogar::Jogar(const string a):
+ent::tela::menu::Game01::Game01(const string a):
     Botao(a)
 {
-    setKey("Play");
+    setKey("Player01");
 }
-ent::tela::menu::Jogar::~Jogar()
+ent::tela::menu::Game01::~Game01()
 {
 
 }
 
-///METODOS DO BOTAO SAIR
+///METODOS DO BOTAO Player02
 
-ent::tela::menu::Sair::Sair(const string a):
+ent::tela::menu::Game02::Game02(const string a):
     Botao(a)
 {
-    setKey("Sair");
+    setKey("Player02");
 }
-ent::tela::menu::Sair::~Sair()
+ent::tela::menu::Game02::~Game02()
+{
+
+}
+
+///MÉTODOS DO BOTAO OPTION
+
+ent::tela::menu::Option::Option(const string a):
+    Botao(a)
+{
+    setKey("Option");
+}
+ent::tela::menu::Option::~Option()
+{
+
+}
+
+///METODOS DO BOTAO Exit
+
+ent::tela::menu::Exit::Exit(const string a):
+    Botao(a)
+{
+    setKey("Exit");
+}
+ent::tela::menu::Exit::~Exit()
 {
 
 }
@@ -492,16 +539,23 @@ ent::tela::menu::Menu::~Menu()
 ///METODOS DE MENU INICIAL
 
 ent::tela::menu::MenuInicial::MenuInicial(const string c):
-    Menu(c)
+    Menu(c),
+    number_of_players(0lu)
 {
-    play = new ent::tela::menu::Jogar();
-    s = new ent::tela::menu::Sair();
+    play1 = new ent::tela::menu::Game01();
+    play2 = new ent::tela::menu::Game02();
+    option = new ent::tela::menu::Option();
+    exit = new ent::tela::menu::Exit();
 
-    menu.insertBotao(play);
-    menu.insertBotao(s);
+    menu.insertBotao(play1);
+    menu.insertBotao(play2);
+    menu.insertBotao(option);
+    menu.insertBotao(exit);
 
-    LEntidade.incluirEntidade(play);
-    LEntidade.incluirEntidade(s);
+    LEntidade.incluirEntidade(play1);
+    LEntidade.incluirEntidade(play2);
+    LEntidade.incluirEntidade(option);
+    LEntidade.incluirEntidade(exit);
 
     InitialUpdate();
 }
@@ -515,14 +569,26 @@ void ent::tela::menu::MenuInicial::ChecarOperacoes(ent::tela::Tela* t)
 {
     switch(menu.getIndiceBotao())
     {
-    case 0l:
+    case 0:
         {
+            number_of_players = 1lu;
             jogar(t);
             break;
         }
-    case 1l:
+    case 1:
         {
+            number_of_players = 2lu;
             jogar(t);
+            break;
+        }
+    case 2:
+        {
+            opcao(t);
+            break;
+        }
+    case 3:
+        {
+            sair(t);
             break;
         }
     default:
@@ -571,7 +637,7 @@ void ent::tela::menu::MenuInicial::Draw ()
 void ent::tela::menu::MenuInicial::jogar(ent::tela::Tela* t)
 {
     t->deleteState();
-    ChangeState(t, new ent::tela::fase::Fase01());
+    ChangeState(t, new ent::tela::fase::Fase01(number_of_players));
 }
 
 void ent::tela::menu::MenuInicial::pause(ent::tela::Tela* t)
@@ -586,13 +652,14 @@ void ent::tela::menu::MenuInicial::opcao(ent::tela::Tela* t)
 
 void ent::tela::menu::MenuInicial::sair(ent::tela::Tela* t)
 {
-
+    control->close();
 }
 
 ///MÉTODOS DE TELA
 
 ent::tela::Tela::Tela():
-    _state(new ent::tela::fase::Fase01())
+    //_state(new ent::tela::fase::Fase01())
+    _state(new ent::tela::menu::MenuInicial())
 {
 
 }

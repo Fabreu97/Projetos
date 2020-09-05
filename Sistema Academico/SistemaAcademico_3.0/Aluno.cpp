@@ -53,7 +53,7 @@ void Aluno::print_Info()
 
 void Aluno::informa_Proventos() const
 {
-    cout << "Nenhum provento a ser informado do Aluno " << nome.get_String() << endl;
+    cout << "Nenhum provento a ser informado do Aluno " << nome.getString() << endl;
 }
 
 ostream& operator<<(ostream& saida, Aluno& a)

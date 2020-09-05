@@ -167,37 +167,37 @@ Listas::ListaObstaculo::~ListaObstaculo()
 
 const unsigned long int Listas::ListaObstaculo::getSize() const
 {
-    return(lista.get_Tamanho());
+    return(lista.getSize());
 }
 
 const bool Listas::ListaObstaculo::incluirObstaculo(ent::obs::Obstaculo* o) //REVIEW
 {
-    return(lista.inserir(o));
+    return(lista.insertList(o));
 }
 
 ent::obs::Obstaculo* Listas::ListaObstaculo::getObstaculo(const unsigned long int indice) const
 {
     if(indice < getSize())
     {
-        return(lista.get_Info(indice));
+        return(lista.getData(indice));
     }
     return(NULL);
 }
 
 void Listas::ListaObstaculo::eliminarObstaculo(const unsigned long int i)
 {
-    lista.eliminar_Info(i);
+    lista.deleteData(i);
 }
 
 void Listas::ListaObstaculo::limpar()
 {
     unsigned long int i;
-    for(i = 0; i < lista.get_Tamanho(); i++)
+    for(i = 0; i < lista.getSize(); i++)
     {
-        ent::obs::Obstaculo* aux = lista.get_Info(i);
+        ent::obs::Obstaculo* aux = lista.getData(i);
         delete aux;
     }
-    lista.limpar();
+    lista.clearList();
 }
 
 const bool Listas::ListaObstaculo::ChecarColisoesEntreObstaculo(ent::obs::Obstaculo* a, ent::obs::Obstaculo* b)
@@ -321,16 +321,16 @@ void Listas::ListaObstaculo::ChecarColisoesEntreObstaculo()
     unsigned long int i;
     unsigned long int j;
 
-    for(i = 0lu; i < lista.get_Tamanho(); i++)
+    for(i = 0lu; i < lista.getSize(); i++)
     {
-        lista.get_Info(i)->setDirecao(0.0f, 0.0f);
+        lista.getData(i)->setDirecao(0.0f, 0.0f);
     }
 
-    for(i = 0lu; i < (lista.get_Tamanho() - 1lu); i++)
+    for(i = 0lu; i < (lista.getSize() - 1lu); i++)
     {
-        for(j = i + 1lu; j < lista.get_Tamanho(); j++)
+        for(j = i + 1lu; j < lista.getSize(); j++)
         {
-            ChecarColisoesEntreObstaculo(lista.get_Info(i), lista.get_Info(j));
+            ChecarColisoesEntreObstaculo(lista.getData(i), lista.getData(j));
         }
     }
 }

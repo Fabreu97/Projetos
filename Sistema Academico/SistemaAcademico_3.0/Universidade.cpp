@@ -27,12 +27,12 @@ const int Universidade::get_ID() const
 
 void Universidade::set_Nome(const char* n)
 {
-    nome.set_String(n);
+    nome.setString(n);
 }
 
 const char* Universidade::get_Nome() const
 {
-    return(nome.get_String());
+    return(nome.getString());
 }
 
 bool Universidade::incluir_Departamento(Departamento* d)

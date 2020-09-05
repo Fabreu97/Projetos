@@ -7,7 +7,7 @@ class Universidade
 {
 private:
     int ID;
-    ConjuntoString::MinhaString nome;
+    MinhaString nome;
 
     ListaDepartamento LDepartamento;
 

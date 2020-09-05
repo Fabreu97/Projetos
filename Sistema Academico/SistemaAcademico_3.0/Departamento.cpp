@@ -29,12 +29,12 @@ const int Departamento::get_ID() const
 
 void Departamento::set_Nome(const char* n)
 {
-    nome.set_String(n);
+    nome.setString(n);
 }
 
 const char* Departamento::get_Nome() const
 {
-    return(nome.get_String());
+    return(nome.getString());
 }
 
 void Departamento::set_Universidade(Universidade* u)
