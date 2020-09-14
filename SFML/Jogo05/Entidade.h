@@ -25,9 +25,6 @@
 #define TEMPO_CICLO_PROJETIL 0.03f
 #define CHANGE_TIME_ANIMATION_PLAYER01 0.1f
 
-
-
-
 //Jogador
 #define PUSH_BAU 0.75f
 #define PUSH_CAIXOTE 0.75f
@@ -76,11 +73,11 @@
 #define BAU_SIZE_X 64.0f
 #define BAU_SIZE_Y 64.0f
 
-#include "Gerenciador_Grafico.h"
-#include "Lista.h"
-
 //CAMINHOS
 #define BARRA_DE_VIDA "Texture/CCC.png"
+
+#include "Gerenciador_Grafico.h"
+#include "Lista.h"
 
 using namespace Gerenciador;
 
@@ -91,7 +88,7 @@ namespace ent
     protected:
 
         unsigned long int id;
-        string caminho;
+        string path;
         Vector2D<float> tam_tex;
         Vector2D<float> pos;
 
@@ -131,7 +128,8 @@ namespace ent
     protected:
 
         bool colidiu;
-        Vector2D<float> direcao;
+        Vector2D<unsigned long int> hcollision;
+        Vector2D< unsigned long int> vcollision;
         Vector2D<float> tam;
 
     public:
@@ -142,15 +140,21 @@ namespace ent
         void setColisao(const bool c);
         const bool getColisao() const;
 
-        void setDirecao(const Vector2D<float> v);
-        void setDirecao(const float x, const float y);
-        const Vector2D<float> getDirecao() const;
-        void IncrementarDirecao(Vector2D<float> v);
+        void restartCollisions();
+        void setHorizontalCollision(const Vector2D<unsigned long int> v);
+        void setHorizontalCollision(const unsigned long int x, const unsigned long int y);
+        const Vector2D<unsigned long int> getHorizontalCollision() const;
+        void setVerticalCollision(const Vector2D<unsigned long int> v);
+        void setVerticalCollision(const unsigned long int x, const unsigned long int y);
+        const Vector2D<unsigned long int> getVerticalCollision() const;
 
         void setSize(const Vector2D<float> v);
         void setSize(const float x, const float y);
         Vector2D<float> getSize() const;
         const Vector2D<float> getHalfSize() const;
+        virtual void UpdatePosition() = 0;
+        virtual void Move(const Vector2D<float> v) = 0;
+        virtual void Move(const float x, const float y) = 0;
     };
 
     namespace per
@@ -219,8 +223,6 @@ namespace ent
 
             virtual void UpdateAnimacao() = 0;
             virtual void Update();
-            virtual void Move(const Vector2D<float> v) = 0;
-            virtual void Move(const float x, const float y) = 0;
         };
 
         class Barra_de_Vida:
@@ -229,7 +231,7 @@ namespace ent
         private:
 
             long int vidas;
-            bool invulnerabilidade;
+            bool invulnerable;
             long int damage;
             float time_in;
             float tempo_invulnerabilidade;
@@ -242,10 +244,11 @@ namespace ent
 
             void setTexture(const string t = "Texture/CCC.png");
             const long int getVida() const;
-
             void Damage(const unsigned long int attack_force);
+            const bool getInvulnerable() const;
 
             void InitialUpdate ();
+            void UpdatePosition(); //VOID
             void UpdateAnimacao();
             void UpdateGerenciador ();
             void Update ();
@@ -306,6 +309,7 @@ namespace ent
 
                 float speed; // aceleracao
                 float altura_salto;
+                bool animacao_disparo; //APENAS QUEM PODERÁ SOLTA UM PROJETIL
 
             public:
 
@@ -313,6 +317,7 @@ namespace ent
                 ~Jogador();
 
                 //MÉTODOS DA CLASSE BARRA_DE_VIDA:
+                const bool getInvulnerable() const;
                 void setTempoCicloLife(const float a);
                 void setTextureLife(const string t = "Texture/CCC.png");
                 void setSizeLife(Vector2D<float> s);
@@ -340,7 +345,6 @@ namespace ent
                 public Jogador
             {
             private:
-                bool animacao_disparo;
 
                 unsigned long int col_estatico;
                 unsigned long int col_andando;
@@ -356,10 +360,10 @@ namespace ent
                 //Update
                 void Update(); //Posso Ocultar
                 void InitialUpdate();
+                void UpdatePosition();
                 void UpdateMovement();
                 void UpdateAnimacao();
                 void UpdateGerenciador();
-
 
                 void Draw();
                 void OnCollision(); //..............REVIEW
@@ -384,6 +388,7 @@ namespace ent
                 //Update
                 void Update(); //Posso Ocultar
                 void InitialUpdate();
+                void UpdatePosition();
                 void UpdateMovement();
                 void UpdateAnimacao();
                 void UpdateGerenciador();
@@ -414,7 +419,6 @@ namespace ent
                 ~Inimigo();
 
                 void Damage(long int attack_force);
-                virtual void UpdatePosition() = 0;
             };
 
             class Inimigo01:
@@ -521,7 +525,7 @@ namespace ent
             virtual void setContImage(const unsigned long int x, const unsigned long int y);
             virtual const Vector2D<unsigned long int> getContImage() const;
 
-            virtual void setTexture(const string t);
+            /*virtual void setTexture(const string t);
             virtual void UpdatePosition();
             virtual void InitialUpdate ();      // TO DO
             virtual void UpdateGerenciador();   // TO DO
@@ -529,7 +533,7 @@ namespace ent
             virtual void Draw();
 
             virtual void Move(const Vector2D<float> v);
-            virtual void Move(const float x, const float y);
+            virtual void Move(const float x, const float y);*/
         };
 
         class Obstaculo01:
@@ -594,6 +598,25 @@ namespace ent
             void UpdateGerenciador();//.........TO DO
             void Update();//....................TO DO
             void Draw();//......................TO DO
+
+            void Move(const Vector2D<float> v);
+            void Move(const float x, const float y);
+        };
+
+        class Platform:
+            public Obstaculo
+        {
+        public:
+            Platform(const Vector2D<float> position = Vector2D<float>(1000.0f, 300.0f), const Vector2D<float> tamanho = Vector2D<float>(2000.0, 400.0f), const string c = "Texture/MeioChaoGrande.png");
+            ~Platform();
+
+            void setTexture(const string t);
+
+            void UpdatePosition();
+            void InitialUpdate ();//...........TO DO
+            void UpdateGerenciador();//........TO DO
+            void Update();//...................TO DO
+            void Draw();//.....................TO DO
 
             void Move(const Vector2D<float> v);
             void Move(const float x, const float y);

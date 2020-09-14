@@ -6,7 +6,7 @@ int main()
     //objeto->Executar();
     char aux[8] = "possui ";
     MinhaString b1,b2("Minha casa ");
-    MinhaString b3 = "carro rebaixado!";
+    MinhaString b3 = "um carro rebaixado!";
     b1 = b2 + aux + b3;
     cout << b1;
 

@@ -3,78 +3,75 @@
 
 #include <math.h>
 #include <iostream>
-namespace Vector
+
+template<typename T2>
+class Vector2D
 {
-    template<typename T>
-    class Vector2D
-    {
-    public:
+public:
 
-        T x;
-        T y;
+    T2 x;
+    T2 y;
 
-    private:
+private:
 
-        static unsigned long int cont;
+    static unsigned long int cont;
 
-    public:
+public:
 
-        Vector2D(T X = 0.0, T Y = 0.0);
-        ~Vector2D();
+    Vector2D(T2 X = 0.0, T2 Y = 0.0);
+    ~Vector2D();
 
-        const unsigned long int Quantidade_de_Instancias() const;
+    const unsigned long int Quantidade_de_Instancias() const;
 
-        //Sobrecarga de Operadores
-        bool operator == (Vector::Vector2D<T> v);
-        bool operator != (Vector::Vector2D<T> v);
-        void operator = (const Vector::Vector2D<T>& v);
-        const Vector2D<T> operator + (const Vector::Vector2D<T>& v) const;
-        const Vector2D<T> operator * (const int i) const;
-        const Vector2D<T> operator * (const float f) const;
-        const Vector2D<T> operator * (const double d) const;
-        //const Vector2D<T> operator * (const Vector::Vector2D<T>& v) const;
-        const T operator * (const Vector::Vector2D<T>& v) const;
+    //Sobrecarga de Operadores
+    bool operator == (Vector2D<T2> v);
+    bool operator != (Vector2D<T2> v);
+    void operator = (const Vector2D<T2>& v);
+    const Vector2D<T2> operator + (const Vector2D<T2>& v) const;
+    //const Vector2D<T2> operator * (const int i) const;
+    //const Vector2D<T2> operator * (const float f) const;
+    //const Vector2D<T2> operator * (const double d) const;
+    //const T2 operator * (const Vector2D<T2>& v) const;
 
-        //Propriedades de Vetores
-        const T modulo() const; //REVIEW
-        const Vector2D<T> versor() const; // REVIEW
-        const Vector2D<T> projecao(const Vector2D<T>& v) const; // TO DO
-        const T cosseno_angulo(const Vector2D<T>& v1, const Vector2D<T>& v2) const; // TO DO
-    };
-}
+    //Propriedades de Vetores
+    const Vector2D<T2> inverse() const;
+    const T2 modulo() const; //REVIEW
+    const Vector2D<T2> versor() const; // REVIEW
+    const Vector2D<T2> projecao(const Vector2D<T2>& v) const; // TO DO
+    const T2 cosseno_angulo(const Vector2D<T2>& v1, const Vector2D<T2>& v2) const; // TO DO
+};
 
-
-template<typename T>
-std::ostream& operator<<(std::ostream& saida, Vector::Vector2D<T>& v)
+template<typename T2>
+std::ostream& operator<<(std::ostream& out, Vector2D<T2>& v)
 {
-    saida << "(" << v.x << ", " << v.y << ")";
-    return(saida);
+    out << "(" << v.x << ", " << v.y << ")";
+    return(out);
 }
-template<typename T>
-unsigned long int Vector::Vector2D<T>::cont = 0;
+template<typename T2>
+unsigned long int Vector2D<T2>::cont = 0;
 
-template<typename T>
-Vector::Vector2D<T>::Vector2D(T X, T Y):
+template<typename T2>
+Vector2D<T2>::Vector2D(T2 X, T2 Y):
     x(X),
     y(Y)
 {
     cont++;
 }
 
-template<typename T>
-Vector::Vector2D<T>::~Vector2D()
+template<typename T2>
+Vector2D<T2>::~Vector2D()
 {
     cont--;
 }
 
-template<typename T>
-const unsigned long int Vector::Vector2D<T>::Quantidade_de_Instancias() const
+template<typename T2>
+const unsigned long int Vector2D<T2>::Quantidade_de_Instancias() const
 {
     return(cont);
 }
 
-template<typename T>
-bool Vector::Vector2D<T>::operator == (Vector::Vector2D<T> v)
+template<typename T2>
+bool Vector2D<T2>::operator == (Vector2D<T2> v)
 {
     if(x  == v.x)
     {
@@ -86,86 +83,98 @@ bool Vector::Vector2D<T>::operator == (Vector::Vector2D<T> v)
     return(false);
 }
 
-template<typename T>
-bool Vector::Vector2D<T>::operator != (Vector::Vector2D<T> v)
+template<typename T2>
+bool Vector2D<T2>::operator != (Vector2D<T2> v)
 {
     return( !(operator==(v)) );
 }
 
-template<typename T>
-void Vector::Vector2D<T>::operator = (const Vector::Vector2D<T>& v)
+template<typename T2>
+void Vector2D<T2>::operator = (const Vector2D<T2>& v)
 {
     this->x = v.x;
     this->y = v.y;
 }
 
-template<typename T>
-const Vector::Vector2D<T> Vector::Vector2D<T>::operator + (const Vector::Vector2D<T>& v) const
+template<typename T2>
+const Vector2D<T2> Vector2D<T2>::operator + (const Vector2D<T2>& v) const
 {
-    return(Vector::Vector2D<T>(x + v.x, y + v.y));
+    return(Vector2D<T2>(x + v.x, y + v.y));
 }
 
-template<typename T>
-const Vector::Vector2D<T> Vector::Vector2D<T>::operator * (const int i) const
+template<typename T2>
+const Vector2D<T2> Vector2D<T2>::inverse() const
 {
-    return(Vector::Vector2D<T>(x * i, y * i));
+    return(Vector2D<T2>(y,x));
 }
 
-template<typename T>
-const Vector::Vector2D<T> Vector::Vector2D<T>::operator * (const float f) const
+template<typename T2> //...............TO REVIEW...............
+const T2 Vector2D<T2>::modulo() const
 {
-    return(Vector::Vector2D<T>(x * f, y * f));
-}
-
-template<typename T>
-const Vector::Vector2D<T> Vector::Vector2D<T>::operator * (const double d) const
-{
-    return(Vector::Vector2D<T>(x * d, y * d));
-}
-
-/*template<typename T>
-const Vector::Vector2D<T> Vector::Vector2D<T>::operator * (const Vector::Vector2D<T>& v) const
-{
-    return(Vector::Vector2D<T>(x * v.x, y * v.y));
-}
-*/
-template<typename T>
-const T Vector::Vector2D<T>::operator * (const Vector::Vector2D<T>& v) const
-{
-    T aux = x * v.x + y * v.y;
-    return(aux);
-}
-
-template<typename T> //...............TO REVIEW...............
-const T Vector::Vector2D<T>::modulo() const
-{
-    T aux;
+    T2 aux;
     aux = x * x + y * y;
     aux = sqrtf(aux);
     return(aux);
 }
 
-template<typename T> //...............TO REVIEW...............
-const Vector::Vector2D<T> Vector::Vector2D<T>::versor() const
+template<typename T2> //...............TO REVIEW...............
+const Vector2D<T2> Vector2D<T2>::versor() const
 {
-    T xx = x;
-    T yy = y;
-    T divisor = this->modulo();
+    T2 xx = x;
+    T2 yy = y;
+    T2 divisor = this->modulo();
     xx = xx/divisor;
     yy = yy/divisor;
-    return(Vector::Vector2D<T>(xx, yy));
+    return(Vector2D<T2>(xx, yy));
 }
 
-template<typename T>//...............TO DO...............
-const Vector::Vector2D<T> Vector::Vector2D<T>::projecao(const Vector::Vector2D<T>& v) const
+template<typename T2>//...............TO DO...............
+const Vector2D<T2> Vector2D<T2>::projecao(const Vector2D<T2>& v) const
 {
 
 }
 
-template<typename T>//...............TO DO...............
-const T Vector::Vector2D<T>::cosseno_angulo(const Vector2D<T>& v1, const Vector2D<T>& v2) const
+template<typename T2>//...............TO DO...............
+const T2 Vector2D<T2>::cosseno_angulo(const Vector2D<T2>& v1, const Vector2D<T2>& v2) const
 {
 
 }
+
+template<typename T2>
+const Vector2D<T2> operator * (const Vector2D<T2>& v, const int i)
+{
+    return(Vector2D<T2>(v.x * i, v.y * i));
+}
+
+template<typename T2>
+const Vector2D<T2> operator * (const int i, const Vector2D<T2>& v)
+{
+    return(Vector2D<T2>(v.x * i, v.y * i));
+}
+
+template<typename T2>
+const Vector2D<T2> operator * (const Vector2D<T2>& v, const float f)
+{
+    return(Vector2D<T2>(v.x * f, v.y * f));
+}
+
+template<typename T2>
+const Vector2D<T2> operator * (const float f, const Vector2D<T2>& v)
+{
+    return(Vector2D<T2>(v.x * f, v.y * f));
+}
+
+template<typename T2>
+const Vector2D<T2> operator * (const Vector2D<T2>& v, const double d)
+{
+    return(Vector2D<T2>(v.x * d, v.y * d));
+}
+
+template<typename T2>
+const Vector2D<T2> operator * ( const double d, const Vector2D<T2>& v)
+{
+    return(Vector2D<T2>(v.x * d, v.y * d));
+}
+
 
 #endif // INCLUDED_VECTOR_2D_H

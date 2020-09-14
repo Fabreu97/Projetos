@@ -23,10 +23,6 @@ void Jogo::Executar()
     {
         g->set_Delta_Time();
         cout << "Delta Time: " << g->get_Delta_Time() << endl;
-        //cout << "Posicao do Mouse: " << g->getPositionMouse().x << "," << g->getPositionMouse().y << endl;
-        //cout << "Posicao da Camera:" <<g->getPositionView().x << " , " << g->getPositionView().y << endl;
-        //cout << "Posicao da Janela: " << g->getPositionWindow().x << " , " << g->getPositionWindow().y << endl;
-
         while(g->captar_Evento())
         {
             if(g->fecho_Janela())
@@ -38,6 +34,10 @@ void Jogo::Executar()
                 g->ResizeView();
             }
         }
-        t->Executar();
+        t->run();
+        if(g->isPR())
+        {
+            t->tirarTexture(t);
+        }
     }
 }

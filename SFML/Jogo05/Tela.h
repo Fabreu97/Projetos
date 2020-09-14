@@ -21,11 +21,12 @@ namespace ent
 
             void ChangeState(ent::tela::Tela* t, ent::tela::EstadoTela* s);
 
-            virtual void ChecarOperacoes(ent::tela::Tela* t) = 0;
-            virtual void jogar(ent::tela::Tela* t) = 0;
+            virtual void run(ent::tela::Tela* t) = 0;
+            virtual void play(ent::tela::Tela* t) = 0;
             virtual void pause(ent::tela::Tela* t) = 0;
-            virtual void opcao(ent::tela::Tela* t) = 0;
-            virtual void sair(ent::tela::Tela* t) = 0;
+            virtual void option(ent::tela::Tela* t) = 0;
+            virtual void exit(ent::tela::Tela* t) = 0;
+            void tirarTexture();
 
         protected:
 
@@ -94,11 +95,11 @@ namespace ent
                 void criarRetaPlataforma(const unsigned long int qtde_plataformas = 1, const float y = 1000.0f);
 
                 ///METODOS DE ESTADO DE TELA
-                void ChecarOperacoes(ent::tela::Tela* t);//....................TO DO
-                void jogar(ent::tela::Tela* t);//....................TO DO
+                void run(ent::tela::Tela* t);//....................TO DO
+                void play(ent::tela::Tela* t);//....................TO DO
                 void pause(ent::tela::Tela* t);//....................TO DO
-                void opcao(ent::tela::Tela* t);//....................TO DO
-                void sair(ent::tela::Tela* t);//....................TO DO
+                void option(ent::tela::Tela* t);//....................TO DO
+                void exit(ent::tela::Tela* t);//....................TO DO
             };
 
             class Fase01:
@@ -139,21 +140,21 @@ namespace ent
 
         namespace menu
         {
-            class Botao:
+            class Button:
                 public Entidade
             {
             protected:
 
-                string chave;
+                string key;
                 bool click;
-                bool ativo;
+                bool active;
 
             public:
 
-                Botao(const string a = "Texture/Botoes/Play.png");
-                ~Botao();
+                Button(const string a = "Texture/Botoes/Play.png");
+                ~Button();
 
-                void setKey(const string key);
+                void setKey(const string k);
                 const string getKey() const;
 
                 const bool getClick() const;
@@ -167,7 +168,7 @@ namespace ent
             };
 
             class Game01:
-                public Botao
+                public Button
             {
             public:
                 Game01(const string a = "Texture/Botoes/Player012.png");
@@ -175,15 +176,23 @@ namespace ent
             };
 
             class Game02:
-                public Botao
+                public Button
             {
             public:
                 Game02(const string a = "Texture/Botoes/Player022.png");
                 ~Game02();
             };
 
+            class LoadGame:
+                public Button
+            {
+            public:
+                LoadGame(const string a = "Texture/Botoes/LoadGame.png");
+                ~LoadGame();
+            };
+
             class Option:
-                public Botao
+                public Button
             {
             public:
                 Option(const string a = "Texture/Botoes/Option2.png");
@@ -191,31 +200,28 @@ namespace ent
             };
 
             class Exit:
-                public Botao
+                public Button
             {
             public:
                 Exit(const string a = "Texture/Botoes/Exit2.png");
                 ~Exit();
             };
 
-            class GerenciadorBotao
+            class ButtonManager
             {
             private:
 
-            long int indice_do_botao;
-
-                deque<Botao*> Botoes;
-                deque<Botao*>::iterator it;
+                deque<Button*> buttons;
 
             public:
 
-                GerenciadorBotao();
-                ~GerenciadorBotao();
+                ButtonManager();
+                ~ButtonManager();
 
                 const long int getIndiceBotao();
 
                 void InitialUpdate();
-                void insertBotao(ent::tela::menu::Botao* b);
+                void insertButton(ent::tela::menu::Button* b);
             };
 
             class Menu:
@@ -223,7 +229,7 @@ namespace ent
             {
             protected:
 
-                GerenciadorBotao menu;
+                ButtonManager menu;
 
             public:
 
@@ -238,52 +244,47 @@ namespace ent
             private:
 
                 unsigned long int number_of_players;
-                ent::tela::menu::Game01* play1;
-                ent::tela::menu::Game02* play2;
-                ent::tela::menu::Option* option;
-                ent::tela::menu::Exit* exit;
-
 
             public:
 
                 MenuInicial(const string c = "");
                 ~MenuInicial();
 
-                void ChecarOperacoes(ent::tela::Tela* t);
-
                 void setTexture(const string t);
                 void InitialUpdate ();
                 void UpdateGerenciador ();
                 void Update ();
                 void Draw ();
 
-                void jogar(ent::tela::Tela* t);
+                void run(ent::tela::Tela* t);
+                void play(ent::tela::Tela* t);
                 void pause(ent::tela::Tela* t);
-                void opcao(ent::tela::Tela* t);
-                void sair(ent::tela::Tela* t);
-
+                void option(ent::tela::Tela* t);
+                void exit(ent::tela::Tela* t);
             };
 
             class MenuPause:
                 public Menu
             {
+            private:
+
+                ent::tela::fase::Fase* game;
+
             public:
 
-                MenuPause();
+                MenuPause(ent::tela::fase::Fase* f = NULL);
                 ~MenuPause();
-
-                void ChecarOperacoes(ent::tela::Tela* t);
 
                 void setTexture(const string t);
                 void InitialUpdate ();
                 void UpdateGerenciador ();
                 void Update ();
                 void Draw ();
-
-                void jogar(ent::tela::Tela* t);
+                void run(ent::tela::Tela* t);
+                void play(ent::tela::Tela* t);
                 void pause(ent::tela::Tela* t);
-                void opcao(ent::tela::Tela* t);
-                void sair(ent::tela::Tela* t);
+                void option(ent::tela::Tela* t);
+                void exit(ent::tela::Tela* t);
 
             };
 
@@ -295,7 +296,7 @@ namespace ent
                 MenuOpcao();
                 ~MenuOpcao();
 
-                void ChecarOperacoes(ent::tela::Tela* t);
+                void run(ent::tela::Tela* t);
 
                 void setTexture(const string t);
                 void InitialUpdate ();
@@ -303,10 +304,10 @@ namespace ent
                 void Update ();
                 void Draw ();
 
-                void jogar(Tela* t);
+                void play(Tela* t);
                 void pause(Tela* t);
-                void opcao(Tela* t);
-                void sair(Tela* t);
+                void option(Tela* t);
+                void exit(Tela* t);
 
             };
         }
@@ -330,14 +331,14 @@ namespace ent
 
             void deleteState();
 
-            void jogar(Tela* t);
+            void play(Tela* t);
             void pause(Tela* t);
-            void opcao(Tela* t);
+            void option(Tela* t);
             void dificuldade(Tela* t);
             void tirarTexture(Tela* t);
-            void sair(Tela* t);
+            void exit(Tela* t);
 
-            void Executar();
+            void run();
         };
     }
 }

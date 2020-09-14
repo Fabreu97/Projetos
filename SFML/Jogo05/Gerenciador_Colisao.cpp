@@ -39,7 +39,8 @@ void Gerenciador_Colisao::setListas(Listas::VectorInimigo* vi)
 
 const bool Gerenciador_Colisao::ChecarColisaoJogadorObstaculo(ent::per::jog::Jogador* referencia, ent::obs::Obstaculo* colisor)
 {
-    Vector2D<float> direcao;
+    Vector2D<unsigned long int> horizontal(0.0f, 0.0f);
+    Vector2D<unsigned long int> vertical(0.0f, 0.0f);
     Vector2D<float> thisPosition = referencia->getPosition();
     Vector2D<float> thisHalfSize = referencia->getHalfSize();
     Vector2D<float> otherPosition = colisor->getPosition();
@@ -75,8 +76,7 @@ const bool Gerenciador_Colisao::ChecarColisaoJogadorObstaculo(ent::per::jog::Jog
                 referencia->Move( 0.0f, +intersectY  * colisor->getPush());
                 colisor->Move( 0.0f, -intersectY  * (1.0f - colisor->getPush()) );
 
-                direcao.x = 0.0f;
-                direcao.y = 1.0f;
+                vertical.y = 1;
             }
             else
             {
@@ -84,9 +84,9 @@ const bool Gerenciador_Colisao::ChecarColisaoJogadorObstaculo(ent::per::jog::Jog
                 referencia->Move( 0.0f, -intersectY  * colisor->getPush() );
                 colisor->Move( 0.0f, +intersectY  * (1.0f - colisor->getPush()));
 
-                direcao.x = 0.0f;
-                direcao.y = -1.0f;
+                vertical.x = 1;
             }
+            referencia->setVerticalCollision(vertical);
         }
         else
         {
@@ -96,11 +96,8 @@ const bool Gerenciador_Colisao::ChecarColisaoJogadorObstaculo(ent::per::jog::Jog
                 // colisao da ESQUERDA para DIREITA
                 referencia->Move( +intersectY  * colisor->getPush() * 0.1, 0.0f );
                 colisor->Move( -intersectY  * (1.0f - colisor->getPush()), 0.0f);
-                //ent::Entidade::getGerenciadorGrafico()->get_Delta_Time()
 
-                direcao.x = 1.0f;
-                direcao.y = 0.0f;
-
+                horizontal.y = 1lu;
             }
             else
             {
@@ -108,11 +105,10 @@ const bool Gerenciador_Colisao::ChecarColisaoJogadorObstaculo(ent::per::jog::Jog
                 referencia->Move( -intersectY * colisor->getPush() * 0.1, 0.0f);
                 colisor->Move( intersectY * (1.0f - colisor->getPush()), 0.0f);
 
-                direcao.x = -1.0f;
-                direcao.y = 0.0f;
+                horizontal.x = 1lu;
             }
+            referencia->setHorizontalCollision(horizontal);
         }
-        referencia->IncrementarDirecao(direcao);
         colisor->UpdatePosition();
         return(true);
     }
@@ -121,7 +117,8 @@ const bool Gerenciador_Colisao::ChecarColisaoJogadorObstaculo(ent::per::jog::Jog
 
 const bool Gerenciador_Colisao::ChecarColisaoJogadorInimigo(ent::per::jog::Jogador* referencia, ent::per::ini::Inimigo* colisor)
 {
-    Vector2D<float> direcao;
+    Vector2D<unsigned long int> horizontal(0.0f, 0.0f);
+    Vector2D<unsigned long int> vertical(0.0f, 0.0f);
     Vector2D<float> thisPosition = referencia->getPosition();
     Vector2D<float> thisHalfSize = referencia->getHalfSize();
     Vector2D<float> otherPosition = colisor->getPosition();
@@ -144,7 +141,7 @@ const bool Gerenciador_Colisao::ChecarColisaoJogadorInimigo(ent::per::jog::Jogad
 
     if(intersectX < 0.0f && intersectY < 0.0f)
     {
-        colisor->InitialUpdate();
+        colisor->Update();
         if(intersectX > intersectY)
         {
             //COLISAO HORIZONTAL
@@ -153,44 +150,37 @@ const bool Gerenciador_Colisao::ChecarColisaoJogadorInimigo(ent::per::jog::Jogad
                 //colisao da esquerda para direita
                 referencia->Move(intersectX);
                 colisor->Move(-intersectX * 0.1f);
-                direcao.x = 1.0f;
-                direcao.y = 0.0f;
+                horizontal.y = 1lu;
             }
             else
             {
                 //colisao da direita para esquerda
                 referencia->Move(-intersectX * 1.0f);
                 colisor->Move(intersectX * 0.1f);
-                direcao.x = -1.0f;
-                direcao.y = 0.0f;
+                horizontal.x = 1lu;
             }
             referencia->setDano(true);
+            referencia->setHorizontalCollision(horizontal);
         }
         else
         {
             //COLISAO VERTICAL
             if(deltaY > 0.0f)
             {
+                //colisão a baixo da referencia
                 referencia->Move(0.0f, intersectY);
 
-                //direcao.y = 1.0f;
-                direcao.x = 0.0f;
-                referencia->setDirecao(0.0f, 0.0f);
+                vertical.y = 1lu;
                 colisor->setDano(true);
-                if(referencia->getVelocidade().y >= 0.0f)
-                {
-                    referencia->incrementarVelocidade(0.0f, -sqrtf(5 * referencia->getAlturaSalto() * 981.0f));
-                }
             }
             else
             {
                 referencia->Move(0.0f, -intersectY);
 
-                direcao.y = -1.0f;
-                direcao.x = 0.0f;
+                vertical.x = 1lu;
             }
+            referencia->setVerticalCollision(vertical);
         }
-        referencia->IncrementarDirecao(direcao);
         colisor->UpdatePosition();
 
         return(true);
@@ -215,6 +205,7 @@ void Gerenciador_Colisao::ChecarColisoesJogadoresObstaculos()
                     {
                         pro1->setColisao(true);
                     }
+                    //pro1->setColisao(ChecarColisaoProjetilObstaculo(pro1, aux1));
                 }
                 ChecarColisaoJogadorObstaculo(ptr1, aux1);
             }
@@ -243,7 +234,8 @@ void Gerenciador_Colisao::ChecarColisoesJogadoresObstaculos()
 
 const bool Gerenciador_Colisao::ChecarColisaoInimigoObstaculo(ent::per::ini::Inimigo* referencia, ent::obs::Obstaculo* colisor)
 {
-    Vector2D<float> direcao;
+    Vector2D<unsigned long int> horizontal(0.0f, 0.0f);
+    Vector2D<unsigned long int> vertical(0.0f, 0.0f);
     Vector2D<float> thisPosition = referencia->getPosition();
     Vector2D<float> thisHalfSize = referencia->getHalfSize();
     Vector2D<float> otherPosition = colisor->getPosition();
@@ -259,7 +251,7 @@ const bool Gerenciador_Colisao::ChecarColisaoInimigoObstaculo(ent::per::ini::Ini
     if(intersectX < 0.0f && intersectY < 0.0f)
     {
         referencia->InitialUpdate();
-        colisor->Update();
+        colisor->Update(); //atualiza o tamanho e a posição
 
         referencia->setColisao(true);
         colisor->setColisao(true);
@@ -272,17 +264,16 @@ const bool Gerenciador_Colisao::ChecarColisaoInimigoObstaculo(ent::per::ini::Ini
                 // colisao de BAIXO pra CIMA
                 referencia->Move( 0.0f, +intersectY  * 1.0f);
 
-                direcao.x = 0.0f;
-                direcao.y = 1.0f;
+                vertical.y = 1lu;
             }
             else
             {
                 //colisao de CIMA pra BAIXO
                 referencia->Move( 0.0f, -intersectY  * colisor->getPush() );
 
-                direcao.x = 0.0f;
-                direcao.y = -1.0f;
+                vertical.x = 1lu;
             }
+            referencia->setVerticalCollision(vertical);
         }
         else
         {
@@ -293,8 +284,7 @@ const bool Gerenciador_Colisao::ChecarColisaoInimigoObstaculo(ent::per::ini::Ini
                 referencia->Move( +intersectY  * colisor->getPush() * 0.1, 0.0f );
                 //ent::Entidade::getGerenciadorGrafico()->get_Delta_Time()
 
-                direcao.x = 1.0f;
-                direcao.y = 0.0f;
+                horizontal.y = 1lu;
 
             }
             else
@@ -302,11 +292,10 @@ const bool Gerenciador_Colisao::ChecarColisaoInimigoObstaculo(ent::per::ini::Ini
                 //colisao de DIREITA pra ESQUERDA
                 referencia->Move( -intersectY * colisor->getPush() * 0.1, 0.0f);
 
-                direcao.x = -1.0f;
-                direcao.y = 0.0f;
+                horizontal.x = 1lu;
             }
+            referencia->setHorizontalCollision(horizontal);
         }
-        referencia->IncrementarDirecao(direcao);
         referencia->UpdatePosition();
         //colisor->UpdatePosition();
         return(true);
@@ -324,8 +313,7 @@ void Gerenciador_Colisao::ChecarColisoesInimigosObstaculos()
             unsigned long int j;
             for(i = 0lu; i < VInimigo->getSize(); i++)
             {
-                ent::per::ini::Inimigo* aux = VInimigo->getInimigo(i);
-                aux->setDirecao(0.0f, 0.0f);
+                ent::per::ini::Inimigo* aux = (*VInimigo)[i];
                 for(j = 0lu; j < LObstaculo->getSize(); j++)
                 {
                     ChecarColisaoInimigoObstaculo(aux, LObstaculo->getObstaculo(j));
@@ -337,6 +325,8 @@ void Gerenciador_Colisao::ChecarColisoesInimigosObstaculos()
 
 const bool Gerenciador_Colisao::ChecarColisaoProjetilInimigo(ent::per::Projetil* referencia, ent::per::ini::Inimigo* colisor)
 {
+    Vector2D<unsigned long int> horizontal(0.0f, 0.0f);
+    Vector2D<unsigned long int> vertical(0.0f, 0.0f);
     Vector2D<float> thisPosition = referencia->getPosition();
     Vector2D<float> thisHalfSize = referencia->getHalfSize();
     Vector2D<float> otherPosition = colisor->getPosition();
@@ -358,12 +348,14 @@ const bool Gerenciador_Colisao::ChecarColisaoProjetilInimigo(ent::per::Projetil*
             if(deltaX > 0.0f)
             {
                 referencia->Move(intersectX, 0.0f);
-                colisor->setDirecao(-1.0f, 0.0f);
+                //colisor->setDirecao(-1.0f, 0.0f);
+                colisor->setHorizontalCollision(1lu, 0lu);
             }
             else
             {
                 referencia->Move(-intersectX, 0.0f);
-                colisor->setDirecao(1.0f, 0.0f);
+                //colisor->setDirecao(1.0f, 0.0f);
+                colisor->setHorizontalCollision(0lu, 1lu);
             }
         }
         else
@@ -416,19 +408,15 @@ const bool Gerenciador_Colisao::ChecarColisaoProjetilObstaculo(ent::per::Projeti
 
 void Gerenciador_Colisao::ChecarColisoesJogadoresInimigosProjeteis()
 {
-    bool flag = true;
     if(VInimigo != NULL)
     {
         if(ptr1 != NULL)
         {
             unsigned long int i;
             unsigned long int j;
-            ptr1->setDirecao(0.0f, 0.0f);
-            flag = false;
             for(i = 0lu; i < VInimigo->getSize(); i++)
             {
-                ent::per::ini::Inimigo* ini01 = VInimigo->getInimigo(i);
-                ini01->setDirecao(0.0f, 0.0f);
+                ent::per::ini::Inimigo* ini01 = (*VInimigo)[i];
                 for(j = 0lu; j < ptr1->getSizeListaProjetil(); j++)
                 {
                     ent::per::Projetil* pro1 = ptr1->getProjetil(j);
@@ -453,14 +441,9 @@ void Gerenciador_Colisao::ChecarColisoesJogadoresInimigosProjeteis()
         {
             unsigned long int i;
             unsigned long int j;
-            ptr2->setDirecao(0.0f, 0.0f);
             for(i = 0lu; i < VInimigo->getSize(); i++)
             {
-                ent::per::ini::Inimigo* ini02 = VInimigo->getInimigo(i);
-                if(flag)
-                {
-                    ini02->setDirecao(0.0f, 0.0f);
-                }
+                ent::per::ini::Inimigo* ini02 = (*VInimigo)[i];
                 for(j = 0lu; j < ptr2->getSizeListaProjetil(); j++)
                 {
                     ent::per::Projetil* pro2 = ptr2->getProjetil(j);
@@ -482,4 +465,10 @@ void Gerenciador_Colisao::ChecarColisoesJogadoresInimigosProjeteis()
 void Gerenciador_Colisao::ChecarCoisoesEntreObstaculos()
 {
     LObstaculo->ChecarColisoesEntreObstaculo();
+}
+
+void Gerenciador_Colisao::resetCollisions()
+{
+    LObstaculo->resetCollisions();
+    VInimigo->resetCollisions();
 }

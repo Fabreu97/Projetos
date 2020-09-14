@@ -128,9 +128,10 @@
 1598977908 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\lista.h
 	"MinhaString.h"
 
-1599077280 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\minhastring.h
+1599573683 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\minhastring.h
 	<iostream>
 	<string.h>
+	<string>
 	<stdlib.h>
 
 1599075084 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\universidade.h
@@ -196,7 +197,7 @@
 1589644522 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\listauniversidade.h
 	"Universidade.h"
 
-1599076220 source:c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\main.cpp
+1599573498 source:c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\main.cpp
 	"Principal.h"
 
 1589983081 c:\users\fabreu\desktop\projeto\sistema academico\sistemaacademico_3.0\principal.h

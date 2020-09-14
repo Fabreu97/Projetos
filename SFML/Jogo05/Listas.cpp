@@ -86,6 +86,16 @@ void Listas::ListaEntidade::Draw(const Vector2D<float>& p1, const Vector2D<float
     }
 }
 
+void Listas::ListaEntidade::DrawPause(const Vector2D<float>& v)
+{
+    list<ent::Entidade*>::iterator it;
+
+    for(it = lista.begin(); it != lista.end(); ++it)
+    {
+        (*it)->Draw();
+    }
+}
+
 ///IMPLEMENTACOES DA CLASSE VECTOR DE INIMIGO
 
 Listas::VectorInimigo::VectorInimigo():
@@ -112,15 +122,6 @@ const bool Listas::VectorInimigo::incluirInimigo(ent::per::ini::Inimigo* i)
         return(true);
     }
     return(false);
-}
-
-ent::per::ini::Inimigo* Listas::VectorInimigo::getInimigo(const unsigned long int indice) const
-{
-    if(indice < getSize())
-    {
-        return(vetor[indice]);
-    }
-    return(NULL);
 }
 
 void Listas::VectorInimigo::eliminarInimigo(const unsigned long int indice)
@@ -152,6 +153,20 @@ void Listas::VectorInimigo::limpar()
     vetor.clear();
 }
 
+ent::per::ini::Inimigo* Listas::VectorInimigo::operator[](const unsigned long int i) const
+{
+    return(vetor[i]);
+}
+
+void Listas::VectorInimigo::resetCollisions()
+{
+    unsigned long int i;
+    for(i = 0lu; i < vetor.size(); i++)
+    {
+        vetor[i]->restartCollisions();
+    }
+}
+
 ///IMPLEMENTACOES DA CLASSE LISTA DE OBSTACULO
 
 Listas::ListaObstaculo::ListaObstaculo():
@@ -179,7 +194,8 @@ ent::obs::Obstaculo* Listas::ListaObstaculo::getObstaculo(const unsigned long in
 {
     if(indice < getSize())
     {
-        return(lista.getData(indice));
+        //return(lista.getData(indice));
+        return(lista[indice]);
     }
     return(NULL);
 }
@@ -194,7 +210,7 @@ void Listas::ListaObstaculo::limpar()
     unsigned long int i;
     for(i = 0; i < lista.getSize(); i++)
     {
-        ent::obs::Obstaculo* aux = lista.getData(i);
+        ent::obs::Obstaculo* aux = lista[i];
         delete aux;
     }
     lista.clearList();
@@ -202,7 +218,8 @@ void Listas::ListaObstaculo::limpar()
 
 const bool Listas::ListaObstaculo::ChecarColisoesEntreObstaculo(ent::obs::Obstaculo* a, ent::obs::Obstaculo* b)
 {
-    Vector2D<float> direcao;
+    Vector2D<unsigned long int> horizontal;
+    Vector2D<unsigned long int> vertical;
     Vector2D<float> thisPosition = a->getPosition();
     Vector2D<float> thisHalfSize = a->getHalfSize();
     Vector2D<float> otherPosition = b->getPosition();
@@ -240,8 +257,7 @@ const bool Listas::ListaObstaculo::ChecarColisoesEntreObstaculo(ent::obs::Obstac
                     b->UpdatePosition();
                 }
 
-                direcao.x = 1.0f;
-                direcao.y = 0.0f;
+                horizontal.y = 1lu;
             }
             else
             {
@@ -260,9 +276,10 @@ const bool Listas::ListaObstaculo::ChecarColisoesEntreObstaculo(ent::obs::Obstac
                     b->UpdatePosition();
                 }
 
-                direcao.x = -1.0f;
-                direcao.y = 0.0f;
+                horizontal.x = 1lu;
             }
+            a->setHorizontalCollision(horizontal);
+            a->setHorizontalCollision(horizontal.y, horizontal.x);
         }
         else
         {
@@ -284,8 +301,7 @@ const bool Listas::ListaObstaculo::ChecarColisoesEntreObstaculo(ent::obs::Obstac
                     b->UpdatePosition();
                 }
 
-                direcao.x = 0.0f;
-                direcao.y = 1.0f;
+                vertical.y = 1lu;
             }
             else
             {
@@ -305,13 +321,12 @@ const bool Listas::ListaObstaculo::ChecarColisoesEntreObstaculo(ent::obs::Obstac
                     b->UpdatePosition();
                 }
 
-                direcao.x = 0.0f;
-                direcao.y = -1.0f;
+                vertical.x = 1lu;
             }
+            a->setVerticalCollision(vertical);
+            b->setVerticalCollision(vertical.y, vertical.x);
         }
-        a->IncrementarDirecao(direcao);
-        b->IncrementarDirecao(direcao * -1);
-
+        return true;
     }
     return(false);
 }
@@ -321,16 +336,20 @@ void Listas::ListaObstaculo::ChecarColisoesEntreObstaculo()
     unsigned long int i;
     unsigned long int j;
 
-    for(i = 0lu; i < lista.getSize(); i++)
-    {
-        lista.getData(i)->setDirecao(0.0f, 0.0f);
-    }
-
     for(i = 0lu; i < (lista.getSize() - 1lu); i++)
     {
         for(j = i + 1lu; j < lista.getSize(); j++)
         {
-            ChecarColisoesEntreObstaculo(lista.getData(i), lista.getData(j));
+            ChecarColisoesEntreObstaculo(lista[i], lista[j]);
         }
+    }
+}
+
+void Listas::ListaObstaculo::resetCollisions()
+{
+    unsigned long int i;
+    for(i = 0lu; i < lista.getSize(); i++)
+    {
+        lista[i]->restartCollisions();
     }
 }

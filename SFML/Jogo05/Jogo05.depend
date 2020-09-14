@@ -460,24 +460,24 @@
 1594321540 source:c:\users\fabreu\desktop\projetos\jogos\sfml\jogo05\listas.cpp
 	"Listas.h"
 
-1599319766 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\entidade.cpp
+1600056229 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\entidade.cpp
 	"Entidade.h"
 
-1599319414 c:\users\fabreu\desktop\projeto\sfml\jogo05\entidade.h
+1600056008 c:\users\fabreu\desktop\projeto\sfml\jogo05\entidade.h
 	"Gerenciador_Grafico.h"
 	"Lista.h"
 
-1599323507 c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_grafico.h
+1600116136 c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_grafico.h
 	"Vector2D.h"
 	<string>
 	<SFML/Graphics.hpp>
 	<windows.h>
 
-1599226146 c:\users\fabreu\desktop\projeto\sfml\jogo05\vector2d.h
+1600016040 c:\users\fabreu\desktop\projeto\sfml\jogo05\vector2d.h
 	<math.h>
 	<iostream>
 
-1599319632 c:\users\fabreu\desktop\projeto\sfml\jogo05\lista.h
+1600113121 c:\users\fabreu\desktop\projeto\sfml\jogo05\lista.h
 	<stdio.h>
 
 1595353877 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\fase.cpp
@@ -486,37 +486,41 @@
 1595353839 c:\users\fabreu\desktop\projeto\sfml\jogo05\fase.h
 	"Gerenciador_Colisao.h"
 
-1593725668 c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_colisao.h
+1600054855 c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_colisao.h
 	"Listas.h"
 
-1599319450 c:\users\fabreu\desktop\projeto\sfml\jogo05\listas.h
+1600054665 c:\users\fabreu\desktop\projeto\sfml\jogo05\listas.h
 	<list>
 	<queue>
 	<vector>
 	<algorithm>
 	"Entidade.h"
 
-1596931174 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_colisao.cpp
+1600056584 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_colisao.cpp
 	"Gerenciador_Colisao.h"
 
-1599324878 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_grafico.cpp
+1600116065 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_grafico.cpp
 	"Gerenciador_Grafico.h"
 
-1596217387 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\jogo.cpp
+1600057880 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\jogo.cpp
 	"Jogo.h"
 
 1595468207 c:\users\fabreu\desktop\projeto\sfml\jogo05\jogo.h
 	"Tela.h"
 
-1598987720 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\listas.cpp
+1600055278 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\listas.cpp
 	"Listas.h"
 
-1593703772 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\main.cpp
+1600115463 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\main.cpp
 	"Jogo.h"
 
-1599325730 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\tela.cpp
+1600058053 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\tela.cpp
 	"Tela.h"
 
-1599323883 c:\users\fabreu\desktop\projeto\sfml\jogo05\tela.h
+1600057948 c:\users\fabreu\desktop\projeto\sfml\jogo05\tela.h
 	"Gerenciador_Colisao.h"
+
+1599929181 c:\users\fabreu\desktop\projeto\sfml\jogo05\vector4d.h
+	<iostream>
+	<math.h>
 

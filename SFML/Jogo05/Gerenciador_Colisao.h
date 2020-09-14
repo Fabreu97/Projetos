@@ -26,7 +26,6 @@ namespace Gerenciador
         void setListas(Listas::ListaObstaculo* lo);
         void setListas(Listas::VectorInimigo* vi);
 
-        // push é a dificuldade de empiurrar o objeto
         //COLISAO COM JOGADOR:
         const bool ChecarColisaoJogadorObstaculo(ent::per::jog::Jogador* referencia, ent::obs::Obstaculo* colisor);
         const bool ChecarColisaoJogadorInimigo(ent::per::jog::Jogador* referencia, ent::per::ini::Inimigo* colisor);//TO DO
@@ -40,6 +39,7 @@ namespace Gerenciador
         const bool ChecarColisaoInimigoObstaculo(ent::per::ini::Inimigo* referencia, ent::obs::Obstaculo* colisor);
 
         void ChecarCoisoesEntreObstaculos();
+        void resetCollisions();
     };
 }
 

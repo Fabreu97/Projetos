@@ -28,6 +28,7 @@ namespace Listas
         void Draw();
         void Draw(const Vector2D<float>& p1);
         void Draw(const Vector2D<float>& p1, const Vector2D<float>& p2);
+        void DrawPause(const Vector2D<float>& v);
         const bool eliminarInimigo(ent::per::ini::Inimigo* i);
     };
 
@@ -45,9 +46,10 @@ namespace Listas
 
         const unsigned long int getSize() const;
         const bool incluirInimigo(ent::per::ini::Inimigo* i);
-        ent::per::ini::Inimigo* getInimigo(const unsigned long int indice) const;
         void eliminarInimigo(const unsigned long int indice);
         void limpar();
+        ent::per::ini::Inimigo* operator[](const unsigned long int i) const;
+        void resetCollisions();
     };
 
     class ListaObstaculo
@@ -68,6 +70,7 @@ namespace Listas
         void limpar();
         const bool ChecarColisoesEntreObstaculo(ent::obs::Obstaculo* a, ent::obs::Obstaculo* b);
         void ChecarColisoesEntreObstaculo();
+        void resetCollisions();
     };
 }
 

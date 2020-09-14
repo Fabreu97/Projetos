@@ -4,7 +4,7 @@ using namespace Gerenciador;
 
 ///Funções Membros da classe Corpo
 
-Gerenciador_Grafico::Corpo::Corpo(const Vector2D<float> tamanho, const string l)
+Gerenciador_Grafico::Corpo::Corpo(const VF tamanho, const string l)
 {
     this->setSize(tamanho);
     caminho = l;
@@ -15,7 +15,7 @@ Gerenciador_Grafico::Corpo::~Corpo()
 
 }
 
-void Gerenciador_Grafico::Corpo::setPosition(const Vector2D<float> position)
+void Gerenciador_Grafico::Corpo::setPosition(const VF position)
 {
     corpo.setPosition(sf::Vector2f(position.x, position.y));
 }
@@ -25,12 +25,12 @@ void Gerenciador_Grafico::Corpo::setPosition(const float x, const float y)
     corpo.setPosition(sf::Vector2f(x, y));
 }
 
-const Vector2D<float> Gerenciador_Grafico::Corpo::getPosition() const
+const VF Gerenciador_Grafico::Corpo::getPosition() const
 {
     return(Vector2D<float>(corpo.getPosition().x, corpo.getPosition().y));
 }
 
-void Gerenciador_Grafico::Corpo::setSize(const Vector2D<float> tamanho)
+void Gerenciador_Grafico::Corpo::setSize(const VF tamanho)
 {
     corpo.setSize(sf::Vector2f(tamanho.x, tamanho.y));
     corpo.setOrigin(sf::Vector2f(tamanho.x/2, tamanho.y/2));
@@ -42,7 +42,7 @@ void Gerenciador_Grafico::Corpo::setSize(const float x, const float y)
     corpo.setOrigin(sf::Vector2f(x/2.0, y/2.0));
 }
 
-const Vector2D<float> Gerenciador_Grafico::Corpo::getSize() const
+const VF Gerenciador_Grafico::Corpo::getSize() const
 {
     return(Vector2D<float>(corpo.getSize().x, corpo.getSize().y));
 }
@@ -65,7 +65,7 @@ const string Gerenciador_Grafico::Corpo::getTexture() const
     return(caminho);
 }
 
-const Vector2D<float> Gerenciador_Grafico::Corpo::getTextureSize() const
+const VF Gerenciador_Grafico::Corpo::getTextureSize() const
 {
     return(Vector2D<float>(textura.getSize().x, textura.getSize().y));
 }
@@ -98,7 +98,7 @@ void Gerenciador_Grafico::Corpo::move(const float x, const float y)
     corpo.move(sf::Vector2f(x,y));
 }
 
-void Gerenciador_Grafico::Corpo::move(const Vector2D<float> movimento)
+void Gerenciador_Grafico::Corpo::move(const VF movimento)
 {
     corpo.move(sf::Vector2f(movimento.x, movimento.y));
 }
@@ -237,7 +237,7 @@ void Gerenciador_Grafico::setFramerateLimitTime(const float time)
     window.setFramerateLimit(t);
 }
 
-const Vector2D<float> Gerenciador_Grafico::getPositionWindow() const
+const VF Gerenciador_Grafico::getPositionWindow() const
 {
     return(Vector2D<float>(window.getPosition().x, window.getPosition().y));
 }
@@ -247,7 +247,7 @@ float Gerenciador_Grafico::WindowRation()
     return(window.getSize().y / swy);
 }
 
-const Vector2D<float> Gerenciador_Grafico::getSizeWindow() const
+const VF Gerenciador_Grafico::getSizeWindow() const
 {
     return( Vector2D<float>(window.getSize().x, window.getSize().y) );
 }
@@ -267,9 +267,9 @@ void Gerenciador_Grafico::setView()
     window.setView(view);
 }
 
-Vector2D<float> Gerenciador_Grafico::getPositionView() const
+VF Gerenciador_Grafico::getPositionView() const
 {
-    return( Vector2D<float> ( view.getCenter().x, view.getCenter().y) );
+    return( VF ( view.getCenter().x, view.getCenter().y) );
 }
 
 void Gerenciador_Grafico::limpar_Janela()
@@ -292,7 +292,7 @@ void Gerenciador_Grafico::Centralizar(const float x1, const float y1, const floa
     view.setCenter( sf::Vector2f( (x2 + x2) / 2.0, (y1 + y2 - 200.0f) / 2.0) );
 }
 
-void Gerenciador_Grafico::Centralizar(const Vector2D<float> v1, const Vector2D<float> v2)
+void Gerenciador_Grafico::Centralizar(const VF v1, const VF v2)
 {
     view.setCenter(sf::Vector2f( (v1.x + v2.x)/ 2.0, (v1.y + v2.y - 200.0f) / 2.0 ) );
 }
@@ -302,7 +302,7 @@ void Gerenciador_Grafico::Centralizar(const float x, const float y)
     view.setCenter(sf::Vector2f(x,y - 200.0f));
 }
 
-void Gerenciador_Grafico::Centralizar(Vector2D<float> v)
+void Gerenciador_Grafico::Centralizar(VF v)
 {
     view.setCenter(sf::Vector2f(v.x, v.y - 200.0f));
 }
@@ -480,7 +480,7 @@ const bool Gerenciador_Grafico::isM_Right() const
 
 
 
-const Vector2D<float> Gerenciador_Grafico::getPositionMouse() const
+const VF Gerenciador_Grafico::getPositionMouse() const
 {
     return(Vector2D<float>(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y));
 }
@@ -501,7 +501,7 @@ float Gerenciador_Grafico::get_Delta_Time()
 
 
 ///Metodos Dedicado ao Corpo do Player01
-void Gerenciador_Grafico::setPositionPlayer01(const Vector2D<float> position)
+void Gerenciador_Grafico::setPositionPlayer01(const VF position)
 {
     Player01.setPosition(position);
 }
@@ -509,12 +509,12 @@ void Gerenciador_Grafico::setPositionPlayer01(const float x, const float y)
 {
     Player01.setPosition(x,y);
 }
-const Vector2D<float> Gerenciador_Grafico::getPositionPlayer01() const
+const VF Gerenciador_Grafico::getPositionPlayer01() const
 {
     return(Player01.getPosition());
 }
 
-void Gerenciador_Grafico::setSizePlayer01(const Vector2D<float> tamanho)
+void Gerenciador_Grafico::setSizePlayer01(const VF tamanho)
 {
     Player01.setSize(tamanho);
 }
@@ -524,7 +524,7 @@ void Gerenciador_Grafico::setSizePlayer01(const float x, const float y)
     Player01.setSize(x,y);
 }
 
-const Vector2D<float> Gerenciador_Grafico::getSizePlayer01() const
+const VF Gerenciador_Grafico::getSizePlayer01() const
 {
     return(Player01.getSize());
 }
@@ -539,7 +539,7 @@ const string Gerenciador_Grafico::getTexturePlayer01() const
     return(Player01.getTexture());
 }
 
-const Vector2D<float> Gerenciador_Grafico::getTextureSizePlayer01() const
+const VF Gerenciador_Grafico::getTextureSizePlayer01() const
 {
     return(Player01.getTextureSize());
 }
@@ -559,14 +559,14 @@ void Gerenciador_Grafico::movePlayer01 (const float x, const float y)
     Player01.move(x,y);
 }
 
-void Gerenciador_Grafico::movePlayer01 (const Vector2D<float> movimento)
+void Gerenciador_Grafico::movePlayer01 (const VF movimento)
 {
     Player01.move(movimento);
 }
 
 ///Métodos Dedicados ao Corpo do Player02
 
-void Gerenciador_Grafico::setPositionPlayer02(const Vector2D<float> position)
+void Gerenciador_Grafico::setPositionPlayer02(const VF position)
 {
     Player02.setPosition(position);
 }
@@ -574,12 +574,12 @@ void Gerenciador_Grafico::setPositionPlayer02(const float x, const float y)
 {
     Player02.setPosition(x,y);
 }
-const Vector2D<float> Gerenciador_Grafico::getPositionPlayer02() const
+const VF Gerenciador_Grafico::getPositionPlayer02() const
 {
     return(Player02.getPosition());
 }
 
-void Gerenciador_Grafico::setSizePlayer02(const Vector2D<float> tamanho)
+void Gerenciador_Grafico::setSizePlayer02(const VF tamanho)
 {
     Player02.setSize(tamanho);
 }
@@ -589,7 +589,7 @@ void Gerenciador_Grafico::setSizePlayer02(const float x, const float y)
     Player02.setSize(x,y);
 }
 
-const Vector2D<float> Gerenciador_Grafico::getSizePlayer02() const
+const VF Gerenciador_Grafico::getSizePlayer02() const
 {
     return(Player02.getSize());
 }
@@ -604,7 +604,7 @@ const string Gerenciador_Grafico::getTexturePlayer02() const
     return(Player02.getTexture());
 }
 
-const Vector2D<float> Gerenciador_Grafico::getTextureSizePlayer02() const
+const VF Gerenciador_Grafico::getTextureSizePlayer02() const
 {
     return(Player02.getTextureSize());
 }
@@ -624,14 +624,14 @@ void Gerenciador_Grafico::movePlayer02 (const float x, const float y)
     Player02.move(x,y);
 }
 
-void Gerenciador_Grafico::movePlayer02 (const Vector2D<float> movimento)
+void Gerenciador_Grafico::movePlayer02 (const VF movimento)
 {
     Player02.move(movimento);
 }
 
 ///Métodos Dedicados ao Corpo do Inimigo01
 
-void Gerenciador_Grafico::setPositionInimigo01(const Vector2D<float> position)
+void Gerenciador_Grafico::setPositionInimigo01(const VF position)
 {
     Inimigo01.setPosition(position);
 }
@@ -639,12 +639,12 @@ void Gerenciador_Grafico::setPositionInimigo01(const float x, const float y)
 {
     Inimigo01.setPosition(x,y);
 }
-const Vector2D<float> Gerenciador_Grafico::getPositionInimigo01() const
+const VF Gerenciador_Grafico::getPositionInimigo01() const
 {
     return(Inimigo01.getPosition());
 }
 
-void Gerenciador_Grafico::setSizeInimigo01(const Vector2D<float> tamanho)
+void Gerenciador_Grafico::setSizeInimigo01(const VF tamanho)
 {
     Inimigo01.setSize(tamanho);
     Inimigo01.setColor(255.0f, 100.0f, 100.0f);
@@ -655,7 +655,7 @@ void Gerenciador_Grafico::setSizeInimigo01(const float x, const float y)
     Inimigo01.setSize(x,y);
 }
 
-const Vector2D<float> Gerenciador_Grafico::getSizeInimigo01() const
+const VF Gerenciador_Grafico::getSizeInimigo01() const
 {
     return(Inimigo01.getSize());
 }
@@ -670,7 +670,7 @@ const string Gerenciador_Grafico::getTextureInimigo01() const
     return(Inimigo01.getTexture());
 }
 
-const Vector2D<float> Gerenciador_Grafico::getTextureSizeInimigo01() const
+const VF Gerenciador_Grafico::getTextureSizeInimigo01() const
 {
     return(Inimigo01.getTextureSize());
 }
@@ -690,14 +690,14 @@ void Gerenciador_Grafico::moveInimigo01 (const float x, const float y)
     Inimigo01.move(x,y);
 }
 
-void Gerenciador_Grafico::moveInimigo01 (const Vector2D<float> movimento)
+void Gerenciador_Grafico::moveInimigo01 (const VF movimento)
 {
     Inimigo01.move(movimento);
 }
 
 ///Métodos Dedicados ao Corpo do Inimigo02
 
-void Gerenciador_Grafico::setPositionInimigo02(const Vector2D<float> position)
+void Gerenciador_Grafico::setPositionInimigo02(const VF position)
 {
     Inimigo02.setPosition(position);
 }
@@ -705,12 +705,12 @@ void Gerenciador_Grafico::setPositionInimigo02(const float x, const float y)
 {
     Inimigo02.setPosition(x,y);
 }
-const Vector2D<float> Gerenciador_Grafico::getPositionInimigo02() const
+const VF Gerenciador_Grafico::getPositionInimigo02() const
 {
     return(Inimigo02.getPosition());
 }
 
-void Gerenciador_Grafico::setSizeInimigo02(const Vector2D<float> tamanho)
+void Gerenciador_Grafico::setSizeInimigo02(const VF tamanho)
 {
     Inimigo02.setSize(tamanho);
 }
@@ -720,7 +720,7 @@ void Gerenciador_Grafico::setSizeInimigo02(const float x, const float y)
     Inimigo02.setSize(x,y);
 }
 
-const Vector2D<float> Gerenciador_Grafico::getSizeInimigo02() const
+const VF Gerenciador_Grafico::getSizeInimigo02() const
 {
     return(Inimigo02.getSize());
 }
@@ -735,7 +735,7 @@ const string Gerenciador_Grafico::getTextureInimigo02() const
     return(Inimigo02.getTexture());
 }
 
-const Vector2D<float> Gerenciador_Grafico::getTextureSizeInimigo02() const
+const VF Gerenciador_Grafico::getTextureSizeInimigo02() const
 {
     return(Inimigo02.getTextureSize());
 }
@@ -755,14 +755,14 @@ void Gerenciador_Grafico::moveInimigo02 (const float x, const float y)
     Inimigo02.move(x,y);
 }
 
-void Gerenciador_Grafico::moveInimigo02 (const Vector2D<float> movimento)
+void Gerenciador_Grafico::moveInimigo02 (const VF movimento)
 {
     Inimigo02.move(movimento);
 }
 
 ///Métodos Dedicados ao Corpo do Inimigo03
 
-void Gerenciador_Grafico::setPositionInimigo03(const Vector2D<float> position)
+void Gerenciador_Grafico::setPositionInimigo03(const VF position)
 {
     Inimigo03.setPosition(position);
 }
@@ -770,12 +770,12 @@ void Gerenciador_Grafico::setPositionInimigo03(const float x, const float y)
 {
     Inimigo03.setPosition(x,y);
 }
-const Vector2D<float> Gerenciador_Grafico::getPositionInimigo03() const
+const VF Gerenciador_Grafico::getPositionInimigo03() const
 {
     return(Inimigo03.getPosition());
 }
 
-void Gerenciador_Grafico::setSizeInimigo03(const Vector2D<float> tamanho)
+void Gerenciador_Grafico::setSizeInimigo03(const VF tamanho)
 {
     Inimigo03.setSize(tamanho);
 }
@@ -785,7 +785,7 @@ void Gerenciador_Grafico::setSizeInimigo03(const float x, const float y)
     Inimigo03.setSize(x,y);
 }
 
-const Vector2D<float> Gerenciador_Grafico::getSizeInimigo03() const
+const VF Gerenciador_Grafico::getSizeInimigo03() const
 {
     return(Inimigo03.getSize());
 }
@@ -800,7 +800,7 @@ const string Gerenciador_Grafico::getTextureInimigo03() const
     return(Inimigo03.getTexture());
 }
 
-const Vector2D<float> Gerenciador_Grafico::getTextureSizeInimigo03() const
+const VF Gerenciador_Grafico::getTextureSizeInimigo03() const
 {
     return(Inimigo03.getTextureSize());
 }
@@ -820,14 +820,14 @@ void Gerenciador_Grafico::moveInimigo03 (const float x, const float y)
     Inimigo03.move(x,y);
 }
 
-void Gerenciador_Grafico::moveInimigo03 (const Vector2D<float> movimento)
+void Gerenciador_Grafico::moveInimigo03 (const VF movimento)
 {
     Inimigo03.move(movimento);
 }
 
 ///Métodos Dedicados ao Corpo do Plataforma
 
-void Gerenciador_Grafico::setPositionPlataforma(const Vector2D<float> position)
+void Gerenciador_Grafico::setPositionPlataforma(const VF position)
 {
     Plataforma.setPosition(position);
 }
@@ -835,12 +835,12 @@ void Gerenciador_Grafico::setPositionPlataforma(const float x, const float y)
 {
     Plataforma.setPosition(x,y);
 }
-const Vector2D<float> Gerenciador_Grafico::getPositionPlataforma() const
+const VF Gerenciador_Grafico::getPositionPlataforma() const
 {
     return(Plataforma.getPosition());
 }
 
-void Gerenciador_Grafico::setSizePlataforma(const Vector2D<float> tamanho)
+void Gerenciador_Grafico::setSizePlataforma(const VF tamanho)
 {
     Plataforma.setSize(tamanho);
 }
@@ -850,7 +850,7 @@ void Gerenciador_Grafico::setSizePlataforma(const float x, const float y)
     Plataforma.setSize(x,y);
 }
 
-const Vector2D<float> Gerenciador_Grafico::getSizePlataforma() const
+const VF Gerenciador_Grafico::getSizePlataforma() const
 {
     return(Plataforma.getSize());
 }
@@ -865,7 +865,7 @@ const string Gerenciador_Grafico::getTexturePlataforma() const
     return(Plataforma.getTexture());
 }
 
-const Vector2D<float> Gerenciador_Grafico::getTextureSizePlataforma() const
+const VF Gerenciador_Grafico::getTextureSizePlataforma() const
 {
     return(Plataforma.getTextureSize());
 }
@@ -885,14 +885,14 @@ void Gerenciador_Grafico::movePlataforma (const float x, const float y)
     Plataforma.move(x,y);
 }
 
-void Gerenciador_Grafico::movePlataforma (const Vector2D<float> movimento)
+void Gerenciador_Grafico::movePlataforma (const VF movimento)
 {
     Plataforma.move(movimento);
 }
 
 ///Métodos Dedicados ao Corpo do Obstaculo01
 
-void Gerenciador_Grafico::setPositionObstaculo01(const Vector2D<float> position)
+void Gerenciador_Grafico::setPositionObstaculo01(const VF position)
 {
     Obstaculo01.setPosition(position);
 }
@@ -900,12 +900,12 @@ void Gerenciador_Grafico::setPositionObstaculo01(const float x, const float y)
 {
     Obstaculo01.setPosition(x,y);
 }
-const Vector2D<float> Gerenciador_Grafico::getPositionObstaculo01() const
+const VF Gerenciador_Grafico::getPositionObstaculo01() const
 {
     return(Obstaculo01.getPosition());
 }
 
-void Gerenciador_Grafico::setSizeObstaculo01(const Vector2D<float> tamanho)
+void Gerenciador_Grafico::setSizeObstaculo01(const VF tamanho)
 {
     Obstaculo01.setSize(tamanho);
 }
@@ -915,7 +915,7 @@ void Gerenciador_Grafico::setSizeObstaculo01(const float x, const float y)
     Obstaculo01.setSize(x,y);
 }
 
-const Vector2D<float> Gerenciador_Grafico::getSizeObstaculo01() const
+const VF Gerenciador_Grafico::getSizeObstaculo01() const
 {
     return(Obstaculo01.getSize());
 }
@@ -930,7 +930,7 @@ const string Gerenciador_Grafico::getTextureObstaculo01() const
     return(Obstaculo01.getTexture());
 }
 
-const Vector2D<float> Gerenciador_Grafico::getTextureSizeObstaculo01() const
+const VF Gerenciador_Grafico::getTextureSizeObstaculo01() const
 {
     return(Obstaculo01.getTextureSize());
 }
@@ -950,14 +950,14 @@ void Gerenciador_Grafico::moveObstaculo01 (const float x, const float y)
     Obstaculo01.move(x,y);
 }
 
-void Gerenciador_Grafico::moveObstaculo01 (const Vector2D<float> movimento)
+void Gerenciador_Grafico::moveObstaculo01 (const VF movimento)
 {
     Obstaculo01.move(movimento);
 }
 
 ///Métodos Dedicados ao Corpo do Obstaculo02
 
-void Gerenciador_Grafico::setPositionObstaculo02(const Vector2D<float> position)
+void Gerenciador_Grafico::setPositionObstaculo02(const VF position)
 {
     Obstaculo02.setPosition(position);
 }
@@ -965,12 +965,12 @@ void Gerenciador_Grafico::setPositionObstaculo02(const float x, const float y)
 {
     Obstaculo02.setPosition(x,y);
 }
-const Vector2D<float> Gerenciador_Grafico::getPositionObstaculo02() const
+const VF Gerenciador_Grafico::getPositionObstaculo02() const
 {
     return(Obstaculo02.getPosition());
 }
 
-void Gerenciador_Grafico::setSizeObstaculo02(const Vector2D<float> tamanho)
+void Gerenciador_Grafico::setSizeObstaculo02(const VF tamanho)
 {
     Obstaculo02.setSize(tamanho);
 }
@@ -980,7 +980,7 @@ void Gerenciador_Grafico::setSizeObstaculo02(const float x, const float y)
     Obstaculo02.setSize(x,y);
 }
 
-const Vector2D<float> Gerenciador_Grafico::getSizeObstaculo02() const
+const VF Gerenciador_Grafico::getSizeObstaculo02() const
 {
     return(Obstaculo02.getSize());
 }
@@ -995,7 +995,7 @@ const string Gerenciador_Grafico::getTextureObstaculo02() const
     return(Obstaculo02.getTexture());
 }
 
-const Vector2D<float> Gerenciador_Grafico::getTextureSizeObstaculo02() const
+const VF Gerenciador_Grafico::getTextureSizeObstaculo02() const
 {
     return(Obstaculo02.getTextureSize());
 }
@@ -1015,14 +1015,14 @@ void Gerenciador_Grafico::moveObstaculo02 (const float x, const float y)
     Obstaculo02.move(x,y);
 }
 
-void Gerenciador_Grafico::moveObstaculo02 (const Vector2D<float> movimento)
+void Gerenciador_Grafico::moveObstaculo02 (const VF movimento)
 {
     Obstaculo02.move(movimento);
 }
 
 ///Métodos Dedicados ao Corpo do Obstaculo03
 
-void Gerenciador_Grafico::setPositionObstaculo03 (const Vector2D<float> position)
+void Gerenciador_Grafico::setPositionObstaculo03 (const VF position)
 {
     Obstaculo03.setPosition(position);
 }
@@ -1030,12 +1030,12 @@ void Gerenciador_Grafico::setPositionObstaculo03 (const float x, const float y)
 {
     Obstaculo03.setPosition(x,y);
 }
-const Vector2D<float> Gerenciador_Grafico::getPositionObstaculo03 () const
+const VF Gerenciador_Grafico::getPositionObstaculo03 () const
 {
     return(Obstaculo03.getPosition());
 }
 
-void Gerenciador_Grafico::setSizeObstaculo03 (const Vector2D<float> tamanho)
+void Gerenciador_Grafico::setSizeObstaculo03 (const VF tamanho)
 {
     Obstaculo03.setSize(tamanho);
 }
@@ -1045,7 +1045,7 @@ void Gerenciador_Grafico::setSizeObstaculo03 (const float x, const float y)
     Obstaculo03.setSize(x,y);
 }
 
-const Vector2D<float> Gerenciador_Grafico::getSizeObstaculo03 () const
+const VF Gerenciador_Grafico::getSizeObstaculo03 () const
 {
     return(Obstaculo03.getSize());
 }
@@ -1060,7 +1060,7 @@ const string Gerenciador_Grafico::getTextureObstaculo03 () const
     return(Obstaculo03.getTexture());
 }
 
-const Vector2D<float> Gerenciador_Grafico::getTextureSizeObstaculo03 () const
+const VF Gerenciador_Grafico::getTextureSizeObstaculo03 () const
 {
     return(Obstaculo03.getTextureSize());
 }
@@ -1080,14 +1080,14 @@ void Gerenciador_Grafico::moveObstaculo03 (const float x, const float y)
     Obstaculo03.move(x,y);
 }
 
-void Gerenciador_Grafico::moveObstaculo03 (const Vector2D<float> movimento)
+void Gerenciador_Grafico::moveObstaculo03 (const VF movimento)
 {
     Obstaculo03.move(movimento);
 }
 
 ///Métodos Dedicados ao Corpo da Fase
 
-void Gerenciador_Grafico::setPositionFase (const Vector2D<float> position)
+void Gerenciador_Grafico::setPositionFase (const VF position)
 {
     Fase.setPosition(position);
 }
@@ -1095,12 +1095,12 @@ void Gerenciador_Grafico::setPositionFase (const float x, const float y)
 {
     Fase.setPosition(x,y);
 }
-const Vector2D<float> Gerenciador_Grafico::getPositionFase () const
+const VF Gerenciador_Grafico::getPositionFase () const
 {
     return(Fase.getPosition());
 }
 
-void Gerenciador_Grafico::setSizeFase (const Vector2D<float> tamanho)
+void Gerenciador_Grafico::setSizeFase (const VF tamanho)
 {
     Fase.setSize(tamanho);
 }
@@ -1110,7 +1110,7 @@ void Gerenciador_Grafico::setSizeFase (const float x, const float y)
     Fase.setSize(x,y);
 }
 
-const Vector2D<float> Gerenciador_Grafico::getSizeFase () const
+const VF Gerenciador_Grafico::getSizeFase () const
 {
     return(Fase.getSize());
 }
@@ -1125,7 +1125,7 @@ const string Gerenciador_Grafico::getTextureFase () const
     return(Fase.getTexture());
 }
 
-const Vector2D<float> Gerenciador_Grafico::getTextureSizeFase () const
+const VF Gerenciador_Grafico::getTextureSizeFase () const
 {
     return(Fase.getTextureSize());
 }
@@ -1145,7 +1145,7 @@ void Gerenciador_Grafico::moveFase (const float x, const float y)
     Fase.move(x,y);
 }
 
-void Gerenciador_Grafico::moveFase (const Vector2D<float> movimento)
+void Gerenciador_Grafico::moveFase (const VF movimento)
 {
     Fase.move(movimento);
 }
@@ -1166,7 +1166,7 @@ void Gerenciador_Grafico::setPositionLife01()
     Barra_de_Vida01.setPosition(centro.x, centro.y);
 }
 
-void Gerenciador_Grafico::setSizeLife01(const Vector2D<float> v)
+void Gerenciador_Grafico::setSizeLife01(const VF v)
 {
     Barra_de_Vida01.setSize(v);
 }
@@ -1181,7 +1181,7 @@ void Gerenciador_Grafico::setTextureLife01(const string t)
     Barra_de_Vida01.setTexture(t);
 }
 
-Vector2D<float> Gerenciador_Grafico::getTextureSizeLife01() const
+VF Gerenciador_Grafico::getTextureSizeLife01() const
 {
     return( Barra_de_Vida01.getTextureSize() );
 }
@@ -1196,7 +1196,7 @@ void Gerenciador_Grafico::setTextureRectLife01()
     Barra_de_Vida01.setTextureRect();
 }
 
-void Gerenciador_Grafico::moveLife01(const Vector2D<float> v)
+void Gerenciador_Grafico::moveLife01(const VF v)
 {
     Barra_de_Vida01.move(v);
 }
@@ -1222,7 +1222,7 @@ void Gerenciador_Grafico::setPositionLife02()
     Barra_de_Vida02.setPosition(centro.x, centro.y);
 }
 
-void Gerenciador_Grafico::setSizeLife02(const Vector2D<float> v)
+void Gerenciador_Grafico::setSizeLife02(const VF v)
 {
     Barra_de_Vida02.setSize(v);
 }
@@ -1237,7 +1237,7 @@ void Gerenciador_Grafico::setTextureLife02(const string t)
     Barra_de_Vida02.setTexture(t);
 }
 
-Vector2D<float> Gerenciador_Grafico::getTextureSizeLife02() const
+VF Gerenciador_Grafico::getTextureSizeLife02() const
 {
     return( Barra_de_Vida02.getTextureSize() );
 }
@@ -1252,7 +1252,7 @@ void Gerenciador_Grafico::setTextureRectLife02()
     Barra_de_Vida02.setTextureRect();
 }
 
-void Gerenciador_Grafico::moveLife02(const Vector2D<float> v)
+void Gerenciador_Grafico::moveLife02(const VF v)
 {
     Barra_de_Vida02.move(v);
 }
@@ -1264,7 +1264,7 @@ void Gerenciador_Grafico::moveLife02(const float x, const float y)
 
 ///Métodos Dedicados ao Corpo da Projetil
 
-void Gerenciador_Grafico::setPositionProjetil (const Vector2D<float> position)
+void Gerenciador_Grafico::setPositionProjetil (const VF position)
 {
     Projetil.setPosition(position);
 }
@@ -1272,12 +1272,12 @@ void Gerenciador_Grafico::setPositionProjetil (const float x, const float y)
 {
     Projetil.setPosition(x,y);
 }
-const Vector2D<float> Gerenciador_Grafico::getPositionProjetil () const
+const VF Gerenciador_Grafico::getPositionProjetil () const
 {
     return(Projetil.getPosition());
 }
 
-void Gerenciador_Grafico::setSizeProjetil (const Vector2D<float> tamanho)
+void Gerenciador_Grafico::setSizeProjetil (const VF tamanho)
 {
     Projetil.setSize(tamanho);
 }
@@ -1287,7 +1287,7 @@ void Gerenciador_Grafico::setSizeProjetil (const float x, const float y)
     Projetil.setSize(x,y);
 }
 
-const Vector2D<float> Gerenciador_Grafico::getSizeProjetil () const
+const VF Gerenciador_Grafico::getSizeProjetil () const
 {
     return(Projetil.getSize());
 }
@@ -1302,7 +1302,7 @@ const string Gerenciador_Grafico::getTextureProjetil () const
     return(Projetil.getTexture());
 }
 
-const Vector2D<float> Gerenciador_Grafico::getTextureSizeProjetil () const
+const VF Gerenciador_Grafico::getTextureSizeProjetil () const
 {
     return(Projetil.getTextureSize());
 }
@@ -1322,7 +1322,7 @@ void Gerenciador_Grafico::moveProjetil (const float x, const float y)
     Projetil.move(x,y);
 }
 
-void Gerenciador_Grafico::moveProjetil (const Vector2D<float> movimento)
+void Gerenciador_Grafico::moveProjetil (const VF movimento)
 {
     Projetil.move(movimento);
 }
@@ -1332,10 +1332,10 @@ void Gerenciador_Grafico::moveProjetil (const Vector2D<float> movimento)
 Gerenciador_Grafico::Corpo* Gerenciador_Grafico::getMap(const string key)
 {
     map<string, Corpo*>::iterator it;
-    it = menu.find(key);
-    if(it == menu.end())
+    it = manager.find(key);
+    if(it == manager.end())
     {
-        return(NULL);
+        return(NULL);//NÃO ACHOU A INFORMAÇÃO COM ESSA CHAVE
     }
 
     return(it->second);
@@ -1344,9 +1344,9 @@ Gerenciador_Grafico::Corpo* Gerenciador_Grafico::getMap(const string key)
 const bool Gerenciador_Grafico::ExisteChave(const string key)
 {
     map<string, Corpo*>::iterator it;
-    it = menu.find(key);
+    it = manager.find(key);
 
-    if(it == menu.end())
+    if(it == manager.end())
     {
         //Não encontro a chave
         return(false);
@@ -1355,7 +1355,7 @@ const bool Gerenciador_Grafico::ExisteChave(const string key)
     return(true);
 }
 
-void Gerenciador_Grafico::AdicionarBotaoNoMenu(const string key, const string texture, const Vector2D<float> position, const Vector2D<float> sizeB)
+void Gerenciador_Grafico::AdicionarBotaoNoMenu(const string key, const string texture, const VF position, const VF sizeB)
 {
     if(!ExisteChave(key))
     {
@@ -1363,7 +1363,7 @@ void Gerenciador_Grafico::AdicionarBotaoNoMenu(const string key, const string te
         aux->setSize(sizeB);
         aux->setPosition(position);
         aux->setTexture(texture);
-        menu.insert(pair<string, Corpo*>(key, aux));
+        manager.insert(pair<string, Corpo*>(key, aux));
     }
     else
     {
@@ -1376,8 +1376,8 @@ void Gerenciador_Grafico::ajustarBotoes(const string key, const unsigned long in
     if(ExisteChave(key))
     {
         Corpo* aux = getMap(key);
-        Vector2D<float> tamanho_da_janela;
-        Vector2D<float> posicao_da_janela;
+        VF tamanho_da_janela;
+        VF posicao_da_janela;
 
         tamanho_da_janela.x = view.getSize().x / qtd_botoes;
         tamanho_da_janela.y = view.getSize().y / qtd_botoes;
@@ -1389,7 +1389,7 @@ void Gerenciador_Grafico::ajustarBotoes(const string key, const unsigned long in
     }
 }
 
-Vector2D<float> Gerenciador_Grafico::getPositionButton(const string key)
+VF Gerenciador_Grafico::getPositionButton(const string key)
 {
     if(ExisteChave(key))
     {
@@ -1402,7 +1402,7 @@ Vector2D<float> Gerenciador_Grafico::getPositionButton(const string key)
 
 }
 
-Vector2D<float> Gerenciador_Grafico::getSizeButton(const string key)
+VF Gerenciador_Grafico::getSizeButton(const string key)
 {
     if(ExisteChave(key))
     {
@@ -1433,8 +1433,8 @@ void Gerenciador_Grafico::DrawMapBotao(const string key, const bool active)
     {
         Corpo* aux = getMap(key);
         //ptrR = aux->getBody();
-        Vector2D<float> left_top;
-        Vector2D<float> width_height;
+        VF left_top;
+        VF width_height;
         width_height = aux->getTextureSize();
         width_height.x /= 2.0;
         left_top.y = 0.0f;
@@ -1457,4 +1457,107 @@ void Gerenciador_Grafico::DrawMapBotao(const string key, const bool active)
     {
         cout << "Error Gerenciador: Comando DrawMap - Chave: " << key << endl;
     }
+}
+
+Gerenciador_Grafico::Corpo* Gerenciador_Grafico::getSecond(const string key)
+{
+    map<string, Corpo*>::iterator it;
+    it = manager.find(key);
+
+    if(it == manager.end())
+    {
+        return(NULL);
+    }
+    else
+    {
+        return(it->second);
+    }
+}
+
+void Gerenciador_Grafico::AdicionarCorpo(const string key)
+{
+    map<string, Corpo*>::iterator it;
+    it = manager.find(key);
+    if(it == manager.end())
+    {
+        Corpo* aux = new Corpo();
+        manager.insert(pair<string, Corpo*>(key, aux));
+    }
+    else
+    {
+        cout << "ERRO: CORPO DA CHAVE " << key << " não adicionado!!!" << endl;
+    }
+}
+
+const bool Gerenciador_Grafico::setPosition(const string key, const VF position)
+{
+    if(ExisteChave(key))
+    {
+        getSecond(key)->setPosition(position);
+        return(true);
+    }
+    return(false);
+}
+
+const bool Gerenciador_Grafico::setPosition(const string key, const float x, const float y)
+{
+    if(ExisteChave(key))
+    {
+        getSecond(key)->setPosition(x,y);
+        return(true);
+    }
+    return(false);
+}
+
+const VF Gerenciador_Grafico::getPosition(const string key)
+{
+    return(getSecond(key)->getPosition());
+}
+
+void Gerenciador_Grafico::setSize(const string key, const VF tam)
+{
+    getSecond(key)->setSize(tam);
+}
+
+void Gerenciador_Grafico::setSize(const string key, const float x, const float y)
+{
+    getSecond(key)->setSize(x,y);
+}
+
+const VF Gerenciador_Grafico::getSize(const string key)
+{
+    return(getSecond(key)->getSize());
+}
+
+void Gerenciador_Grafico::setTexture(const string key, const string texture)
+{
+    getSecond(key)->setTexture(texture);
+}
+
+const string Gerenciador_Grafico::getTexture(const string key)
+{
+    return(getSecond(key)->getTexture());
+}
+
+const VF Gerenciador_Grafico::getTextureSize(const string key)
+{
+    return(getSecond(key)->getTextureSize());
+}
+
+void Gerenciador_Grafico::setIntRect(const string key, const float width, const float height, const float left, const float top)
+{
+    getSecond(key)->setIntRect(width, height, left, top);
+}
+void Gerenciador_Grafico::setTextureRect(const string key)
+{
+    getSecond(key)->setTextureRect();
+}
+
+void Gerenciador_Grafico::Move(const string key, const VF movement)
+{
+    getSecond(key)->move(movement);
+}
+void Gerenciador_Grafico::Move(const string key, const float x, const float y)
+{
+    getSecond(key)->move(x,y);
 }

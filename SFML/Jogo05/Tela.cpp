@@ -18,6 +18,14 @@ void ent::tela::EstadoTela::ChangeState(ent::tela::Tela* t, ent::tela::EstadoTel
     t->ChangeState(s);
 }
 
+void ent::tela::EstadoTela::tirarTexture()
+{
+    if(ent::Entidade::getGerenciadorGrafico() != NULL)
+    {
+        ent::Entidade::getGerenciadorGrafico()->SemTextura();
+    }
+}
+
 ///METODOS DE FASE
 
 ent::tela::fase::Fase::Fase(const unsigned long int number_of_players, const string c):
@@ -98,8 +106,8 @@ void ent::tela::fase::Fase::setJogador(ent::per::jog::Jogador02* p2)
 
 void ent::tela::fase::Fase::setTexture(const string t)
 {
-    caminho = t;
-    control->setTextureFase(caminho);
+    path = t;
+    control->setTextureFase(path);
 }
 
 void ent::tela::fase::Fase::VerificarInimigosMortos()
@@ -107,7 +115,7 @@ void ent::tela::fase::Fase::VerificarInimigosMortos()
     unsigned long int i;
     for(i = 0; i < VInimigo.getSize(); i++)
     {
-        ent::per::ini::Inimigo* enemy = VInimigo.getInimigo(i);
+        ent::per::ini::Inimigo* enemy = VInimigo[i];
         if(!enemy->getLife())
         {
             LEntidade.eliminarInimigo(enemy);
@@ -191,29 +199,29 @@ void ent::tela::fase::Fase::ChecarColisoesEntreJogadoresInimigosProjeteis()
 
 void ent::tela::fase::Fase::adicionarObstaculoPlataforma()
 {
-    ent::obs::Obstaculo* o = new ent::obs::Obstaculo(posicao_obst);
-    o->setTexture("Texture/MeioChaoGrande.png");
+    ent::obs::Platform* p = new ent::obs::Platform(posicao_obst);
+    p->setTexture("Texture/MeioChaoGrande.png");
     posicao_obst.x += 2000.0f;
-    LObstaculo.incluirObstaculo(o);
-    adicionarEntidade(o);
+    LObstaculo.incluirObstaculo(p);
+    adicionarEntidade(p);
 }
 
 void ent::tela::fase::Fase::adicionarObstaculoPlataforma(const Vector2D<float> position)
 {
-    ent::obs::Obstaculo* o = new ent::obs::Obstaculo(position);
-    o->setTexture("Texture/MeioChaoGrande.png");
-    o->InitialUpdate();
-    LObstaculo.incluirObstaculo(o);
-    adicionarEntidade(o);
+    ent::obs::Platform* p = new ent::obs::Platform(position);
+    p->setTexture("Texture/MeioChaoGrande.png");
+    p->InitialUpdate();
+    LObstaculo.incluirObstaculo(p);
+    adicionarEntidade(p);
 }
 
 void ent::tela::fase::Fase::adicionarObstaculoPlataforma(const float x, const float y)
 {
-    ent::obs::Obstaculo* o = new ent::obs::Obstaculo(Vector2D<float>(x,y));
-    o->setTexture("Texture/MeioChaoGrande.png");
-    LObstaculo.incluirObstaculo(o);
-    o->InitialUpdate();
-    adicionarEntidade(o);
+    ent::obs::Platform* p = new ent::obs::Platform(Vector2D<float>(x,y));
+    p->setTexture("Texture/MeioChaoGrande.png");
+    LObstaculo.incluirObstaculo(p);
+    p->InitialUpdate();
+    adicionarEntidade(p);
 }
 
 void ent::tela::fase::Fase::adicionarObstaculoBau(const Vector2D<float> position)
@@ -259,18 +267,36 @@ void ent::tela::fase::Fase::criarRetaPlataforma(const unsigned long int qtde_pla
     }
 }
 
-void ent::tela::fase::Fase::ChecarOperacoes(ent::tela::Tela* t)
+void ent::tela::fase::Fase::run(ent::tela::Tela* t)
 {
-    if(ptr2 != NULL)
+    if(ptr1 != NULL)
     {
-        control->Centralizar(ptr1->getPosition(), ptr2->getPosition());
+        if(ptr2 != NULL)
+        {
+            control->Centralizar(ptr1->getPosition(), ptr2->getPosition());
+            ptr1->restartCollisions();
+            ptr2->restartCollisions();
+        }
+        else
+        {
+            control->Centralizar(ptr1->getPosition());
+            ptr1->restartCollisions();
+        }
     }
     else
     {
-        control->Centralizar(ptr1->getPosition());
+        if(ptr2 != NULL)
+        {
+            control->Centralizar(ptr2->getPosition());
+            ptr2->restartCollisions();
+        }
+        else
+        {
+            //CHAMA O MENU DE MORTE
+        }
     }
     control->setView();
-    cout << "Quantidade de Inimigos: " <<VInimigo.getSize() << endl;
+    gc1.resetCollisions();
     this->ChecarColisoesEntreJogadoresInimigosProjeteis();
     this->ChecarColisoesEntreJogadoresObstaculos();
     this->ChecarColisoesEntreObstaculos();
@@ -288,7 +314,7 @@ void ent::tela::fase::Fase::ChecarOperacoes(ent::tela::Tela* t)
 
     control->Exibicao();
 }
-void ent::tela::fase::Fase::jogar(ent::tela::Tela* t)
+void ent::tela::fase::Fase::play(ent::tela::Tela* t)
 {
 
 }
@@ -296,11 +322,11 @@ void ent::tela::fase::Fase::pause(ent::tela::Tela* t)
 {
 
 }
-void ent::tela::fase::Fase::opcao(ent::tela::Tela* t)
+void ent::tela::fase::Fase::option(ent::tela::Tela* t)
 {
     //ChangeState(t, new ent::tela::menu::MenuPause(this));
 }
-void ent::tela::fase::Fase::sair(ent::tela::Tela* t)
+void ent::tela::fase::Fase::exit(ent::tela::Tela* t)
 {
 
 }
@@ -346,89 +372,81 @@ ent::tela::fase::Fase03::~Fase03()
 
 ///MÉTODOS DE BOTAO
 
-ent::tela::menu::Botao::Botao(const string a):
+ent::tela::menu::Button::Button(const string a):
     Entidade(a),
     click(false),
-    ativo(false)
+    active(false)
 {
-    tam_tex.x = 500.0f;
-    tam_tex.y = 200.0f;
+    tam_tex.x = 375.0f;
+    tam_tex.y = 150.0f;
 }
 
-ent::tela::menu::Botao::~Botao()
+ent::tela::menu::Button::~Button()
 {
-
-}
-
-void ent::tela::menu::Botao::setKey(const string key)
-{
-    chave = key;
-}
-
-const string ent::tela::menu::Botao::getKey() const
-{
-    return(chave);
 
 }
 
-const bool ent::tela::menu::Botao::getClick() const
+void ent::tela::menu::Button::setKey(const string k)
+{
+    key = k;
+}
+
+const string ent::tela::menu::Button::getKey() const
+{
+    return(key);
+
+}
+
+const bool ent::tela::menu::Button::getClick() const
 {
     return(click);
 }
 
-void ent::tela::menu::Botao::setTexture(const string t)
+void ent::tela::menu::Button::setTexture(const string t)
 {
-    caminho = t;
+    path = t;
 }
 
-void ent::tela::menu::Botao::InitialUpdate()
+void ent::tela::menu::Button::InitialUpdate()
 {
-    control->AdicionarBotaoNoMenu(chave, caminho, pos, tam_tex);
+    control->AdicionarBotaoNoMenu(key, path, pos, tam_tex);
     click = false;
-    ativo = false;
+    active = false;
 }
 
-void ent::tela::menu::Botao::UpdateGerenciador()
+void ent::tela::menu::Button::UpdateGerenciador()
 {
 
 }
 
-void ent::tela::menu::Botao::Update()
+void ent::tela::menu::Button::Update()
 {
-    float xx = abs(control->getPositionMouse().x - (control->getPositionWindow().x + control->getSizeWindow().x/2.0 + (control->getPositionButton(chave).x * control->WindowRation()) ) );
-    float yy = abs(control->getPositionMouse().y - ( (control->getPositionWindow().y + 25.0f) + (control->getSizeWindow().y)/2.0 + (control->getPositionButton(chave).y * control->WindowRation()) ) );
-    ativo = false;
+    float xx = abs(control->getPositionMouse().x - (control->getPositionWindow().x + control->getSizeWindow().x/2.0 + (control->getPositionButton(key).x * control->WindowRation()) ) );
+    float yy = abs(control->getPositionMouse().y - ( (control->getPositionWindow().y + 27.5f) + (control->getSizeWindow().y)/2.0 + (control->getPositionButton(key).y * control->WindowRation()) ) );
+    active = false;
     if(xx <= (tam_tex.x * control->WindowRation() / 2.0f) )
     {
         if(yy <= (tam_tex.y * control->WindowRation()/ 2.0f))
         {
-            ativo = true;
-            if(control->isM_Left())
+            active = true;
+            if(control->isM_Left() || control->isPEnter())
             {
                 click = true;
             }
         }
     }
-    cout << "Posicao do Botao "  << getID() << ": "<< pos.x << "," << pos.y << "  - " << id << endl;
-    cout << "Posicao do Mouse: " << (control->getPositionMouse().x) << "," << (control->getPositionMouse().y) << endl;
-    cout << "Posicao da Camera:" << control->getPositionView().x << " , " << control->getPositionView().y << endl;
-    cout << "Posicao da Janela: " << control->getPositionWindow().x << " , " << control->getPositionWindow().y << endl;
-    cout << "Posicao do Perto: (" << xx << " , " << yy << ")" << endl;
-    cout << "Valor da Razao: " << control->WindowRation() << endl;
-
-
 }
 
-void ent::tela::menu::Botao::Draw()
+void ent::tela::menu::Button::Draw()
 {
-    //control->DrawMap(chave);
-    control->DrawMapBotao(chave, ativo);
+    //control->DrawMap(key);
+    control->DrawMapBotao(key, active);
 }
 
 ///METODOS DO BOTAO Player01
 
 ent::tela::menu::Game01::Game01(const string a):
-    Botao(a)
+    Button(a)
 {
     setKey("Player01");
 }
@@ -440,7 +458,7 @@ ent::tela::menu::Game01::~Game01()
 ///METODOS DO BOTAO Player02
 
 ent::tela::menu::Game02::Game02(const string a):
-    Botao(a)
+    Button(a)
 {
     setKey("Player02");
 }
@@ -449,10 +467,21 @@ ent::tela::menu::Game02::~Game02()
 
 }
 
+///MÉTODOS DE BOTAO LOAD GAME
+
+ent::tela::menu::LoadGame::LoadGame(const string a):
+    Button(a)
+{
+    setKey("LoadGame");
+}
+ent::tela::menu::LoadGame::~LoadGame()
+{
+
+}
 ///MÉTODOS DO BOTAO OPTION
 
 ent::tela::menu::Option::Option(const string a):
-    Botao(a)
+    Button(a)
 {
     setKey("Option");
 }
@@ -461,10 +490,10 @@ ent::tela::menu::Option::~Option()
 
 }
 
-///METODOS DO BOTAO Exit
+///METODOS DO Button BOTAO Exit
 
 ent::tela::menu::Exit::Exit(const string a):
-    Botao(a)
+    Button(a)
 {
     setKey("Exit");
 }
@@ -475,23 +504,24 @@ ent::tela::menu::Exit::~Exit()
 
 ///MÉTODOS DE GERENCIADOR DE BOTOES
 
-ent::tela::menu::GerenciadorBotao::GerenciadorBotao()
+ent::tela::menu::ButtonManager::ButtonManager()
 {
 
 }
 
-ent::tela::menu::GerenciadorBotao::~GerenciadorBotao()
+ent::tela::menu::ButtonManager::~ButtonManager()
 {
-    for(unsigned long int i = 0lu; i < Botoes.size(); i++)
+    for(unsigned long int i = 0lu; i < buttons.size(); i++)
     {
-        delete(Botoes[i]);
+        delete(buttons[i]);
     }
-    Botoes.clear();
+    buttons.clear();
 }
 
-const long int ent::tela::menu::GerenciadorBotao::getIndiceBotao()
+const long int ent::tela::menu::ButtonManager::getIndiceBotao()
 {
-    for(it = Botoes.begin(); it != Botoes.end(); ++it)
+    deque<Button*>::iterator it;
+    for(it = buttons.begin(); it != buttons.end(); ++it)
     {
         if((*it)->getClick())
         {
@@ -501,26 +531,25 @@ const long int ent::tela::menu::GerenciadorBotao::getIndiceBotao()
     return(-1l);
 }
 
-void ent::tela::menu::GerenciadorBotao::InitialUpdate()
+void ent::tela::menu::ButtonManager::InitialUpdate()
 {
     unsigned long int i = 0lu;
-    if(!Botoes.empty())
+    deque<Button*>::iterator it;
+    for(it = buttons.begin(); it != buttons.end(); ++it)
     {
-        for(it = Botoes.begin(); it != Botoes.end(); ++it)
-        {
-            (*it)->InitialUpdate();
-            ent::Entidade::getGerenciadorGrafico()->ajustarBotoes((*it)->getKey(), Botoes.size(), i);
-            (*it)->setSizeTexture(ent::Entidade::getGerenciadorGrafico()->getSizeButton((*it)->getKey()));
-            (*it)->setPosition(ent::Entidade::getGerenciadorGrafico()->getPositionButton((*it)->getKey()));
-            (*it)->setID(i);
-            i++;
-        }
+        (*it)->InitialUpdate();
+        ent::Entidade::getGerenciadorGrafico()->ajustarBotoes((*it)->getKey(), buttons.size(), i);
+        (*it)->setSizeTexture(ent::Entidade::getGerenciadorGrafico()->getSizeButton((*it)->getKey()));
+        (*it)->setPosition(ent::Entidade::getGerenciadorGrafico()->getPositionButton((*it)->getKey()));
+        (*it)->setID(i);
+        i++;
     }
+
 }
 
-void ent::tela::menu::GerenciadorBotao::insertBotao(ent::tela::menu::Botao* b)
+void ent::tela::menu::ButtonManager::insertButton(ent::tela::menu::Button* b)
 {
-    Botoes.push_back(b);
+    buttons.push_back(b);
 }
 
 ///METODOS DE MENU
@@ -542,75 +571,76 @@ ent::tela::menu::MenuInicial::MenuInicial(const string c):
     Menu(c),
     number_of_players(0lu)
 {
-    play1 = new ent::tela::menu::Game01();
-    play2 = new ent::tela::menu::Game02();
-    option = new ent::tela::menu::Option();
-    exit = new ent::tela::menu::Exit();
+    ent::tela::menu::Button* aux = new ent::tela::menu::Game01();
+    menu.insertButton(aux);
+    LEntidade.incluirEntidade(aux);
 
-    menu.insertBotao(play1);
-    menu.insertBotao(play2);
-    menu.insertBotao(option);
-    menu.insertBotao(exit);
+    aux = new ent::tela::menu::Game02();
+    menu.insertButton(aux);
+    LEntidade.incluirEntidade(aux);
 
-    LEntidade.incluirEntidade(play1);
-    LEntidade.incluirEntidade(play2);
-    LEntidade.incluirEntidade(option);
-    LEntidade.incluirEntidade(exit);
+    aux = new ent::tela::menu::LoadGame();
+    menu.insertButton(aux);
+    LEntidade.incluirEntidade(aux);
+
+    aux = new ent::tela::menu::Option();
+    menu.insertButton(aux);
+    LEntidade.incluirEntidade(aux);
+
+    aux = new ent::tela::menu::Exit();
+    menu.insertButton(aux);
+    LEntidade.incluirEntidade(aux);
 
     InitialUpdate();
 }
 
-ent::tela::menu::MenuInicial::~MenuInicial()
-{
-    //delete(play);
-}
+ent::tela::menu::MenuInicial::~MenuInicial(){}
 
-void ent::tela::menu::MenuInicial::ChecarOperacoes(ent::tela::Tela* t)
+void ent::tela::menu::MenuInicial::run(ent::tela::Tela* t)
 {
     switch(menu.getIndiceBotao())
     {
-    case 0:
+    case 0lu:
         {
             number_of_players = 1lu;
-            jogar(t);
+            play(t);
             break;
         }
-    case 1:
+    case 1lu:
         {
             number_of_players = 2lu;
-            jogar(t);
+            play(t);
             break;
         }
-    case 2:
+    case 2lu:
         {
-            opcao(t);
+            //loadGame(t);
             break;
         }
-    case 3:
+    case 3lu:
         {
-            sair(t);
+            option(t);
             break;
         }
-    default:
+    case 4lu:
         {
-            cout << menu.getIndiceBotao() << endl << endl;
+            exit(t);
+            break;
+        }
+    default: // -1(long int)
+        {
             control->setView();
             control->limpar_Janela();
             Draw();
             control->Exibicao();
             break;
         }
-
     }
-    /*control->setView();
-    control->limpar_Janela();
-    Draw();
-    control->Exibicao();*/
 }
 
 void ent::tela::menu::MenuInicial::setTexture(const string t)
 {
-    caminho = t;
+    path = t;
 }
 
 void ent::tela::menu::MenuInicial::InitialUpdate ()
@@ -634,7 +664,7 @@ void ent::tela::menu::MenuInicial::Draw ()
 }
 
 
-void ent::tela::menu::MenuInicial::jogar(ent::tela::Tela* t)
+void ent::tela::menu::MenuInicial::play(ent::tela::Tela* t)
 {
     t->deleteState();
     ChangeState(t, new ent::tela::fase::Fase01(number_of_players));
@@ -645,15 +675,39 @@ void ent::tela::menu::MenuInicial::pause(ent::tela::Tela* t)
 
 }
 
-void ent::tela::menu::MenuInicial::opcao(ent::tela::Tela* t)
+void ent::tela::menu::MenuInicial::option(ent::tela::Tela* t)
 {
 
 }
 
-void ent::tela::menu::MenuInicial::sair(ent::tela::Tela* t)
+void ent::tela::menu::MenuInicial::exit(ent::tela::Tela* t)
 {
+    //t->deleteState();
     control->close();
 }
+
+///MÉTODOS DE MENU DE PAUSE
+
+ent::tela::menu::MenuPause::MenuPause(ent::tela::fase::Fase* f):
+    ent::tela::menu::Menu("Texture/menuPause.png"),
+    game(f)
+{
+}
+
+ent::tela::menu::MenuPause::~MenuPause(){}
+
+void ent::tela::menu::MenuPause::run(ent::tela::Tela* t){}
+
+void ent::tela::menu::MenuPause::setTexture(const string t){path = t;}
+void ent::tela::menu::MenuPause::InitialUpdate (){}
+void ent::tela::menu::MenuPause::UpdateGerenciador (){}
+void ent::tela::menu::MenuPause::Update (){}
+void ent::tela::menu::MenuPause::Draw (){}
+
+void ent::tela::menu::MenuPause::play(ent::tela::Tela* t){}
+void ent::tela::menu::MenuPause::pause(ent::tela::Tela* t){}
+void ent::tela::menu::MenuPause::option(ent::tela::Tela* t){}
+void ent::tela::menu::MenuPause::exit(ent::tela::Tela* t){}
 
 ///MÉTODOS DE TELA
 
@@ -676,12 +730,16 @@ void ent::tela::Tela::ChangeState(EstadoTela* s)
 
 void ent::tela::Tela::deleteState()
 {
-    delete(_state);
+    if(_state != NULL)
+    {
+        delete(_state);
+        _state = NULL;
+    }
 }
 
-void ent::tela::Tela::jogar(Tela* t)
+void ent::tela::Tela::play(Tela* t)
 {
-    _state->jogar(this);
+    _state->play(this);
 }
 
 void ent::tela::Tela::pause(Tela* t)
@@ -689,9 +747,9 @@ void ent::tela::Tela::pause(Tela* t)
     _state->pause(this);
 }
 
-void ent::tela::Tela::opcao(Tela* t)
+void ent::tela::Tela::option(Tela* t)
 {
-    _state->opcao(this);
+    _state->option(this);
 }
 
 void ent::tela::Tela::dificuldade(Tela* t)
@@ -701,15 +759,15 @@ void ent::tela::Tela::dificuldade(Tela* t)
 
 void ent::tela::Tela::tirarTexture(Tela* t)
 {
-    tirarTexture(this);
+    _state->tirarTexture();
 }
 
-void ent::tela::Tela::sair(Tela* t)
+void ent::tela::Tela::exit(Tela* t)
 {
-    _state->sair(this);
+    _state->exit(this);
 }
 
-void ent::tela::Tela::Executar()
+void ent::tela::Tela::run()
 {
-    _state->ChecarOperacoes(this);
+    _state->run(this);
 }

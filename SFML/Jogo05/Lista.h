@@ -33,23 +33,26 @@ private:
     Element<TL>* first;
     Element<TL>* last;
 
+    TL* getData(const unsigned long int indice) const;
+
 public:
-    class iterator_t
+
+    class Iterator
     {
     private:
         Element<TL>* element;
 
     public:
-        iterator_t(Element<TL>* start = NULL);
-        ~iterator_t();
+        Iterator(Element<TL>* start = NULL);
+        ~Iterator();
 
         Element<TL>* getElement() const;
         TL* operator*();
         void operator++();
-        void operator=(const iterator_t& i);
+        void operator=(const Iterator& i);
         void operator=( Element<TL>* i);
-        const bool operator==(const iterator_t& i) const;
-        const bool operator!= (const iterator_t& i) const;
+        const bool operator==(const Iterator& i) const;
+        const bool operator!= (const Iterator& i) const;
     };
 
     List();
@@ -59,14 +62,14 @@ public:
     void clearList();
     const unsigned long int getSize() const;
     const bool insertList(TL* d);
-    TL* getData(const unsigned long int indice) const;
+    //TL* getData(const unsigned long int indice) const;
     void deleteData(const unsigned long int indice); //  REVIEW
     void deleteData(TL* type); //  REVIEW
 
     Element<TL>* Begin();
     Element<TL>* End();
 
-    TL* operator[](const unsigned long int i);
+    TL* operator[](const unsigned long int i) const;
 };
 
 ///........................Métodos do Element........................
@@ -134,31 +137,31 @@ TE* List<TL>::Element<TE>::getData() const
 ///....................MÉTODOS DO ITERATOR DA LIST....................
 
 template<class TL>
-List<TL>::iterator_t::iterator_t(List<TL>::Element<TL>* start)
+List<TL>::Iterator::Iterator(List<TL>::Element<TL>* start)
 {
     element = start;
 }
 
 template<class TL>
-List<TL>::iterator_t::~iterator_t()
+List<TL>::Iterator::~Iterator()
 {
     element = NULL;
 }
 
 template<class TL>
-List<TL>::Element<TL>* List<TL>::iterator_t::getElement() const
+List<TL>::Element<TL>* List<TL>::Iterator::getElement() const
 {
     return(element);
 }
 
 template<class TL>
-TL* List<TL>::iterator_t::operator*()
+TL* List<TL>::Iterator::operator*()
 {
     return(element->getData());
 }
 
 template<class TL>
-void List<TL>::iterator_t::operator++()
+void List<TL>::Iterator::operator++()
 {
     if(element != NULL)
     {
@@ -167,19 +170,19 @@ void List<TL>::iterator_t::operator++()
 }
 
 template<class TL>
-void List<TL>::iterator_t::operator=(const List<TL>::iterator_t& i)
+void List<TL>::Iterator::operator=(const List<TL>::Iterator& i)
 {
     element = i.getElement();
 }
 
 template<class TL>
-void List<TL>::iterator_t::operator=(Element<TL>* i)
+void List<TL>::Iterator::operator=(Element<TL>* i)
 {
     element = i;
 }
 
 template<class TL>
-const bool List<TL>::iterator_t::operator==(const List<TL>::iterator_t& i) const
+const bool List<TL>::Iterator::operator==(const List<TL>::Iterator& i) const
 {
     if(element == i.getElement())
     {
@@ -189,7 +192,7 @@ const bool List<TL>::iterator_t::operator==(const List<TL>::iterator_t& i) const
 }
 
 template<class TL>
-const bool List<TL>::iterator_t::operator!=(const List<TL>::iterator_t& i) const
+const bool List<TL>::Iterator::operator!=(const List<TL>::Iterator& i) const
 {
     if(*this == i)
     {
@@ -382,9 +385,10 @@ List<TL>::Element<TL>* List<TL>::End()
 }
 
 template<class TL>
-TL* List<TL>::operator[](const unsigned long int i)
+TL* List<TL>::operator[](const unsigned long int i) const
 {
-    return(this->getData(i));
+    return(getData(i));
+
 }
 
 #endif // INCLUDED_LISTA_TEMPLATE

@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string.h>
+#include <string>
 #include <stdlib.h>
 
 using namespace std;
@@ -35,6 +36,7 @@ namespace ms
 
         static const char* getNomeClasse();
         static int getCont();
+
     };
     const MinhaString operator+(const MinhaString& l, const MinhaString& r);
     const MinhaString operator+(const char* l, const MinhaString& r);
