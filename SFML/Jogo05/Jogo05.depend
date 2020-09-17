@@ -460,14 +460,14 @@
 1594321540 source:c:\users\fabreu\desktop\projetos\jogos\sfml\jogo05\listas.cpp
 	"Listas.h"
 
-1600056229 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\entidade.cpp
+1600303856 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\entidade.cpp
 	"Entidade.h"
 
-1600056008 c:\users\fabreu\desktop\projeto\sfml\jogo05\entidade.h
+1600303677 c:\users\fabreu\desktop\projeto\sfml\jogo05\entidade.h
 	"Gerenciador_Grafico.h"
 	"Lista.h"
 
-1600116136 c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_grafico.h
+1600123379 c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_grafico.h
 	"Vector2D.h"
 	<string>
 	<SFML/Graphics.hpp>
@@ -486,17 +486,17 @@
 1595353839 c:\users\fabreu\desktop\projeto\sfml\jogo05\fase.h
 	"Gerenciador_Colisao.h"
 
-1600054855 c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_colisao.h
+1600303704 c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_colisao.h
 	"Listas.h"
 
-1600054665 c:\users\fabreu\desktop\projeto\sfml\jogo05\listas.h
+1600303346 c:\users\fabreu\desktop\projeto\sfml\jogo05\listas.h
 	<list>
 	<queue>
 	<vector>
 	<algorithm>
 	"Entidade.h"
 
-1600056584 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_colisao.cpp
+1600303754 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_colisao.cpp
 	"Gerenciador_Colisao.h"
 
 1600116065 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\gerenciador_grafico.cpp
@@ -508,16 +508,16 @@
 1595468207 c:\users\fabreu\desktop\projeto\sfml\jogo05\jogo.h
 	"Tela.h"
 
-1600055278 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\listas.cpp
+1600303370 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\listas.cpp
 	"Listas.h"
 
 1600115463 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\main.cpp
 	"Jogo.h"
 
-1600058053 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\tela.cpp
+1600303764 source:c:\users\fabreu\desktop\projeto\sfml\jogo05\tela.cpp
 	"Tela.h"
 
-1600057948 c:\users\fabreu\desktop\projeto\sfml\jogo05\tela.h
+1600303735 c:\users\fabreu\desktop\projeto\sfml\jogo05\tela.h
 	"Gerenciador_Colisao.h"
 
 1599929181 c:\users\fabreu\desktop\projeto\sfml\jogo05\vector4d.h

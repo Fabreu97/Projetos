@@ -17,12 +17,12 @@ Gerenciador_Colisao::~Gerenciador_Colisao()
 
 }
 
-void Gerenciador_Colisao::setJogador(ent::per::jog::Jogador01* p1)
+void Gerenciador_Colisao::setJogador(ent::per::jog::Player01* p1)
 {
     ptr1 = p1;
 }
 
-void Gerenciador_Colisao::setJogador(ent::per::jog::Jogador02* p2)
+void Gerenciador_Colisao::setJogador(ent::per::jog::Player02* p2)
 {
     ptr2 = p2;
 }
@@ -37,7 +37,7 @@ void Gerenciador_Colisao::setListas(Listas::VectorInimigo* vi)
     this->VInimigo = vi;
 }
 
-const bool Gerenciador_Colisao::ChecarColisaoJogadorObstaculo(ent::per::jog::Jogador* referencia, ent::obs::Obstaculo* colisor)
+const bool Gerenciador_Colisao::ChecarColisaoJogadorObstaculo(ent::per::jog::Player* referencia, ent::obs::Obstacle* colisor)
 {
     Vector2D<unsigned long int> horizontal(0.0f, 0.0f);
     Vector2D<unsigned long int> vertical(0.0f, 0.0f);
@@ -115,7 +115,7 @@ const bool Gerenciador_Colisao::ChecarColisaoJogadorObstaculo(ent::per::jog::Jog
     return(false);
 }
 
-const bool Gerenciador_Colisao::ChecarColisaoJogadorInimigo(ent::per::jog::Jogador* referencia, ent::per::ini::Inimigo* colisor)
+const bool Gerenciador_Colisao::ChecarColisaoJogadorInimigo(ent::per::jog::Player* referencia, ent::per::ini::Enemy* colisor)
 {
     Vector2D<unsigned long int> horizontal(0.0f, 0.0f);
     Vector2D<unsigned long int> vertical(0.0f, 0.0f);
@@ -197,10 +197,10 @@ void Gerenciador_Colisao::ChecarColisoesJogadoresObstaculos()
             unsigned long int j;
             for(i = 0lu; i < LObstaculo->getSize(); i++)
             {
-                ent::obs::Obstaculo* aux1 = LObstaculo->getObstaculo(i);
+                ent::obs::Obstacle* aux1 = LObstaculo->getObstaculo(i);
                 for(j = 0lu; j < ptr1->getSizeListaProjetil(); j++)
                 {
-                    ent::per::Projetil* pro1 = ptr1->getProjetil(j);
+                    ent::per::Projectile* pro1 = ptr1->getProjetil(j);
                     if(ChecarColisaoProjetilObstaculo(pro1, aux1))
                     {
                         pro1->setColisao(true);
@@ -217,10 +217,10 @@ void Gerenciador_Colisao::ChecarColisoesJogadoresObstaculos()
             unsigned long int j;
             for(i = 0lu; i < LObstaculo->getSize(); i++)
             {
-                ent::obs::Obstaculo* aux2 = LObstaculo->getObstaculo(i);
+                ent::obs::Obstacle* aux2 = LObstaculo->getObstaculo(i);
                 for(j = 0lu; j < ptr2->getSizeListaProjetil(); j++)
                 {
-                    ent::per::Projetil* pro2 = ptr2->getProjetil(j);
+                    ent::per::Projectile* pro2 = ptr2->getProjetil(j);
                     if(ChecarColisaoProjetilObstaculo(pro2, aux2))
                     {
                         pro2->setColisao(true);
@@ -232,7 +232,7 @@ void Gerenciador_Colisao::ChecarColisoesJogadoresObstaculos()
     }
 }
 
-const bool Gerenciador_Colisao::ChecarColisaoInimigoObstaculo(ent::per::ini::Inimigo* referencia, ent::obs::Obstaculo* colisor)
+const bool Gerenciador_Colisao::ChecarColisaoInimigoObstaculo(ent::per::ini::Enemy* referencia, ent::obs::Obstacle* colisor)
 {
     Vector2D<unsigned long int> horizontal(0.0f, 0.0f);
     Vector2D<unsigned long int> vertical(0.0f, 0.0f);
@@ -313,7 +313,7 @@ void Gerenciador_Colisao::ChecarColisoesInimigosObstaculos()
             unsigned long int j;
             for(i = 0lu; i < VInimigo->getSize(); i++)
             {
-                ent::per::ini::Inimigo* aux = (*VInimigo)[i];
+                ent::per::ini::Enemy* aux = (*VInimigo)[i];
                 for(j = 0lu; j < LObstaculo->getSize(); j++)
                 {
                     ChecarColisaoInimigoObstaculo(aux, LObstaculo->getObstaculo(j));
@@ -323,7 +323,7 @@ void Gerenciador_Colisao::ChecarColisoesInimigosObstaculos()
     }
 }
 
-const bool Gerenciador_Colisao::ChecarColisaoProjetilInimigo(ent::per::Projetil* referencia, ent::per::ini::Inimigo* colisor)
+const bool Gerenciador_Colisao::ChecarColisaoProjetilInimigo(ent::per::Projectile* referencia, ent::per::ini::Enemy* colisor)
 {
     Vector2D<unsigned long int> horizontal(0.0f, 0.0f);
     Vector2D<unsigned long int> vertical(0.0f, 0.0f);
@@ -376,7 +376,7 @@ const bool Gerenciador_Colisao::ChecarColisaoProjetilInimigo(ent::per::Projetil*
     return(false);
 }
 
-const bool Gerenciador_Colisao::ChecarColisaoProjetilObstaculo(ent::per::Projetil* referencia, ent::obs::Obstaculo* colisor)
+const bool Gerenciador_Colisao::ChecarColisaoProjetilObstaculo(ent::per::Projectile* referencia, ent::obs::Obstacle* colisor)
 {
     Vector2D<float> thisPosition = referencia->getPosition();
     Vector2D<float> thisHalfSize = referencia->getHalfSize();
@@ -416,10 +416,10 @@ void Gerenciador_Colisao::ChecarColisoesJogadoresInimigosProjeteis()
             unsigned long int j;
             for(i = 0lu; i < VInimigo->getSize(); i++)
             {
-                ent::per::ini::Inimigo* ini01 = (*VInimigo)[i];
+                ent::per::ini::Enemy* ini01 = (*VInimigo)[i];
                 for(j = 0lu; j < ptr1->getSizeListaProjetil(); j++)
                 {
-                    ent::per::Projetil* pro1 = ptr1->getProjetil(j);
+                    ent::per::Projectile* pro1 = ptr1->getProjetil(j);
                     if(ChecarColisaoProjetilInimigo(pro1, ini01))
                     {
                         pro1->setColisao(true);
@@ -443,10 +443,10 @@ void Gerenciador_Colisao::ChecarColisoesJogadoresInimigosProjeteis()
             unsigned long int j;
             for(i = 0lu; i < VInimigo->getSize(); i++)
             {
-                ent::per::ini::Inimigo* ini02 = (*VInimigo)[i];
+                ent::per::ini::Enemy* ini02 = (*VInimigo)[i];
                 for(j = 0lu; j < ptr2->getSizeListaProjetil(); j++)
                 {
-                    ent::per::Projetil* pro2 = ptr2->getProjetil(j);
+                    ent::per::Projectile* pro2 = ptr2->getProjetil(j);
                     if(ChecarColisaoProjetilInimigo(pro2, ini02))
                     {
                         pro2->setColisao(true);

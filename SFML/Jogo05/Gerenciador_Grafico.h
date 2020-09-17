@@ -179,7 +179,8 @@ namespace Gerenciador
         static float get_Delta_Time();
 
         //Metodos Dedicados ao Corpo do Player 01
-        /*void setPositionPlayer01(const VF position);
+
+        void setPositionPlayer01(const VF position);
         void setPositionPlayer01(const float x, const float y);
         const VF getPositionPlayer01() const;
         void setSizePlayer01(const VF tamanho);
@@ -364,7 +365,7 @@ namespace Gerenciador
         void setIntRectProjetil(const float width, const float height, const float left, const float top);
         void setTextureRectProjetil();
         void moveProjetil (const float x, const float y);
-        void moveProjetil (const VF movimento);*/
+        void moveProjetil (const VF movimento);
 
         //MÉTODOS DO CORPO SERA DICIOANDO NO MAP MENU
         Corpo* getMap(const string key);

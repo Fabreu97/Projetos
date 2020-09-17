@@ -40,8 +40,8 @@ namespace ent
             {
             protected:
 
-                ent::per::jog::Jogador01* ptr1;
-                ent::per::jog::Jogador02* ptr2;
+                ent::per::jog::Player01* ptr1;
+                ent::per::jog::Player02* ptr2;
 
                 Listas::ListaEntidade LEntidade;
                 Listas::VectorInimigo VInimigo;
@@ -56,8 +56,8 @@ namespace ent
                 Fase(const unsigned long int number_of_players = 1lu, const string c = "");
                 ~Fase();
 
-                void setJogador(ent::per::jog::Jogador01* p1);
-                void setJogador(ent::per::jog::Jogador02* p2);
+                void setJogador(ent::per::jog::Player01* p1);
+                void setJogador(ent::per::jog::Player02* p2);
 
                 void setTexture(const string t);
 

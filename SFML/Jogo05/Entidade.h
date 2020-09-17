@@ -88,6 +88,7 @@ namespace ent
     protected:
 
         unsigned long int id;
+        string key; //id para Corpo
         string path;
         Vector2D<float> tam_tex;
         Vector2D<float> pos;
@@ -258,7 +259,7 @@ namespace ent
             void Move(const float x, const float y);
         };
 
-        class Projetil:
+        class Projectile:
             public Personagem
         {
         private:
@@ -271,8 +272,8 @@ namespace ent
 
         public:
 
-            Projetil(const long int dano = PROJECTILE_DAMAGE, const bool fc = true, const float lifetime = TEMPO_VIDA_PROJETIL_JOGADOR, const float time_between_shots = 0.2f);
-            ~Projetil();
+            Projectile(const long int dano = PROJECTILE_DAMAGE, const bool fc = true, const float lifetime = TEMPO_VIDA_PROJETIL_JOGADOR, const float time_between_shots = 0.2f);
+            ~Projectile();
 
             const long int attackForce() const; //getDano();
 
@@ -288,21 +289,21 @@ namespace ent
             void Move(const Vector2D<float> v);
             void Move(const float x, const float y);
 
-            const bool operator == (const ent::per::Projetil& p) const;
-            const bool operator != (const ent::per::Projetil& p) const;
-            void operator=(const ent::per::Projetil& p);
+            const bool operator == (const ent::per::Projectile& p) const;
+            const bool operator != (const ent::per::Projectile& p) const;
+            void operator=(const ent::per::Projectile& p);
         };
 
         namespace jog
         {
 
-            class Jogador:
+            class Player:
                 public Personagem
             {
             protected:
 
                 Barra_de_Vida vida;
-                List<Projetil> FilaProjetil;
+                List<Projectile> FilaProjetil;
                 float tempo_entre_disparo;
                 float time_projetil;
                 unsigned long int cont_projetil;
@@ -313,8 +314,8 @@ namespace ent
 
             public:
 
-                Jogador(const float height_jumper = 1000.0f, const float aceleracao = 200.0f, const bool pp = false, const float change_time = 0.15f, const string c = "Texture/tux_from_linux.png");
-                ~Jogador();
+                Player(const float height_jumper = 1000.0f, const float aceleracao = 200.0f, const bool pp = false, const float change_time = 0.15f, const string c = "Texture/tux_from_linux.png");
+                ~Player();
 
                 //MÉTODOS DA CLASSE BARRA_DE_VIDA:
                 const bool getInvulnerable() const;
@@ -336,13 +337,13 @@ namespace ent
                 const float getAlturaSalto() const;
 
                 //MÉTODOS DA LISTA PROJETIL
-                ent::per::Projetil* getProjetil(const unsigned long int indice) const;
+                ent::per::Projectile* getProjetil(const unsigned long int indice) const;
                 const unsigned long int getSizeListaProjetil() const;
 
             };
 
-            class Jogador01:
-                public Jogador
+            class Player01:
+                public Player
             {
             private:
 
@@ -352,8 +353,8 @@ namespace ent
 
             public:
 
-                Jogador01(const float height_jumper = HEIGHTJUMPER, const float aceleracao = 200.0f, const bool pp = true, const float change_time = 0.15f, const string c = "Texture/tux_from_linux.png");
-                ~Jogador01();
+                Player01(const float height_jumper = HEIGHTJUMPER, const float aceleracao = 200.0f, const bool pp = true, const float change_time = 0.15f, const string c = "Texture/tux_from_linux.png");
+                ~Player01();
 
                 void setTexture(const string t);
 
@@ -375,13 +376,13 @@ namespace ent
                 void DrawProjetil();
             };
 
-            class Jogador02:
-                public Jogador
+            class Player02:
+                public Player
             {
             public:
 
-                Jogador02(const float height_jumper = HEIGHTJUMPER, const float aceleracao = 200.0f, const bool pp = true, const float change_time = 0.15f, const string c = "Texture/tux_from_linux.png");
-                ~Jogador02();
+                Player02(const float height_jumper = HEIGHTJUMPER, const float aceleracao = 200.0f, const bool pp = true, const float change_time = 0.15f, const string c = "Texture/tux_from_linux.png");
+                ~Player02();
 
                 void setTexture(const string t);
 
@@ -402,7 +403,7 @@ namespace ent
 
         namespace ini
         {
-            class Inimigo:
+            class Enemy:
                 public Personagem
             {
 
@@ -415,19 +416,19 @@ namespace ent
 
             public:
 
-                Inimigo(const bool pp = true, const float change_time = 0.4f, const string c = "");
-                ~Inimigo();
+                Enemy(const bool pp = true, const float change_time = 0.4f, const string c = "");
+                ~Enemy();
 
                 void Damage(long int attack_force);
             };
 
-            class Inimigo01:
-                public Inimigo
+            class Enemy01:
+                public Enemy
             {
             public:
 
-                Inimigo01(const bool pp = true, const float change_time = 0.4f, const string c = "");
-                ~Inimigo01();
+                Enemy01(const bool pp = true, const float change_time = 0.4f, const string c = "");
+                ~Enemy01();
 
                 void setTexture(const string t);
 
@@ -445,14 +446,14 @@ namespace ent
                 void Move(const float x, const float y);
             };
 
-            class Inimigo02:
-                public Inimigo
+            class Enemy02:
+                public Enemy
             {
 
             public:
 
-                Inimigo02(const bool pp = true, const float change_time = 0.4f, const string c = "");
-                ~Inimigo02();
+                Enemy02(const bool pp = true, const float change_time = 0.4f, const string c = "");
+                ~Enemy02();
 
                 void setTexture(const string t);
 
@@ -468,13 +469,13 @@ namespace ent
                 void Move(const float x, const float y);
             };
 
-            class Inimigo03:
-                public Inimigo
+            class Enemy03:
+                public Enemy
             {
             public:
 
-                Inimigo03(const bool pp = true, const float change_time = 0.4f, const string c = "");
-                ~Inimigo03();
+                Enemy03(const bool pp = true, const float change_time = 0.4f, const string c = "");
+                ~Enemy03();
 
                 void setTexture(const string t);
 
@@ -495,7 +496,7 @@ namespace ent
 
     namespace obs
     {
-        class Obstaculo:
+        class Obstacle:
             public EntidadeColidivel
         {
         protected:
@@ -504,8 +505,8 @@ namespace ent
             float push_jogador;
 
         public:
-            Obstaculo(const Vector2D<float> position = Vector2D<float>(700.0f, 772.0f), const Vector2D<float> tamanho = Vector2D<float>(2000.0, 400.0f), const string c = "Texture/MeioChaoGrande.png");
-            virtual ~Obstaculo();
+            Obstacle(const Vector2D<float> position = Vector2D<float>(700.0f, 772.0f), const Vector2D<float> tamanho = Vector2D<float>(2000.0, 400.0f), const string c = "Texture/MeioChaoGrande.png");
+            virtual ~Obstacle();
 
             void setVelocidade(const Vector2D<float> v);
             void setVelocidade(const float x, const float y);
@@ -536,16 +537,16 @@ namespace ent
             virtual void Move(const float x, const float y);*/
         };
 
-        class Obstaculo01:
-            public Obstaculo
+        class Obstacle01:
+            public Obstacle
         {
         private:
 
 
         public:
 
-            Obstaculo01(const Vector2D<float> position = Vector2D<float>(1000.0f, 300.0f), const Vector2D<float> tamanho = Vector2D<float>(64.0, 64.0f), const string c = "Texture/bau.png");
-            ~Obstaculo01();
+            Obstacle01(const Vector2D<float> position = Vector2D<float>(1000.0f, 300.0f), const Vector2D<float> tamanho = Vector2D<float>(64.0, 64.0f), const string c = "Texture/bau.png");
+            ~Obstacle01();
 
             void setTexture(const string t);
 
@@ -559,15 +560,15 @@ namespace ent
             void Move(const float x, const float y);
         };
 
-        class Obstaculo02:
-            public Obstaculo
+        class Obstacle02:
+            public Obstacle
         {
         private:
 
         public:
 
-            Obstaculo02(const Vector2D<float> position = Vector2D<float>(700.0f, 772.0f), const Vector2D<float> tamanho = Vector2D<float>(2000.0, 400.0f), const string c = "Texture/Plataforma_03.png");
-            ~Obstaculo02();
+            Obstacle02(const Vector2D<float> position = Vector2D<float>(700.0f, 772.0f), const Vector2D<float> tamanho = Vector2D<float>(2000.0, 400.0f), const string c = "Texture/Plataforma_03.png");
+            ~Obstacle02();
 
             void setTexture(const string t);
 
@@ -581,15 +582,15 @@ namespace ent
             void Move(const float x, const float y);
         };
 
-        class Obstaculo03:
-            public Obstaculo
+        class Obstacle03:
+            public Obstacle
         {
         private:
 
         public:
 
-            Obstaculo03(const Vector2D<float> position = Vector2D<float>(700.0f, 772.0f), const Vector2D<float> tamanho = Vector2D<float>(2000.0, 400.0f), const string c = "Texture/Plataforma_03.png");
-            ~Obstaculo03();
+            Obstacle03(const Vector2D<float> position = Vector2D<float>(700.0f, 772.0f), const Vector2D<float> tamanho = Vector2D<float>(2000.0, 400.0f), const string c = "Texture/Plataforma_03.png");
+            ~Obstacle03();
 
             void setTexture(const string t);
 
@@ -604,7 +605,7 @@ namespace ent
         };
 
         class Platform:
-            public Obstaculo
+            public Obstacle
         {
         public:
             Platform(const Vector2D<float> position = Vector2D<float>(1000.0f, 300.0f), const Vector2D<float> tamanho = Vector2D<float>(2000.0, 400.0f), const string c = "Texture/MeioChaoGrande.png");

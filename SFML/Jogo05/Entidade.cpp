@@ -333,6 +333,7 @@ ent::per::Barra_de_Vida::Barra_de_Vida(const unsigned long int life):
     tam_tex = Vector2D<float>(64.0f, 64.0f);
     tam = Vector2D<float>(64.0f, 64.0f);
     path = "Texture/CCC.png";
+    key = "Life1";
 }
 
 ent::per::Barra_de_Vida::~Barra_de_Vida()
@@ -453,7 +454,7 @@ void ent::per::Barra_de_Vida::Move(const float x, const float y)
 
 ///IMPLEMENTACOES DA CLASSE PROJETIL
 
-ent::per::Projetil::Projetil(const long int dano, const bool fc, const float lifetime, const float time_between_shots):
+ent::per::Projectile::Projectile(const long int dano, const bool fc, const float lifetime, const float time_between_shots):
     Personagem(true, 0.01f, "Texture/fire.png"),
     damage(dano),
     tempo_vida(lifetime),
@@ -461,25 +462,26 @@ ent::per::Projetil::Projetil(const long int dano, const bool fc, const float lif
 {
     face_certa = fc;
     timev = 0.0f;
+    key = "Projectile";
 }
 
-ent::per::Projetil::~Projetil()
+ent::per::Projectile::~Projectile()
 {
 
 }
 
-const long int ent::per::Projetil::attackForce() const
+const long int ent::per::Projectile::attackForce() const
 {
     return(damage);
 }
 
-void ent::per::Projetil::setTexture(const string t)
+void ent::per::Projectile::setTexture(const string t)
 {
     path = t;
     control->setTextureProjetil(path);
 }
 
-void ent::per::Projetil::InitialUpdate ()
+void ent::per::Projectile::InitialUpdate ()
 {
     control->setSizeProjetil(tam_tex);
     control->setPositionProjetil(pos);
@@ -490,12 +492,12 @@ void ent::per::Projetil::InitialUpdate ()
     left_top.y = 0.0f;
 }
 
-void ent::per::Projetil::UpdatePosition()
+void ent::per::Projectile::UpdatePosition()
 {
     pos = control->getPositionProjetil();
 }
 
-void ent::per::Projetil::UpdateAnimacao()
+void ent::per::Projectile::UpdateAnimacao()
 {
     timev += control->get_Delta_Time();
     if(tempo_vida < timev)
@@ -532,12 +534,12 @@ void ent::per::Projetil::UpdateAnimacao()
     control->setTextureRectProjetil();
 }
 
-void ent::per::Projetil::UpdateGerenciador ()
+void ent::per::Projectile::UpdateGerenciador ()
 {
     control->setPositionProjetil(pos);
 }
 
-void ent::per::Projetil::Update ()
+void ent::per::Projectile::Update ()
 {
     UpdateAnimacao();
     UpdateGerenciador();
@@ -548,7 +550,7 @@ void ent::per::Projetil::Update ()
     }
 }
 
-void ent::per::Projetil::Draw ()
+void ent::per::Projectile::Draw ()
 {
     if(life)
     {
@@ -556,17 +558,17 @@ void ent::per::Projetil::Draw ()
     }
 }
 
-void ent::per::Projetil::Move(const Vector2D<float> v)
+void ent::per::Projectile::Move(const Vector2D<float> v)
 {
     control->moveProjetil(v);
 }
 
-void ent::per::Projetil::Move(const float x, const float y)
+void ent::per::Projectile::Move(const float x, const float y)
 {
     control->moveProjetil(x,y);
 }
 
-const bool ent::per::Projetil::operator ==(const ent::per::Projetil& p) const
+const bool ent::per::Projectile::operator ==(const ent::per::Projectile& p) const
 {
     if(pos.x == p.getPosition().x)
     {
@@ -578,7 +580,7 @@ const bool ent::per::Projetil::operator ==(const ent::per::Projetil& p) const
     return (false);
 }
 
-const bool ent::per::Projetil::operator != (const ent::per::Projetil& p) const
+const bool ent::per::Projectile::operator != (const ent::per::Projectile& p) const
 {
     if(*this == p)
     {
@@ -587,16 +589,16 @@ const bool ent::per::Projetil::operator != (const ent::per::Projetil& p) const
     return(true);
 }
 
-inline void ent::per::Projetil::operator=(const ent::per::Projetil& p)
+inline void ent::per::Projectile::operator=(const ent::per::Projectile& p)
 {
     this->pos = p.getPosition();
     this->tam_tex = p.getSizeTexture();
     this->path = p.getTexture();
 }
 
-///IMPLEMENTACOES DA CLASSE JOGADOR
+///IMPLEMENTACOES DA CLASSE Player
 
-ent::per::jog::Jogador::Jogador(const float height_jumper, const float aceleracao, const bool pp, const float change_time, const string c):
+ent::per::jog::Player::Player(const float height_jumper, const float aceleracao, const bool pp, const float change_time, const string c):
     Personagem(pp, change_time, c),
     speed(aceleracao),
     altura_salto(height_jumper),
@@ -607,101 +609,101 @@ ent::per::jog::Jogador::Jogador(const float height_jumper, const float aceleraca
     cont_projetil = 5lu;
 }
 
-ent::per::jog::Jogador::~Jogador()
+ent::per::jog::Player::~Player()
 {
 
 }
 
-const bool ent::per::jog::Jogador::getInvulnerable() const
+const bool ent::per::jog::Player::getInvulnerable() const
 {
     return(vida.getInvulnerable());
 }
 
-void ent::per::jog::Jogador::setTempoCicloLife(const float a)
+void ent::per::jog::Player::setTempoCicloLife(const float a)
 {
     vida.setTempoCiclo(a);
 }
 
-void ent::per::jog::Jogador::setTextureLife(const string t)
+void ent::per::jog::Player::setTextureLife(const string t)
 {
     vida.setTexture(t);
 }
 
-void ent::per::jog::Jogador::setSizeLife(const Vector2D<float> s)
+void ent::per::jog::Player::setSizeLife(const Vector2D<float> s)
 {
     vida.setSizeTexture(s);
     vida.setSize(s);
 }
 
-void ent::per::jog::Jogador::setSizeLife(const float x, const float y)
+void ent::per::jog::Player::setSizeLife(const float x, const float y)
 {
     vida.setSizeTexture(x,y);
 }
 
-void ent::per::jog::Jogador::setContImageLife(const Vector2D<unsigned long int> v)
+void ent::per::jog::Player::setContImageLife(const Vector2D<unsigned long int> v)
 {
     vida.setContImage(v);
 }
 
-void ent::per::jog::Jogador::setContImageLife(const unsigned long int x, const unsigned long int y)
+void ent::per::jog::Player::setContImageLife(const unsigned long int x, const unsigned long int y)
 {
     vida.setContImage(x,y);
 }
 
-void ent::per::jog::Jogador::setCurrentImageLife(const Vector2D<unsigned long int> v)
+void ent::per::jog::Player::setCurrentImageLife(const Vector2D<unsigned long int> v)
 {
     vida.setCurrentImage(v);
 }
 
-void ent::per::jog::Jogador::setCurrentImageLife(const unsigned long int x, const unsigned long int y)
+void ent::per::jog::Player::setCurrentImageLife(const unsigned long int x, const unsigned long int y)
 {
     vida.setCurrentImage(x,y);
 }
 
-void ent::per::jog::Jogador::Damage(const unsigned long int attack_force)
+void ent::per::jog::Player::Damage(const unsigned long int attack_force)
 {
     vida.Damage(attack_force);
 }
 
-const unsigned long int ent::per::jog::Jogador::getVida() const
+const unsigned long int ent::per::jog::Player::getVida() const
 {
     return(vida.getVida());
 }
 
-void ent::per::jog::Jogador::setSpeed(const float aceleracao)
+void ent::per::jog::Player::setSpeed(const float aceleracao)
 {
     speed = aceleracao;
 }
 
-const float ent::per::jog::Jogador::getSpeed() const
+const float ent::per::jog::Player::getSpeed() const
 {
     return(speed);
 }
 
-void ent::per::jog::Jogador::setAlturaSalto(const float& a)
+void ent::per::jog::Player::setAlturaSalto(const float& a)
 {
     altura_salto = a;
 }
 
-const float ent::per::jog::Jogador::getAlturaSalto() const
+const float ent::per::jog::Player::getAlturaSalto() const
 {
     return(altura_salto);
 }
 
-ent::per::Projetil* ent::per::jog::Jogador::getProjetil(const unsigned long int indice) const
+ent::per::Projectile* ent::per::jog::Player::getProjetil(const unsigned long int indice) const
 {
     return(FilaProjetil[indice]);
 }
 
-const unsigned long int ent::per::jog::Jogador::getSizeListaProjetil() const
+const unsigned long int ent::per::jog::Player::getSizeListaProjetil() const
 {
     return(FilaProjetil.getSize());
 }
 
-///IMPLEMENTACOES DA CLASSE JOGADOR01
+///IMPLEMENTACOES DA CLASSE Player01
 
-ent::per::jog::Jogador01::Jogador01(const float height_jumper, const float aceleracao, const bool pp, const float change_time, const string c):
-    Jogador(height_jumper, aceleracao,pp,change_time,c),
+ent::per::jog::Player01::Player01(const float height_jumper, const float aceleracao, const bool pp, const float change_time, const string c):
+    Player(height_jumper, aceleracao,pp,change_time,c),
     col_estatico(3lu),
     col_andando(9lu),
     col_ataque(5lu)
@@ -724,13 +726,14 @@ ent::per::jog::Jogador01::Jogador01(const float height_jumper, const float acele
         this->InitialUpdate();
         galho = (7.0f/51.0f) * tam_tex.x;
         tam.x = tam_tex.x * (29.0f/51.0f);
+        key = "Player1";
     }
-ent::per::jog::Jogador01::~Jogador01()
+ent::per::jog::Player01::~Player01()
 {
     while(FilaProjetil.getSize() != 0lu)
     {
-        //ent::per::Projetil* aux = FilaProjetil.getData(0);
-        ent::per::Projetil* aux = FilaProjetil[0];
+        //ent::per::Projectile* aux = FilaProjetil.getData(0);
+        ent::per::Projectile* aux = FilaProjetil[0];
         delete(aux);
         aux = NULL;
         FilaProjetil.deleteData(0lu);
@@ -738,13 +741,13 @@ ent::per::jog::Jogador01::~Jogador01()
 }
 
 
-void ent::per::jog::Jogador01::setTexture(const string t)
+void ent::per::jog::Player01::setTexture(const string t)
 {
     path = t;
     control->setTexturePlayer01(t);
 }
 
-void ent::per::jog::Jogador01::InitialUpdate()
+void ent::per::jog::Player01::InitialUpdate()
 {
     control->setSizePlayer01(tam_tex);
     control->setPositionPlayer01(pos);
@@ -752,12 +755,12 @@ void ent::per::jog::Jogador01::InitialUpdate()
     control->setTextureProjetil("Texture/fire.png");
 }
 
-void ent::per::jog::Jogador01::UpdatePosition()
+void ent::per::jog::Player01::UpdatePosition()
 {
     pos = control->getPositionPlayer01();
 }
 
-void ent::per::jog::Jogador01::Update()
+void ent::per::jog::Player01::Update()
 {
     UpdateMovement();
     UpdateAnimacao();
@@ -767,7 +770,7 @@ void ent::per::jog::Jogador01::Update()
     DispararProjetil();
 }
 
-void ent::per::jog::Jogador01::UpdateMovement()
+void ent::per::jog::Player01::UpdateMovement()
 {
     velocidade.x = 0.0f;
 
@@ -795,7 +798,7 @@ void ent::per::jog::Jogador01::UpdateMovement()
     }
 }
 
-void ent::per::jog::Jogador01::UpdateAnimacao()
+void ent::per::jog::Player01::UpdateAnimacao()
 {
 
     //TESTES LÓGICOS PARA MUDANÇA DE ANIMAÇÃO DO JOAGDOR 01
@@ -901,7 +904,7 @@ void ent::per::jog::Jogador01::UpdateAnimacao()
     Move(velocidade * control->get_Delta_Time());
 }
 
-void ent::per::jog::Jogador01::UpdateGerenciador()
+void ent::per::jog::Player01::UpdateGerenciador()
 {
     control->setIntRectPlayer01(width_height.x, width_height.y, left_top.x, left_top.y);
     control->setTextureRectPlayer01();
@@ -922,14 +925,14 @@ void ent::per::jog::Jogador01::UpdateGerenciador()
     }
 }
 
-void ent::per::jog::Jogador01::Draw()
+void ent::per::jog::Player01::Draw()
 {
     DrawProjetil();
     control->DrawPlayer01();
     vida.Draw();
 }
 
-void ent::per::jog::Jogador01::OnCollision()
+void ent::per::jog::Player01::OnCollision()
 {
     if(hcollision.x == 1lu)
     {
@@ -952,24 +955,24 @@ void ent::per::jog::Jogador01::OnCollision()
     }
 }
 
-void ent::per::jog::Jogador01::Move(const Vector2D<float> v)
+void ent::per::jog::Player01::Move(const Vector2D<float> v)
 {
     control->movePlayer01(v);
 }
 
-void ent::per::jog::Jogador01::Move(const float x, const float y)
+void ent::per::jog::Player01::Move(const float x, const float y)
 {
     control->movePlayer01(x,y);
 }
 
-void ent::per::jog::Jogador01::DispararProjetil()
+void ent::per::jog::Player01::DispararProjetil()
 {
     if(control->isP_ALT())
     {
         if( (FilaProjetil.getSize() < cont_projetil) && (tempo_entre_disparo < time_projetil) && !animacao_disparo)
         {
             animacao_disparo = true;
-            ent::per::Projetil* aux = new ent::per::Projetil(1l);
+            ent::per::Projectile* aux = new ent::per::Projectile(1l);
             aux->setSizeTexture(20.0f, 20.0f);
             aux->setSize(20.0f, 20.0f);
             if(face_certa)
@@ -993,9 +996,9 @@ void ent::per::jog::Jogador01::DispararProjetil()
     }
 }
 
-void ent::per::jog::Jogador01::DrawProjetil()
+void ent::per::jog::Player01::DrawProjetil()
 {
-    List<ent::per::Projetil>::Iterator it;
+    List<ent::per::Projectile>::Iterator it;
     for(it = FilaProjetil.Begin(); it != FilaProjetil.End(); ++it)
     {
         if((*it)->getLife())
@@ -1013,8 +1016,8 @@ void ent::per::jog::Jogador01::DrawProjetil()
 
 ///IMPLEMENTACOES DA CLASSE JOGADOR02
 
-ent::per::jog::Jogador02::Jogador02(const float height_jumper, const float aceleracao, const bool pp, const float change_time, const string c):
-    Jogador(height_jumper, aceleracao,pp,change_time,c)
+ent::per::jog::Player02::Player02(const float height_jumper, const float aceleracao, const bool pp, const float change_time, const string c):
+    Player(height_jumper, aceleracao,pp,change_time,c)
     {
         id = IDJOG02;
         this->setSizeTexture(TAMANHO_DA_TEXTURA_JOGADOR_X, TAMANHO_DA_TEXTURA_JOGADOR_Y);
@@ -1025,39 +1028,40 @@ ent::per::jog::Jogador02::Jogador02(const float height_jumper, const float acele
         this->setTempoCiclo(0.2);
         this->setTexture("Texture/tux_from_linux.png");
         this->InitialUpdate();
+        key = "Player2";
     }
-ent::per::jog::Jogador02::~Jogador02()
+ent::per::jog::Player02::~Player02()
 {
 
 }
 
 
-void ent::per::jog::Jogador02::setTexture(const string t)
+void ent::per::jog::Player02::setTexture(const string t)
 {
     path = t;
     control->setTexturePlayer02(t);
 }
 
-void ent::per::jog::Jogador02::InitialUpdate()
+void ent::per::jog::Player02::InitialUpdate()
 {
     control->setSizePlayer02(tam_tex);
     control->setPositionPlayer02(pos);
 
 }
 
-void ent::per::jog::Jogador02::UpdatePosition()
+void ent::per::jog::Player02::UpdatePosition()
 {
     pos = control->getPositionPlayer02();
 }
 
-void ent::per::jog::Jogador02::Update()
+void ent::per::jog::Player02::Update()
 {
     this->UpdateMovement();
     this->UpdateAnimacao();
     this->UpdateGerenciador();
 }
 
-void ent::per::jog::Jogador02::UpdateMovement()
+void ent::per::jog::Player02::UpdateMovement()
 {
     velocidade.x *= 0.0f;
 
@@ -1076,7 +1080,7 @@ void ent::per::jog::Jogador02::UpdateMovement()
     }
 }
 
-void ent::per::jog::Jogador02::UpdateAnimacao()
+void ent::per::jog::Player02::UpdateAnimacao()
 {
     if(vcollision.y == 1lu && velocidade.y > 0.0f)
     {
@@ -1133,7 +1137,7 @@ void ent::per::jog::Jogador02::UpdateAnimacao()
     Move(velocidade * control->get_Delta_Time());
 }
 
-void ent::per::jog::Jogador02::UpdateGerenciador()
+void ent::per::jog::Player02::UpdateGerenciador()
 {
     control->setIntRectPlayer02(width_height.x, width_height.y, left_top.x, left_top.y);
     control->setTextureRectPlayer02();
@@ -1141,22 +1145,22 @@ void ent::per::jog::Jogador02::UpdateGerenciador()
     pos = control->getPositionPlayer02();
 }
 
-void ent::per::jog::Jogador02::Draw()
+void ent::per::jog::Player02::Draw()
 {
     control->DrawPlayer02();
 }
 
-void ent::per::jog::Jogador02::Move(const Vector2D<float> v)
+void ent::per::jog::Player02::Move(const Vector2D<float> v)
 {
     control->movePlayer02(v);
 }
 
-void ent::per::jog::Jogador02::Move(const float x, const float y)
+void ent::per::jog::Player02::Move(const float x, const float y)
 {
     control->movePlayer02(x,y);
 }
 
-void ent::per::jog::Jogador02::OnCollision()
+void ent::per::jog::Player02::OnCollision()
 {
     if(hcollision.x == 1lu)
     {
@@ -1181,7 +1185,7 @@ void ent::per::jog::Jogador02::OnCollision()
 
 ///IMPLEMENTACOES DA CLASSE INIMIGO
 
-ent::per::ini::Inimigo::Inimigo(const bool pp, const float change_time, const string c):
+ent::per::ini::Enemy::Enemy(const bool pp, const float change_time, const string c):
     Personagem(pp,change_time,c),
     vidas(ENEMY_LIVES)
     {
@@ -1190,12 +1194,12 @@ ent::per::ini::Inimigo::Inimigo(const bool pp, const float change_time, const st
         dist_perc = 2.5f;
     }
 
-ent::per::ini::Inimigo::~Inimigo()
+ent::per::ini::Enemy::~Enemy()
 {
 
 }
 
-void ent::per::ini::Inimigo::Damage(long int attack_force)
+void ent::per::ini::Enemy::Damage(long int attack_force)
 {
     if(!animacao_dano && dano)
     {
@@ -1206,26 +1210,27 @@ void ent::per::ini::Inimigo::Damage(long int attack_force)
 
 ///IMPLEMENTACOES DA CLASSE INIMIGO01
 
-ent::per::ini::Inimigo01::Inimigo01(const bool pp, const float change_time, const string c):
-    Inimigo(pp,change_time,c)
+ent::per::ini::Enemy01::Enemy01(const bool pp, const float change_time, const string c):
+    Enemy(pp,change_time,c)
     {
         id = IDINI01;
         velocidade.x = VELINI01;
         PreencherLinhas(0lu, 1lu, 2lu, 7lu, 3lu);
+        key = "Enemy1";
     }
 
-ent::per::ini::Inimigo01::~Inimigo01()
+ent::per::ini::Enemy01::~Enemy01()
 {
 
 }
 
-void ent::per::ini::Inimigo01::setTexture(const string t)
+void ent::per::ini::Enemy01::setTexture(const string t)
 {
     path = t;
     control->setTextureInimigo01(t);
 }
 
-void ent::per::ini::Inimigo01::Update()
+void ent::per::ini::Enemy01::Update()
 {
     if(vidas <= 0l)
     {
@@ -1237,13 +1242,13 @@ void ent::per::ini::Inimigo01::Update()
     UpdateGerenciador();
 }
 
-void ent::per::ini::Inimigo01::InitialUpdate()
+void ent::per::ini::Enemy01::InitialUpdate()
 {
     control->setSizeInimigo01(tam_tex);
     control->setPositionInimigo01(pos);
 }
 
-void ent::per::ini::Inimigo01::UpdateMovement()
+void ent::per::ini::Enemy01::UpdateMovement()
 {
     Vector2D<float> recuo(0.0f, 0.0f);
 
@@ -1293,7 +1298,7 @@ void ent::per::ini::Inimigo01::UpdateMovement()
     //MÉTODOS DE ONCOLLISON ^^
 }
 
-void ent::per::ini::Inimigo01::UpdateAnimacao()
+void ent::per::ini::Enemy01::UpdateAnimacao()
 {
 
     //QUAL ANIMAÃO SERA ANIMADA
@@ -1373,88 +1378,89 @@ void ent::per::ini::Inimigo01::UpdateAnimacao()
     control->setTextureRectInimigo01();
 }
 
-void ent::per::ini::Inimigo01::UpdateGerenciador() //TO DO
+void ent::per::ini::Enemy01::UpdateGerenciador() //TO DO
 {
     control->setIntRectInimigo01(width_height.x, width_height.y, left_top.x, left_top.y);
     control->setTextureRectInimigo01();
     pos = control->getPositionInimigo01();
 }
 
-void ent::per::ini::Inimigo01::UpdatePosition()
+void ent::per::ini::Enemy01::UpdatePosition()
 {
     pos = control->getPositionInimigo01();
 }
 
-void ent::per::ini::Inimigo01::Draw()
+void ent::per::ini::Enemy01::Draw()
 {
     control->DrawInimigo01();
 }
 
-void ent::per::ini::Inimigo01::Move(const Vector2D<float> v)
+void ent::per::ini::Enemy01::Move(const Vector2D<float> v)
 {
     control->moveInimigo01(v);
 }
 
-void ent::per::ini::Inimigo01::Move(const float x, const float y)
+void ent::per::ini::Enemy01::Move(const float x, const float y)
 {
     control->moveInimigo01(x,y);
 }
 
 ///IMPLEMENTACOES DA CLASSE INIMIGO02
 
-ent::per::ini::Inimigo02::Inimigo02(const bool pp, const float change_time, const string c):
-    Inimigo(pp,change_time,c)
+ent::per::ini::Enemy02::Enemy02(const bool pp, const float change_time, const string c):
+    Enemy(pp,change_time,c)
     {
         id = IDINI02;
+        key = "Enemy2";
     }
 
-ent::per::ini::Inimigo02::~Inimigo02()
+ent::per::ini::Enemy02::~Enemy02()
 {
 
 }
 
-void ent::per::ini::Inimigo02::setTexture(const string t)
+void ent::per::ini::Enemy02::setTexture(const string t)
 {
     path = t;
     control->setTextureInimigo02(t);
 }
 
-void ent::per::ini::Inimigo02::Update()
+void ent::per::ini::Enemy02::Update()
 {
 
 }
 
-void ent::per::ini::Inimigo02::InitialUpdate()
+void ent::per::ini::Enemy02::InitialUpdate()
 {
 
 }
 
-void ent::per::ini::Inimigo02::UpdateAnimacao()
+void ent::per::ini::Enemy02::UpdateAnimacao()
 {
 
 }
 
-void ent::per::ini::Inimigo02::UpdateGerenciador()
+void ent::per::ini::Enemy02::UpdateGerenciador()
 {
 
 }
 
-void ent::per::ini::Inimigo02::UpdatePosition()
+void ent::per::ini::Enemy02::UpdatePosition()
 {
     pos = control->getPositionInimigo02();
 }
 
-void ent::per::ini::Inimigo02::Draw()
+void ent::per::ini::Enemy02::Draw()
 {
     control->DrawInimigo02();
 }
 
-void ent::per::ini::Inimigo02::Move(const Vector2D<float> v)
+void ent::per::ini::Enemy02::Move(const Vector2D<float> v)
 {
     control->moveInimigo02(v);
 }
 
-void ent::per::ini::Inimigo02::Move(const float x, const float y)
+void ent::per::ini::Enemy02::Move(const float x, const float y)
 {
     control->moveInimigo02(x,y);
 }
@@ -1462,67 +1468,68 @@ void ent::per::ini::Inimigo02::Move(const float x, const float y)
 
 ///IMPLEMENTACOES DA CLASSE INIMIGO03
 
-ent::per::ini::Inimigo03::Inimigo03(const bool pp, const float change_time, const string c):
-    Inimigo(pp,change_time,c)
+ent::per::ini::Enemy03::Enemy03(const bool pp, const float change_time, const string c):
+    Enemy(pp,change_time,c)
     {
         id = IDINI03;
+        key = "Enemy3";
     }
 
-ent::per::ini::Inimigo03::~Inimigo03()
+ent::per::ini::Enemy03::~Enemy03()
 {
 
 }
 
-void ent::per::ini::Inimigo03::setTexture(const string t)
+void ent::per::ini::Enemy03::setTexture(const string t)
 {
     path = t;
     control->setTextureInimigo03(t);
 }
 
-void ent::per::ini::Inimigo03::Update()
+void ent::per::ini::Enemy03::Update()
 {
 
 }
 
-void ent::per::ini::Inimigo03::InitialUpdate()
+void ent::per::ini::Enemy03::InitialUpdate()
 {
     control->setSizeInimigo03(tam_tex);
     control->setPositionInimigo03(pos);
 }
 
-void ent::per::ini::Inimigo03::UpdateAnimacao()
+void ent::per::ini::Enemy03::UpdateAnimacao()
 {
 
 }
 
-void ent::per::ini::Inimigo03::UpdateGerenciador()
+void ent::per::ini::Enemy03::UpdateGerenciador()
 {
 
 }
 
-void ent::per::ini::Inimigo03::UpdatePosition()
+void ent::per::ini::Enemy03::UpdatePosition()
 {
     pos = control->getPositionInimigo03();
 }
 
-void ent::per::ini::Inimigo03::Draw()
+void ent::per::ini::Enemy03::Draw()
 {
     control->DrawInimigo03();
 }
 
-void ent::per::ini::Inimigo03::Move(const Vector2D<float> v)
+void ent::per::ini::Enemy03::Move(const Vector2D<float> v)
 {
     control->moveInimigo03(v);
 }
 
-void ent::per::ini::Inimigo03::Move(const float x, const float y)
+void ent::per::ini::Enemy03::Move(const float x, const float y)
 {
     control->moveInimigo03(x,y);
 }
 
 ///IMPLEMENTACOES DA CLASSE OBSTACULO
 
-ent::obs::Obstaculo::Obstaculo( const Vector2D<float> position, const Vector2D<float> tamanho, const string c):
+ent::obs::Obstacle::Obstacle( const Vector2D<float> position, const Vector2D<float> tamanho, const string c):
     EntidadeColidivel(c),
     push_jogador(PUSH_PLATAFORMA)
     {
@@ -1531,112 +1538,112 @@ ent::obs::Obstaculo::Obstaculo( const Vector2D<float> position, const Vector2D<f
         tam = tamanho;
         pos = position;
     }
-ent::obs::Obstaculo::~Obstaculo()
+ent::obs::Obstacle::~Obstacle()
 {
 
 }
 
-void ent::obs::Obstaculo::setVelocidade(const Vector2D<float> v)
+void ent::obs::Obstacle::setVelocidade(const Vector2D<float> v)
 {
     velocidade = v;
 }
 
-void ent::obs::Obstaculo::setVelocidade(const float x, const float y)
+void ent::obs::Obstacle::setVelocidade(const float x, const float y)
 {
     velocidade.x = x;
     velocidade.y = y;
 }
 
-const Vector2D<float> ent::obs::Obstaculo::getVelocidade() const
+const Vector2D<float> ent::obs::Obstacle::getVelocidade() const
 {
     return(velocidade);
 }
 
-void ent::obs::Obstaculo::setPush(const float p)
+void ent::obs::Obstacle::setPush(const float p)
 {
     push_jogador = p;
 }
 
-const float ent::obs::Obstaculo::getPush() const
+const float ent::obs::Obstacle::getPush() const
 {
     return(push_jogador);
 }
 
-void ent::obs::Obstaculo::setTempoCiclo(const float t)
+void ent::obs::Obstacle::setTempoCiclo(const float t)
 {
 
 }
-const float ent::obs::Obstaculo::getTempoCiclo() const
+const float ent::obs::Obstacle::getTempoCiclo() const
 {
     return(0.0);
 }
 
-void ent::obs::Obstaculo::setCurrentImage(const Vector2D<unsigned long int> v)
+void ent::obs::Obstacle::setCurrentImage(const Vector2D<unsigned long int> v)
 {
 
 }
-void ent::obs::Obstaculo::setCurrentImage(const unsigned long int x, const unsigned long int y)
+void ent::obs::Obstacle::setCurrentImage(const unsigned long int x, const unsigned long int y)
 {
 
 }
-const Vector2D<unsigned long int> ent::obs::Obstaculo::getCurrentImage() const
-{
-    return(Vector2D<unsigned long int>(0lu,0lu));
-}
-
-void ent::obs::Obstaculo::setContImage(const Vector2D<unsigned long int> v)
-{
-
-}
-void ent::obs::Obstaculo::setContImage(const unsigned long int x, const unsigned long int y)
-{
-
-}
-const Vector2D<unsigned long int> ent::obs::Obstaculo::getContImage() const
+const Vector2D<unsigned long int> ent::obs::Obstacle::getCurrentImage() const
 {
     return(Vector2D<unsigned long int>(0lu,0lu));
 }
 
-/*void ent::obs::Obstaculo::setTexture(const string t)
+void ent::obs::Obstacle::setContImage(const Vector2D<unsigned long int> v)
+{
+
+}
+void ent::obs::Obstacle::setContImage(const unsigned long int x, const unsigned long int y)
+{
+
+}
+const Vector2D<unsigned long int> ent::obs::Obstacle::getContImage() const
+{
+    return(Vector2D<unsigned long int>(0lu,0lu));
+}
+
+/*void ent::obs::Obstacle::setTexture(const string t)
 {
     path = t;
     control->setTexturePlataforma(path);
 }
 
-void ent::obs::Obstaculo::UpdatePosition()
+void ent::obs::Obstacle::UpdatePosition()
 {
     pos = control->getPositionPlataforma();
 }
 
-void ent::obs::Obstaculo::InitialUpdate()
+void ent::obs::Obstacle::InitialUpdate()
 {
     control->setSizePlataforma(tam_tex);
     control->setPositionPlataforma(pos);
     control->setTexturePlataforma(path);
 }
 
-void ent::obs::Obstaculo::UpdateGerenciador()
+void ent::obs::Obstacle::UpdateGerenciador()
 {
 
 }
 
-void ent::obs::Obstaculo::Update()
+void ent::obs::Obstacle::Update()
 {
     control->setSizePlataforma(tam_tex);
     control->setPositionPlataforma(pos);
 }
 
-void ent::obs::Obstaculo::Draw()
+void ent::obs::Obstacle::Draw()
 {
     control->DrawPlataforma();
 }
 
-void ent::obs::Obstaculo::Move(const Vector2D<float> v)
+void ent::obs::Obstacle::Move(const Vector2D<float> v)
 {
     control->movePlataforma(v);
 }
 
-void ent::obs::Obstaculo::Move(const float x, const float y)
+void ent::obs::Obstacle::Move(const float x, const float y)
 {
     control->movePlataforma(x,y);
 }
@@ -1644,45 +1651,46 @@ void ent::obs::Obstaculo::Move(const float x, const float y)
 
 ///IMPLEMENTACOES DA CLASSE OBSTACULO01
 
-ent::obs::Obstaculo01::Obstaculo01(const Vector2D<float> position, const Vector2D<float> tamanho, const string c):
-    Obstaculo(position, tamanho, c)
+ent::obs::Obstacle01::Obstacle01(const Vector2D<float> position, const Vector2D<float> tamanho, const string c):
+    Obstacle(position, tamanho, c)
 {
     id = IDOBS01;
     push_jogador = PUSH_BAU;
     this->setSizeTexture(BAU_SIZE_X,BAU_SIZE_Y);
     this->setSize(BAU_SIZE_X,BAU_SIZE_Y);
     setTexture(c);
+    key = "Obstacle1";
 }
 
-ent::obs::Obstaculo01::~Obstaculo01()
+ent::obs::Obstacle01::~Obstacle01()
 {
 
 }
 
-void ent::obs::Obstaculo01::setTexture(const string t)
+void ent::obs::Obstacle01::setTexture(const string t)
 {
     path = t;
     control->setTextureObstaculo01(path);
 }
 
-void ent::obs::Obstaculo01::UpdatePosition()
+void ent::obs::Obstacle01::UpdatePosition()
 {
     pos = control->getPositionObstaculo01();
 }
 
-void ent::obs::Obstaculo01::InitialUpdate()
+void ent::obs::Obstacle01::InitialUpdate()
 {
     control->setSizeObstaculo01(tam_tex);
     control->setPositionObstaculo01(pos);
 }
 
-void ent::obs::Obstaculo01::UpdateGerenciador()
+void ent::obs::Obstacle01::UpdateGerenciador()
 {
     InitialUpdate();
     //control->setTextureObstaculo01(path);
 }
 
-void ent::obs::Obstaculo01::Update()
+void ent::obs::Obstacle01::Update()
 {
     velocidade.y += 981.0f * control->get_Delta_Time();
     UpdateGerenciador();
@@ -1695,125 +1703,127 @@ void ent::obs::Obstaculo01::Update()
 
 }
 
-void ent::obs::Obstaculo01::Draw()
+void ent::obs::Obstacle01::Draw()
 {
     control->DrawObstaculo01();
 }
 
-void ent::obs::Obstaculo01::Move(const Vector2D<float> v)
+void ent::obs::Obstacle01::Move(const Vector2D<float> v)
 {
     control->moveObstaculo01(v);
 }
 
-void ent::obs::Obstaculo01::Move(const float x, const float y)
+void ent::obs::Obstacle01::Move(const float x, const float y)
 {
     control->moveObstaculo01(x,y);
 }
 
 ///IMPLEMENTACOES DA CLASSE OBSTACULO02
 
-ent::obs::Obstaculo02::Obstaculo02(const Vector2D<float> position, const Vector2D<float> tamanho, const string c):
-    Obstaculo(position, tamanho, c)
+ent::obs::Obstacle02::Obstacle02(const Vector2D<float> position, const Vector2D<float> tamanho, const string c):
+    Obstacle(position, tamanho, c)
 {
     id = IDOBS02;
+    key = "Obstacle2";
 }
 
-ent::obs::Obstaculo02::~Obstaculo02()
+ent::obs::Obstacle02::~Obstacle02()
 {
 
 }
 
-void ent::obs::Obstaculo02::setTexture(const string t)
+void ent::obs::Obstacle02::setTexture(const string t)
 {
     path = t;
     control->setTextureObstaculo02(t);
 }
 
-void ent::obs::Obstaculo02::UpdatePosition()
+void ent::obs::Obstacle02::UpdatePosition()
 {
     pos = control->getPositionObstaculo02();
 }
 
-void ent::obs::Obstaculo02::InitialUpdate()
+void ent::obs::Obstacle02::InitialUpdate()
 {
 
 }
 
-void ent::obs::Obstaculo02::UpdateGerenciador()
+void ent::obs::Obstacle02::UpdateGerenciador()
 {
 
 }
 
-void ent::obs::Obstaculo02::Update()
+void ent::obs::Obstacle02::Update()
 {
 
 }
 
-void ent::obs::Obstaculo02::Draw()
+void ent::obs::Obstacle02::Draw()
 {
     control->DrawObstaculo02();
 }
 
-void ent::obs::Obstaculo02::Move(const Vector2D<float> v)
+void ent::obs::Obstacle02::Move(const Vector2D<float> v)
 {
     control->moveObstaculo02(v);
 }
 
-void ent::obs::Obstaculo02::Move(const float x, const float y)
+void ent::obs::Obstacle02::Move(const float x, const float y)
 {
     control->moveObstaculo02(x,y);
 }
 
 ///IMPLEMENTACOES DA CLASSE OBSTACULO03
 
-ent::obs::Obstaculo03::Obstaculo03(const Vector2D<float> position, const Vector2D<float> tamanho, const string c):
-    Obstaculo(position, tamanho, c)
+ent::obs::Obstacle03::Obstacle03(const Vector2D<float> position, const Vector2D<float> tamanho, const string c):
+    Obstacle(position, tamanho, c)
 {
     id = IDOBS03;
+    key = "Obstacle3";
 }
 
-ent::obs::Obstaculo03::~Obstaculo03()
+ent::obs::Obstacle03::~Obstacle03()
 {
 
 }
 
-void ent::obs::Obstaculo03::setTexture(const string t)
+void ent::obs::Obstacle03::setTexture(const string t)
 {
     path = t;
     control->setTextureObstaculo03(t);
 }
 
-void ent::obs::Obstaculo03::UpdatePosition()
+void ent::obs::Obstacle03::UpdatePosition()
 {
     pos = control->getPositionObstaculo03();
 }
 
-void ent::obs::Obstaculo03::InitialUpdate()
+void ent::obs::Obstacle03::InitialUpdate()
 {
 
 }
 
-void ent::obs::Obstaculo03::UpdateGerenciador()
+void ent::obs::Obstacle03::UpdateGerenciador()
 {
 
 }
 
-void ent::obs::Obstaculo03::Update()
+void ent::obs::Obstacle03::Update()
 {
 
 }
 
-void ent::obs::Obstaculo03::Draw()
+void ent::obs::Obstacle03::Draw()
 {
     control->DrawObstaculo03();
 }
 
-void ent::obs::Obstaculo03::Move(const Vector2D<float> v)
+void ent::obs::Obstacle03::Move(const Vector2D<float> v)
 {
     control->moveObstaculo03(v);
 }
 
-void ent::obs::Obstaculo03::Move(const float x, const float y)
+void ent::obs::Obstacle03::Move(const float x, const float y)
 {
     control->moveObstaculo03(x,y);
 }
@@ -1821,9 +1831,9 @@ void ent::obs::Obstaculo03::Move(const float x, const float y)
 ///IMPLEMENTACOES DA CLASSE PLATAFORMA
 
 ent::obs::Platform::Platform(const Vector2D<float> position, const Vector2D<float> tamanho, const string c):
-    Obstaculo(position, tamanho, c)
+    Obstacle(position, tamanho, c)
 {
-
+    key = "Platform";
 }
 ent::obs::Platform::~Platform()
 {

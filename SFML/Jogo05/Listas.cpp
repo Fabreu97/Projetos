@@ -38,7 +38,7 @@ void Listas::ListaEntidade::Draw()
     }
 }
 
-const bool Listas::ListaEntidade::eliminarInimigo(ent::per::ini::Inimigo* i)
+const bool Listas::ListaEntidade::eliminarInimigo(ent::per::ini::Enemy* i)
 {
     list<ent::Entidade*>::iterator it;
     for(it = lista.begin(); it != lista.end(); ++it)
@@ -114,7 +114,7 @@ const unsigned long int Listas::VectorInimigo::getSize() const
     return(vetor.size());
 }
 
-const bool Listas::VectorInimigo::incluirInimigo(ent::per::ini::Inimigo* i)
+const bool Listas::VectorInimigo::incluirInimigo(ent::per::ini::Enemy* i)
 {
     if(i != NULL)
     {
@@ -153,7 +153,7 @@ void Listas::VectorInimigo::limpar()
     vetor.clear();
 }
 
-ent::per::ini::Inimigo* Listas::VectorInimigo::operator[](const unsigned long int i) const
+ent::per::ini::Enemy* Listas::VectorInimigo::operator[](const unsigned long int i) const
 {
     return(vetor[i]);
 }
@@ -185,12 +185,12 @@ const unsigned long int Listas::ListaObstaculo::getSize() const
     return(lista.getSize());
 }
 
-const bool Listas::ListaObstaculo::incluirObstaculo(ent::obs::Obstaculo* o) //REVIEW
+const bool Listas::ListaObstaculo::incluirObstaculo(ent::obs::Obstacle* o) //REVIEW
 {
     return(lista.insertList(o));
 }
 
-ent::obs::Obstaculo* Listas::ListaObstaculo::getObstaculo(const unsigned long int indice) const
+ent::obs::Obstacle* Listas::ListaObstaculo::getObstaculo(const unsigned long int indice) const
 {
     if(indice < getSize())
     {
@@ -210,13 +210,13 @@ void Listas::ListaObstaculo::limpar()
     unsigned long int i;
     for(i = 0; i < lista.getSize(); i++)
     {
-        ent::obs::Obstaculo* aux = lista[i];
+        ent::obs::Obstacle* aux = lista[i];
         delete aux;
     }
     lista.clearList();
 }
 
-const bool Listas::ListaObstaculo::ChecarColisoesEntreObstaculo(ent::obs::Obstaculo* a, ent::obs::Obstaculo* b)
+const bool Listas::ListaObstaculo::ChecarColisoesEntreObstaculo(ent::obs::Obstacle* a, ent::obs::Obstacle* b)
 {
     Vector2D<unsigned long int> horizontal;
     Vector2D<unsigned long int> vertical;

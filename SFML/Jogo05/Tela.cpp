@@ -34,14 +34,14 @@ ent::tela::fase::Fase::Fase(const unsigned long int number_of_players, const str
     ptr1 = NULL;
     ptr2 = NULL;
 
-    ptr1 = new ent::per::jog::Jogador01(HEIGHTJUMPER);
+    ptr1 = new ent::per::jog::Player01(HEIGHTJUMPER);
     ptr1->setTexture("Texture/Marco.png");
     LEntidade.incluirEntidade(ptr1);
     gc1.setJogador(ptr1);
 
     if(number_of_players == 2lu)
     {
-        ptr2 = new ent::per::jog::Jogador02(HEIGHTJUMPER);
+        ptr2 = new ent::per::jog::Player02(HEIGHTJUMPER);
         ptr2->setSize(TAMANHO_COLIDIVEL_JOGADOR_X, TAMANHO_COLIDIVEL_JOGADOR_Y);
         ptr2->setSizeTexture(TAMANHO_DA_TEXTURA_JOGADOR_X, TAMANHO_DA_TEXTURA_JOGADOR_Y);
         ptr2->setPosition(700.f, 800.0f);
@@ -72,6 +72,30 @@ ent::tela::fase::Fase::Fase(const unsigned long int number_of_players, const str
     this->adicionarInimigo01(2500.0f, 0.0f);
     this->adicionarInimigo01(3500.0f, 0.0f);
     this->adicionarInimigo01(6000.0f, 0.0f);
+    int a = rand()%8001;
+    this->adicionarInimigo01(a, 0.0f);
+    a = rand()%7869;
+    this->adicionarInimigo01(a, 0.0f);
+    a = rand()%7890;
+    this->adicionarInimigo01(a, 0.0f);
+    a = rand()%7815;
+    this->adicionarInimigo01(a, 0.0f);
+    a = rand()%7969;
+    this->adicionarInimigo01(a, 0.0f);
+    a = rand()%6869;
+    this->adicionarInimigo01(a, 0.0f);
+    a = rand()%6867;
+    this->adicionarInimigo01(a, 0.0f);
+    a = rand()%9000;
+    this->adicionarInimigo01(a, 0.0f);
+    a = rand()%8888;
+    this->adicionarInimigo01(a, 0.0f);
+    a = rand()%15000;
+    this->adicionarInimigo01(a, 0.0f);
+    a = rand()%16000;
+    this->adicionarInimigo01(a, 0.0f);
+    a = rand()%12589;
+    this->adicionarInimigo01(a, 0.0f);
 }
 
 ent::tela::fase::Fase::~Fase()
@@ -90,14 +114,14 @@ ent::tela::fase::Fase::~Fase()
     }
 }
 
-void ent::tela::fase::Fase::setJogador(ent::per::jog::Jogador01* p1)
+void ent::tela::fase::Fase::setJogador(ent::per::jog::Player01* p1)
 {
     ptr1 = p1;
     LEntidade.incluirEntidade(ptr1);
     gc1.setJogador(p1);
 }
 
-void ent::tela::fase::Fase::setJogador(ent::per::jog::Jogador02* p2)
+void ent::tela::fase::Fase::setJogador(ent::per::jog::Player02* p2)
 {
     ptr2 = p2;
     LEntidade.incluirEntidade(static_cast<Entidade*> (ptr2) );
@@ -115,7 +139,7 @@ void ent::tela::fase::Fase::VerificarInimigosMortos()
     unsigned long int i;
     for(i = 0; i < VInimigo.getSize(); i++)
     {
-        ent::per::ini::Inimigo* enemy = VInimigo[i];
+        ent::per::ini::Enemy* enemy = VInimigo[i];
         if(!enemy->getLife())
         {
             LEntidade.eliminarInimigo(enemy);
@@ -161,20 +185,20 @@ void ent::tela::fase::Fase::Draw(const Vector2D<float> pos1, const Vector2D<floa
 
 void ent::tela::fase::Fase::adicionarInimigo01(const Vector2D<float> position)
 {
-    ent::per::ini::Inimigo01* inimigo = new ent::per::ini::Inimigo01 ();
+    ent::per::ini::Enemy01* inimigo = new ent::per::ini::Enemy01 ();
     inimigo->setSize(TAMANHO_COLIDIVEL_INIMIGO01_X, TAMANHO_COLIDIVEL_INIMIGO01_Y);
     inimigo->setSizeTexture(TAMANHO_DA_TEXTURA_INIMIGO01_X, TAMANHO_DA_TEXTURA_INIMIGO01_Y);
     inimigo->setPosition(position);
     inimigo->setContImage(1,1);
     inimigo->setTexture("Texture/n_linux.png");
 
-    VInimigo.incluirInimigo(static_cast<ent::per::ini::Inimigo*> (inimigo));
+    VInimigo.incluirInimigo(static_cast<ent::per::ini::Enemy*> (inimigo));
     LEntidade.incluirEntidade(static_cast<ent::Entidade*> (inimigo));
 }
 
 void ent::tela::fase::Fase::adicionarInimigo01(const float x, const float y)
 {
-    ent::per::ini::Inimigo01* inimigo = new ent::per::ini::Inimigo01 ();
+    ent::per::ini::Enemy01* inimigo = new ent::per::ini::Enemy01 ();
     inimigo->setSize(TAMANHO_COLIDIVEL_INIMIGO01_X, TAMANHO_COLIDIVEL_INIMIGO01_Y);
     inimigo->setSizeTexture(TAMANHO_DA_TEXTURA_INIMIGO01_X, TAMANHO_DA_TEXTURA_INIMIGO01_Y);
     inimigo->setPosition(x, y);
@@ -183,7 +207,7 @@ void ent::tela::fase::Fase::adicionarInimigo01(const float x, const float y)
     inimigo->setTexture("Texture/n_linux.png");
     inimigo->InitialUpdate();
 
-    VInimigo.incluirInimigo(static_cast<ent::per::ini::Inimigo*>(inimigo));
+    VInimigo.incluirInimigo(static_cast<ent::per::ini::Enemy*>(inimigo));
     LEntidade.incluirEntidade(static_cast<ent::Entidade*>(inimigo));
 }
 
@@ -226,18 +250,18 @@ void ent::tela::fase::Fase::adicionarObstaculoPlataforma(const float x, const fl
 
 void ent::tela::fase::Fase::adicionarObstaculoBau(const Vector2D<float> position)
 {
-    ent::obs::Obstaculo01* aux = new ent::obs::Obstaculo01();
+    ent::obs::Obstacle01* aux = new ent::obs::Obstacle01();
     aux->setPosition(position);
-    LObstaculo.incluirObstaculo(static_cast<ent::obs::Obstaculo*> (aux) );
+    LObstaculo.incluirObstaculo(static_cast<ent::obs::Obstacle*> (aux) );
     adicionarEntidade(aux);
 }
 
 void ent::tela::fase::Fase::adicionarObstaculoBau(const float x, const float y)
 {
-    ent::obs::Obstaculo01* aux = new ent::obs::Obstaculo01();
+    ent::obs::Obstacle01* aux = new ent::obs::Obstacle01();
     aux->setPosition(Vector2D<float>(x,y));
     aux->InitialUpdate();
-    LObstaculo.incluirObstaculo(static_cast<ent::obs::Obstaculo*> (aux) );
+    LObstaculo.incluirObstaculo(static_cast<ent::obs::Obstacle*> (aux) );
     adicionarEntidade(aux);
 }
 
